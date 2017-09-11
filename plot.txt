@@ -1,0 +1,10 @@
+To - Do :
+	a. Front-End
+		i.   Register/Login page
+		ii.  Homepage
+		iii. Search Query Process (same as ii)
+		iv.  Question Detail Page 
+		v.   Answer to The Question (same as iv)
+		vi.  Add Comments
+	b. Jquery UI
+	c. Full Text Search - Rake/Django readymade
