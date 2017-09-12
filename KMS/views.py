@@ -30,12 +30,12 @@ def login(request):
 		context['error'] = ''
 		return render(request,'login.html', context)
 
-# def logout(request):
-# 	if request.user.is_authenticated():
-# 		logout(request)
-# 		return redirect('/login/')
-# 	else:
-# 		return HttpResponse('You need to log in')
+def logout(request):
+	if request.user.is_authenticated():
+		logout(request)
+		return redirect('/login/')
+	else:
+		return HttpResponse('You need to log in')
 
 def register(request):
 	if request.method == 'POST':
