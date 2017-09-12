@@ -10,6 +10,7 @@ class Question(models.Model):
 	topic = models.CharField(max_length=80)
 	question_text = models.TextField()
 	created_date = models.DateTimeField(auto_now_add=True)
+	votes = models.IntegerField()
 	def __str__(self):
 		return self.author.first_name
 class Answer(models.Model):
@@ -17,6 +18,7 @@ class Answer(models.Model):
 	question = models.ForeignKey(Question)
 	answer_text = models.TextField()
 	created_date = models.DateTimeField(auto_now_add=True)
+	votes = models.IntegerField()
 	def __str__(self):
 		return self.author.first_name + " answered"
 class Comment(models.Model):
@@ -24,5 +26,6 @@ class Comment(models.Model):
 	answer = models.ForeignKey(Answer)
 	comment_text = models.TextField()
 	created_date = models.DateTimeField(auto_now_add=True)
+	votes = models.IntegerField()
 	def __str__(self):
 		return self.author.first_name + " commented"
