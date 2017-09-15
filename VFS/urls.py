@@ -19,7 +19,8 @@ from KMS import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^index/$', views.index),
+    url(r'^$', views.index),
+    url(r'^base$', views.base),
     url(r'^login/$', views.login),
     url(r'^register/$', views.register),
 ]
