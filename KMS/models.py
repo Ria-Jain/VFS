@@ -7,12 +7,12 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Question(models.Model):
 	author = models.ForeignKey(User)
-	topic = models.CharField(max_length=80)
+	question_title = models.CharField(max_length=80)
 	question_text = models.TextField()
 	created_date = models.DateTimeField(auto_now_add=True)
 	qvotes = models.IntegerField()
 	def __str__(self):
-		return self.author.first_name
+		return self.author.username
 class Answer(models.Model):
 	author = models.ForeignKey(User)
 	question = models.ForeignKey(Question)
@@ -20,7 +20,7 @@ class Answer(models.Model):
 	created_date = models.DateTimeField(auto_now_add=True)
 	avotes = models.IntegerField()
 	def __str__(self):
-		return self.author.first_name + " answered"
+		return self.author.username + " answered"
 class Comment(models.Model):
 	author = models.ForeignKey(User)
 	answer = models.ForeignKey(Answer)
@@ -28,4 +28,4 @@ class Comment(models.Model):
 	created_date = models.DateTimeField(auto_now_add=True)
 	cvotes = models.IntegerField()
 	def __str__(self):
-		return self.author.first_name + " commented"
+		return self.author.username + " commented"

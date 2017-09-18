@@ -53,3 +53,28 @@ def register(request):
 		return redirect('/index/')
 	else:
 		return render(request, 'register.html')
+
+def ask_question(request):
+	if request.user.is_authenticated():
+		print('Authenticated')
+		if request.method == 'POST':
+			print('POST request')
+			author = request.user
+			question_title = request.POST['question_title']
+			question_text = request.POST['question_text']
+			qvotes = 0
+			question = Question.objects.create(
+					author=author,
+					question_title=question_title,
+					question_text=question_text,
+					qvotes=qvotes
+				)
+			question.save()
+			print('Saved')
+			return redirect('/index/')
+		else:
+			print('GET request')
+			return render(request, 'ask_question.html')
+	else:
+		print('Not Authenticated')
+		return HttpResponseRedirect('/login/')
