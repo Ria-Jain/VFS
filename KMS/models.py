@@ -10,22 +10,22 @@ class Question(models.Model):
 	question_title = models.CharField(max_length=80)
 	question_text = models.TextField()
 	created_date = models.DateTimeField(auto_now_add=True)
-	qvotes = models.IntegerField()
+	qvotes = models.IntegerField(default=0)
 	def __str__(self):
-		return self.author.username
+		return str(self.id) + " - " + self.author.username
 class Answer(models.Model):
 	author = models.ForeignKey(User)
 	question = models.ForeignKey(Question)
 	answer_text = models.TextField()
 	created_date = models.DateTimeField(auto_now_add=True)
-	avotes = models.IntegerField()
+	avotes = models.IntegerField(default=0)
 	def __str__(self):
 		return self.author.username + " answered"
 class Comment(models.Model):
 	author = models.ForeignKey(User)
+	question = models.ForeignKey(Question)
 	answer = models.ForeignKey(Answer)
 	comment_text = models.TextField()
 	created_date = models.DateTimeField(auto_now_add=True)
-	cvotes = models.IntegerField()
 	def __str__(self):
 		return self.author.username + " commented"

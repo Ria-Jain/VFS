@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
-from .models import Question,Answer,Comment
+from .models import Question,Answer, Comment
 from django.utils import timezone
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -12,7 +12,11 @@ import datetime
 # Create your views here.
 
 def index(request):
-	return render(request,'index.html')
+	questions = Question.objects.order_by('created_date')
+	context = {
+		'questions' : questions
+	}
+	return render(request,'index.html',context)
 
 def base(request):
 	return render(request,'base.html')
@@ -23,6 +27,7 @@ def login(request):
 		password = request.POST['password']
 		user = authenticate(username=username, password=password)
 		if user:
+			print(username)
 			return render(request, 'index.html')
 		else:
 			context = {}
@@ -78,3 +83,14 @@ def ask_question(request):
 	else:
 		print('Not Authenticated')
 		return HttpResponseRedirect('/login/')
+
+def question_detail(request, question_id):
+	ques = Question.objects.get(id=question_id)
+	answers = Answer.objects.filter(question=ques)
+	context = {
+		'question' : ques,
+		'answers' : answers,
+		'user' : request.user
+	}
+	print(answers)
+	return render(request, 'question_detail.html', context)

@@ -8,3 +8,10 @@ To - Do :
 		vi.  Add Comments
 	b. Jquery UI
 	c. Full Text Search - Rake/Django readymade
+
+
+
+Bugs So Far : 
+	a. ask_question without admin login
+	b. Quesion_detail page has FieldError 
+	c. 
