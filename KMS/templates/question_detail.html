@@ -51,7 +51,7 @@
 					            <div class="avatar"><img alt="" src="../ask-me/images/demo/admin.jpg"></div>
 					            <div class="comment-text">
 					                <div class="author clearfix">
-					                	<div class="comment-author"><a href="#">admin</a></div>
+					                	<div class="comment-author"><a href="#">{{ ans.author.username }}</a></div>
 					                	<div class="comment-vote">
 						                	<ul class="question-vote">
 						                		<li><a href="#" class="question-vote-up" title="Like"></a></li>
@@ -201,6 +201,7 @@
 
 
 				<div id="respond" class="comment-respond page-content clearfix">
+<<<<<<< HEAD
 				    <div class="boxedtitle page-title"><h2>Answer this Question</h2></div>
 				    <form action="#" method="post" id="commentform" class="comment-form">
 
@@ -208,6 +209,15 @@
 				            <p>
 				                <label class="required" for="comment">Your Answer<span>*</span></label>
 				                <textarea id="comment" name="comment" aria-required="true" cols="58" rows="8"></textarea>
+=======
+				    <div class="boxedtitle page-title"><h2>Post An Answer : </h2></div>
+				    <form action="#" method="post" id="commentform" class="comment-form">
+				        {% csrf_token %}
+				        <div id="respond-textarea">
+				            <p>
+				                <label class="required" for="comment">Your Answer<span>*</span></label>
+				                <textarea id="comment" name="answer" aria-required="true" cols="58" rows="8"></textarea>
+>>>>>>> 94e0685ef6bc391d0b3975ab7d1d086074647235
 				            </p>
 				        </div>
 				        <p class="form-submit">
@@ -215,6 +225,7 @@
 				        </p>
 				    </form>
 				</div>
+<<<<<<< HEAD
 				<br>
 				<div id="related-posts">
 					<h2>Related questions</h2>
@@ -225,5 +236,7 @@
 						<li class="related-item"><h3><a href="#"><i class="icon-double-angle-right"></i>This is my fifth Question</a></h3></li>
 					</ul>
 				</div><!-- End related-posts -->
+=======
+>>>>>>> 94e0685ef6bc391d0b3975ab7d1d086074647235
 			</div><!-- End main -->
 {% endblock %}
