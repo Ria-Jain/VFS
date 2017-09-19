@@ -21,14 +21,15 @@ def index(request):
 def base(request):
 	return render(request,'base.html')
 
-def login(request):
+def login_site(request):
 	if request.method == 'POST':
 		username = request.POST['email']
 		password = request.POST['password']
 		user = authenticate(username=username, password=password)
 		if user:
 			print(username)
-			return render(request, 'index.html')
+			login(request, user)
+			return redirect('/index/')
 		else:
 			context = {}
 			context['error'] = "Wrong Credentials"
@@ -82,7 +83,7 @@ def ask_question(request):
 			return render(request, 'ask_question.html')
 	else:
 		print('Not Authenticated')
-		return HttpResponseRedirect('/login/')
+		return redirect('/login/')
 
 def question_detail(request, question_id):
 	ques = Question.objects.get(id=question_id)

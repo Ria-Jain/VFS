@@ -10,8 +10,13 @@ To - Do :
 	c. Full Text Search - Rake/Django readymade
 
 
+Left :
+	a. Search 
+	b. Comments
+	c. Upvotes
+	d. 
+
 
 Bugs So Far : 
-	a. ask_question without admin login
-	b. Quesion_detail page has FieldError 
-	c. 
+	a. ask_question without admin login 
+	b. 
