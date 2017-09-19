@@ -87,18 +87,6 @@ def ask_question(request):
 		return redirect('/login/')
 
 def question_detail(request, question_id):
-<<<<<<< HEAD
-	ques = Question.objects.get(id=question_id)
-	answers = Answer.objects.filter(question=ques)
-	context = {
-		'question' : ques,
-		'answers' : answers,
-		'user' : request.user
-	}
-	print(answers)
-	return render(request, 'question_detail.html', context)
-
-=======
 	print(request.user.username)
 	if request.method == 'POST':
 		author = request.user
@@ -111,7 +99,7 @@ def question_detail(request, question_id):
 			)
 		ans.save()
 		return redirect('/question_detail/' + str(question_id) + '/')
-	else : 
+	else :
 		ques = Question.objects.get(id=question_id)
 		answers = Answer.objects.filter(question=ques)
 		context = {
@@ -121,4 +109,4 @@ def question_detail(request, question_id):
 		}
 		print(answers)
 		return render(request, 'question_detail.html', context)
->>>>>>> 94e0685ef6bc391d0b3975ab7d1d086074647235
+
