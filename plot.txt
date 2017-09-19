@@ -14,9 +14,7 @@ Left :
 	a. Search 
 	b. Comments
 	c. Upvotes
-	d. 
 
 
 Bugs So Far : 
-	a. ask_question without admin login 
-	b. 
+	a.  
