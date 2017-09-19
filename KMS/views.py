@@ -21,6 +21,9 @@ def index(request):
 def base(request):
 	return render(request,'base.html')
 
+def user_profile(request):
+	return render(request, 'user_profile.html')
+
 def login_site(request):
 	if request.method == 'POST':
 		username = request.POST['email']
@@ -95,3 +98,4 @@ def question_detail(request, question_id):
 	}
 	print(answers)
 	return render(request, 'question_detail.html', context)
+
