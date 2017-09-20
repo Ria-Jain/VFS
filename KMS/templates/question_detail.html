@@ -43,7 +43,7 @@
 				</article>
 
 				<div id="commentlist" class="page-content">
-					<div class="boxedtitle page-title"><h2>Answers (<span class="color">{{ answers|length }}</span>)</h2></div>
+					<div class="boxedtitle page-title"><h2>Answers (<span class="color">{{ answers|length }}</span> )</h2></div>
 					<ol class="commentlist clearfix">
 					    {% for ans in answers %}
 					    <li class="comment">
@@ -66,6 +66,13 @@
 					                </div>
 					                <div class="text"><p>{{ ans.answer_text }}</p>
 					                </div>
+					                <form method="post">
+					                	{% csrf_token %}
+					                    <input type="text" value="Reply" name="comment" onfocus="if(this.value=='Reply')this.value='';" onblur="if(this.value=='')this.value='Reply';">
+					                    <p class="form-submit">
+				        					<input name="{{ ans.id }}" type="submit" value="Submit" class="button small color">
+				        				</p>
+					                </form>
 					            </div>
 					        </div>
 					        <!-- <h1>{{ comments|length }}</h1> -->

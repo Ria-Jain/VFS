@@ -86,19 +86,36 @@ def ask_question(request):
 	else:
 		print('Not Authenticated')
 		return redirect('/login/')
+def count(request):
+	return render(request, 'count.html')
 
 def question_detail(request, question_id):
-	print(request.user.username)
 	if request.method == 'POST':
-		author = request.user
-		question = Question.objects.get(id=question_id)
-		text = request.POST['answer']
-		ans = Answer.objects.create(
-				author=author,
-				answer_text=text,
-				question=question
-			)
-		ans.save()
+		if 'answer-submit' in request.POST:
+			author = request.user
+			question = Question.objects.get(id=question_id)
+			text = request.POST['answer']
+			ans = Answer.objects.create(
+					author=author,
+					answer_text=text,
+					question=question
+				)
+			ans.save()
+		else:
+			for key in request.POST:
+				print(key)
+			author=request.user
+			answer=Answer.objects.get(id=key)
+			text=request.POST['comment']
+			question=Question.objects.get(id=question_id)
+			com = Comment.objects.create(
+					author=author,
+					comment_text=text,
+					answer=answer,
+					question=question
+				)
+			com.save()
+
 		return redirect('/question_detail/' + str(question_id) + '/')
 	else :
 		ques = Question.objects.get(id=question_id)
