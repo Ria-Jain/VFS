@@ -99,10 +99,14 @@ def question_detail(request, question_id):
 	else : 
 		ques = Question.objects.get(id=question_id)
 		answers = Answer.objects.filter(question=ques)
+		c = []
+		for ans in answers:
+			c.append(Comment.objects.filter(answer=ans))
 		context = {
 			'question' : ques,
 			'answers' : answers,
-			'user' : request.user
+			'user' : request.user,
+			'comments' : c,
 		}
-		print(answers)
+		print(context)
 		return render(request, 'question_detail.html', context)
