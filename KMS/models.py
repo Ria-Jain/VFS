@@ -20,7 +20,7 @@ class Answer(models.Model):
 	created_date = models.DateTimeField(auto_now_add=True)
 	avotes = models.IntegerField(default=0)
 	def __str__(self):
-		return self.author.username + " answered"
+		return str(self.id) + " - " + self.author.username + " answered"
 class Comment(models.Model):
 	author = models.ForeignKey(User)
 	question = models.ForeignKey(Question)
