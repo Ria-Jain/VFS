@@ -16,10 +16,11 @@ def index(request):
 	context = {
 		'questions' : questions
 	}
-	return render(request,'index.html',context)
+	return render(request,'index.html', context)
 
 def base(request):
 	return render(request,'base.html')
+
 
 def user_profile(request):
 	return render(request, 'user_profile.html')
@@ -110,3 +111,15 @@ def question_detail(request, question_id):
 		print(answers)
 		return render(request, 'question_detail.html', context)
 
+
+def countUp(request, question_id, answer_id):
+	ans = Answer.objects.get(id=answer_id)
+	ans.avotes+=1
+	ans.save()
+	return redirect('/question_detail/' + str(question_id) + '/')
+
+def countDown(request, question_id, answer_id):
+	ans = Answer.objects.get(id=answer_id)
+	ans.avotes-=1
+	ans.save()
+	return redirect('/question_detail/' + str(question_id) + '/')

@@ -27,5 +27,7 @@ urlpatterns = [
     url(r'^register/$', views.register),
     url(r'^ask_question/$', views.ask_question),
     url(r'^profile/$', views.user_profile),
+    url(r'^countUp/(?P<question_id>\d+)/(?P<answer_id>\d+)$', views.countUp),
+    url(r'^countDown/(?P<question_id>\d+)/(?P<answer_id>\d+)$', views.countDown),
     url(r'^question_detail/(?P<question_id>\d+)/$', views.question_detail),
 ]

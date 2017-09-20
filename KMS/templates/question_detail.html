@@ -54,11 +54,11 @@
 					                	<div class="comment-author"><a href="#">{{ ans.author.username }}</a></div>
 					                	<div class="comment-vote">
 						                	<ul class="question-vote">
-						                		<li><a href="#" class="question-vote-up" title="Like"></a></li>
-						                		<li><a href="#" class="question-vote-down" title="Dislike"></a></li>
+						                		<li><a href="/countUp/{{ question.id }}/{{ ans.id }}" class="question-vote-up" title="Like"></a></li>
+						                		<li><a href="/countDown/{{ question.id }}/{{ ans.id }}" class="question-vote-down" title="Dislike"></a></li>
 						                	</ul>
 					                	</div>
-					                	<span class="question-vote-result">+1</span>
+					                	<span class="question-vote-result">{{ ans.avotes }}</span>
 					                	<div class="comment-meta">
 					                        <div class="date"><i class="icon-time"></i>{{ ans.created_date }}</div>
 					                    </div>
@@ -201,15 +201,7 @@
 
 
 				<div id="respond" class="comment-respond page-content clearfix">
-<<<<<<< HEAD
-				    <div class="boxedtitle page-title"><h2>Answer this Question</h2></div>
-				    <form action="#" method="post" id="commentform" class="comment-form">
 
-				        <div id="respond-textarea">
-				            <p>
-				                <label class="required" for="comment">Your Answer<span>*</span></label>
-				                <textarea id="comment" name="comment" aria-required="true" cols="58" rows="8"></textarea>
-=======
 				    <div class="boxedtitle page-title"><h2>Post An Answer : </h2></div>
 				    <form action="#" method="post" id="commentform" class="comment-form">
 				        {% csrf_token %}
@@ -217,7 +209,6 @@
 				            <p>
 				                <label class="required" for="comment">Your Answer<span>*</span></label>
 				                <textarea id="comment" name="answer" aria-required="true" cols="58" rows="8"></textarea>
->>>>>>> 94e0685ef6bc391d0b3975ab7d1d086074647235
 				            </p>
 				        </div>
 				        <p class="form-submit">
@@ -225,7 +216,6 @@
 				        </p>
 				    </form>
 				</div>
-<<<<<<< HEAD
 				<br>
 				<div id="related-posts">
 					<h2>Related questions</h2>
@@ -236,7 +226,6 @@
 						<li class="related-item"><h3><a href="#"><i class="icon-double-angle-right"></i>This is my fifth Question</a></h3></li>
 					</ul>
 				</div><!-- End related-posts -->
-=======
->>>>>>> 94e0685ef6bc391d0b3975ab7d1d086074647235
+
 			</div><!-- End main -->
 {% endblock %}
