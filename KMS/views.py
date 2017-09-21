@@ -70,12 +70,9 @@ def login_site(request):
 		context['error'] = ''
 		return render(request,'login.html', context)
 
-def logout(request):
-	if request.user.is_authenticated():
-		logout(request)
-		return redirect('/login/')
-	else:
-		return redirect('/index/')
+def logout_site(request):
+	logout(request)
+	return redirect('/index/')
 
 def register(request):
 	if request.method == 'POST':

@@ -145,16 +145,13 @@
             <nav class="header-top-nav">
                 <ul>
                     <li><a href="contact_us.html"><i class="icon-envelope"></i>Contact</a></li>
-                    <li><a href="/logout/"><i class="icon-headphones"></i>Logout</a></li>
-                    <li><a href="/login/" ><i class="icon-user"></i>Login Area</a></li>
+                    {% if request.user.username %}
+                        <li><a href="/logout/"><i class="icon-headphones"></i>Logout</a></li>
+                    {% else %}
+                        <li><a href="/login/" ><i class="icon-user"></i>Login Area</a></li>
+                    {% endif %}
                 </ul>
             </nav>
-            <div class="header-search">
-                <form>
-                    <input type="text" style="background-color: #eaeaeb; color: black;" value="Search here ..." onfocus="if(this.value=='Search here ...')this.value='';" onblur="if(this.value=='')this.value='Search here ...';">
-                    <button type="submit" class="search-submit"></button>
-                </form>
-            </div>
         </section><!-- End container -->
     </div><!-- End header-top -->
     <header id="header">
@@ -231,8 +228,30 @@
             </nav>
         </section><!-- End container -->
     </header><!-- End header -->
-    <br>
-    <br>
+    <div class="section-warp ask-me">
+        <div class="container clearfix">
+            <div class="box_icon box_warp box_no_border box_no_background" box_border="transparent" box_background="transparent" box_color="#FFF">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Welcome to Ask me, Awesome Questions & Answer Template</h2>
+                        <p>Duis dapibus aliquam mi, eget euismod sem scelerisque ut. Vivamus at elit quis urna adipiscing iaculis. Curabitur vitae velit in neque dictum blandit. Proin in iaculis neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur vitae velit in neque dictum blandit.</p>
+                        <div class="clearfix"></div>
+                        <a class="color button dark_button medium" href="#">About Us</a>
+                        <a class="color button dark_button medium" href="#">Join Now</a>
+                        <div class="clearfix"></div>
+                        <form class="form-style form-style-2">
+                            <p>
+                                <input type="text" id="question_title" value="Ask any question and you be sure find your answer ?" onfocus="if(this.value=='Ask any question and you be sure find your answer ?')this.value='';" onblur="if(this.value=='')this.value='Ask any question and you be sure find your answer ?';">
+                                <i class="icon-pencil"></i>
+                                <span class="color button small publish-question">Ask Now</span>
+                            </p>
+                        </form>
+                    </div>
+                </div><!-- End row -->
+            </div><!-- End box_icon -->
+        </div><!-- End container -->
+    </div>
+
     <section class="container main-content">
         <div class="row">
 
@@ -243,44 +262,45 @@
 
 
             <aside class="col-md-3 sidebar">
-                <a href="/profile/">
-                    <div class="widget widget_login">
-                        <h3 class="widget_title">Profile</h3>
-                        <div class="form-style form-style-2">
-                            <img alt="" src="../static/images/demo/avatar.png">
-                            <br>
-                            <br>
-                            <h6>{{ request.user.username }}</h6>
-                            <span class="comment">12 Points</span>
-                            <!-- <form>
-                                <div class="form-inputs clearfix">
-                                    <p class="login-text">
-                                        <input type="text" value="Username" onfocus="if (this.value == 'Username') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Username';}">
-                                        <i class="icon-user"></i>
+                {% if request.user.username %}
+                    <a href="/profile/">
+                        <div class="widget widget_login">
+                            <h3 class="widget_title">Profile</h3>
+                            <div class="form-style form-style-2">
+                                <img alt="" src="../static/images/demo/avatar.png">
+                                <br>
+                                <br>
+                                <h6>{{ request.user.username }}</h6>
+                                <span class="comment">12 Points</span>
+                                <!-- <form>
+                                    <div class="form-inputs clearfix">
+                                        <p class="login-text">
+                                            <input type="text" value="Username" onfocus="if (this.value == 'Username') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Username';}">
+                                            <i class="icon-user"></i>
+                                        </p>
+                                        <p class="login-password">
+                                            <input type="password" value="Password" onfocus="if (this.value == 'Password') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Password';}">
+                                            <i class="icon-lock"></i>
+                                            <a href="#">Forget</a>
+                                        </p>
+                                    </div>
+                                    <p class="form-submit login-submit">
+                                        <input type="submit" value="Log in" class="button color small login-submit submit">
                                     </p>
-                                    <p class="login-password">
-                                        <input type="password" value="Password" onfocus="if (this.value == 'Password') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Password';}">
-                                        <i class="icon-lock"></i>
-                                        <a href="#">Forget</a>
-                                    </p>
-                                </div>
-                                <p class="form-submit login-submit">
-                                    <input type="submit" value="Log in" class="button color small login-submit submit">
-                                </p>
-                                <div class="rememberme">
-                                    <label><input type="checkbox" checked="checked"> Remember Me</label>
-                                </div>
-                            </form> -->
-                            <!-- <ul class="login-links login-links-r">
-                                <li><a href="#">Register</a></li>
-                            </ul> -->
-                            <div class="clearfix"></div>
+                                    <div class="rememberme">
+                                        <label><input type="checkbox" checked="checked"> Remember Me</label>
+                                    </div>
+                                </form> -->
+                                <!-- <ul class="login-links login-links-r">
+                                    <li><a href="#">Register</a></li>
+                                </ul> -->
+                                <div class="clearfix"></div>
+                            </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
 
-                <br>
-
+                    <br>
+                {% endif %}
 
 
                 <div class="widget widget_stats">

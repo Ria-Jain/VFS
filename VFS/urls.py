@@ -23,7 +23,7 @@ urlpatterns = [
     url(r'^index/$', views.index),
     url(r'^base/$', views.base),
     url(r'^login/$', views.login_site),
-    url(r'^logout/$', views.logout),
+    url(r'^logout/$', views.logout_site),
     url(r'^register/$', views.register),
     url(r'^ask_question/$', views.ask_question),
     url(r'^profile/$', views.user_profile),
