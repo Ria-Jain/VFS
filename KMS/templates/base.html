@@ -140,7 +140,7 @@
             <div class="clearfix"></div>
         </div> -->
     <!-- </div>End lost-password -->
-    <div id="header-top">
+    <!-- <div id="header-top">
         <section class="container clearfix">
             <nav class="header-top-nav">
                 <ul>
@@ -153,23 +153,15 @@
                 </ul>
             </nav>
         </section><!-- End container -->
-    </div><!-- End header-top -->
+    <!-- </div>End header-top -->
     <header id="header">
         <section class="container clearfix">
             <div class="logo"><a href="/index/"><img alt="" src="../static/images/logo.png"></a></div>
             <nav class="navigation">
                 <ul>
-                    <li class="current_page_item"><a href="/index/">Home</a>
-                        <ul>
-                            <li class="current_page_item"><a href="index.html">Home</a></li>
-                            <li><a href="index_2.html">Home 2</a></li>
-                            <li><a href="index_boxed_1.html">Home Boxed 1</a></li>
-                            <li><a href="index_boxed_2.html">Home Boxed 2</a></li>
-                            <li><a href="index_no_box.html">Home No Box</a></li>
-                        </ul>
-                    </li>
+                    <li class="current_page_item"><a href="/index/">Home</a></li>
                     <li class="ask_question"><a href="/ask_question/">Ask Question</a></li>
-                    <li><a href="cat_question.html">Questions</a>
+                    <!-- <li><a href="cat_question.html">Questions</a>
                         <ul>
                             <li><a href="cat_question.html">Questions Category</a></li>
                             <li><a href="single_question.html">Question Single</a></li>
@@ -221,9 +213,14 @@
                             <li><a href="full_width.html">Full Width</a></li>
                             <li><a href="404.html">404</a></li>
                         </ul>
-                    </li>
-                    <li><a href="shortcodes.html">Shortcodes</a></li>
+                    </li> -->
+                    <!-- <li><a href="shortcodes.html">Shortcodes</a></li> -->
                     <li><a href="contact_us.html">Contact Us</a></li>
+                    {% if request.user.username %}
+                        <li><a href="/logout/">Logout</a></li>
+                    {% else %}
+                        <li><a href="/login/">Login</a></li>
+                    {% endif %}
                 </ul>
             </nav>
         </section><!-- End container -->
@@ -235,10 +232,10 @@
                     <div class="col-md-12">
                         <h2>Welcome to Ask me, Awesome Questions & Answer Template</h2>
                         <p>Duis dapibus aliquam mi, eget euismod sem scelerisque ut. Vivamus at elit quis urna adipiscing iaculis. Curabitur vitae velit in neque dictum blandit. Proin in iaculis neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur vitae velit in neque dictum blandit.</p>
-                        <div class="clearfix"></div>
-                        <a class="color button dark_button medium" href="#">About Us</a>
-                        <a class="color button dark_button medium" href="#">Join Now</a>
-                        <div class="clearfix"></div>
+                        <!-- <div class="clearfix"></div> -->
+                        <!-- <a class="color button dark_button medium" href="#">About Us</a>
+                        <a class="color button dark_button medium" href="#">Join Now</a> -->
+                        <!-- <div class="clearfix"></div> -->
                         <form class="form-style form-style-2">
                             <p>
                                 <input type="text" id="question_title" value="Ask any question and you be sure find your answer ?" onfocus="if(this.value=='Ask any question and you be sure find your answer ?')this.value='';" onblur="if(this.value=='')this.value='Ask any question and you be sure find your answer ?';">

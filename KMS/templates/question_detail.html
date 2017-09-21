@@ -96,20 +96,36 @@
 								    {% endfor %}
 						        {% endif%}
 							{% endfor %}
-							<br>
 						    <form method="post">
 			                	{% csrf_token %}
-			                    <div class="row" width="80%">
-			                    	<div class="col-md-8 col-md-offset-2">
+			                    <div class="row" width="100%">
+			                    	<div class="col-md-5 col-md-offset-2">
 				                    <input type="text" value="Reply" name="comment" style="width:80%" onfocus="if(this.value=='Your Reply')this.value='';" onblur="if(this.value=='')this.value='Your Reply';">
 				                    </div>
-				                    <div class="col-md-2">
+				                    <div class="col-md-3">
 				                    <p class="form-submit">
 			        					<input name="{{ ans.id }}" type="submit" value="Submit" class="button small color">
 			        				</p>
 			        				</div>
 			        			</div>
 			                </form>
+			                <!-- <div class="section-warp ask-me">
+						        <div class="container clearfix">
+						            <div class="box_icon box_warp box_no_border box_no_background" box_border="transparent" box_background="transparent" box_color="#FFF">
+						                <div class="row">
+						                    <div class="col-md-12">
+								                <form class="form-style form-style-2">
+						                            <p>
+						                                <input type="text" id="question_title" value="Ask any question and you be sure find your answer ?" onfocus="if(this.value=='Ask any question and you be sure find your answer ?')this.value='';" onblur="if(this.value=='')this.value='Ask any question and you be sure find your answer ?';">
+						                                <i class="icon-pencil"></i>
+						                                <span class="color button small publish-question">Ask Now</span>
+						                            </p>
+						                        </form>
+						                    </div>
+						                </div>
+						            </div>
+						        </div>
+						    </div> -->
 					    </li>
 					    <br>
 					{% endfor %}

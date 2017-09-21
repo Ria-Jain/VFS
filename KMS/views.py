@@ -12,15 +12,15 @@ import datetime
 # Create your views here.
 
 def index(request):
-	questions_all = Question.objects.all()
-	answer_all = []
-	for ques in questions_all:
+	questions_rq = Question.objects.order_by('-created_date')
+	answer_rq = []
+	for ques in questions_rq:
 		answers = Answer.objects.filter(question=ques)
 		for ans in answers:
-			answer_all.append(ans)
-	context = {
-		'questions_all' : questions_all,
-		'answers_all' : answer_all
+			answer_rq.append(ans)
+	context ={
+		'questions_rq' : questions_rq,
+		'answers_rq' : answer_rq,
 	}
 	return render(request,'index.html', context)
 
@@ -180,7 +180,7 @@ def question_detail(request, question_id):
 		}
 		print(context)
 		return render(request, 'question_detail.html', context)
-	
+
 
 def countUp(request, question_id, answer_id):
 	ans = Answer.objects.get(id=answer_id)
