@@ -11,6 +11,8 @@ class Question(models.Model):
 	question_text = models.TextField()
 	created_date = models.DateTimeField(auto_now_add=True)
 	qvotes = models.IntegerField(default=0)
+	numAns =models.IntegerField(default=0)
+	recentAnswer=models.DateTimeField(auto_now_add=True)
 	def __str__(self):
 		return str(self.id) + " - " + self.author.username
 class Answer(models.Model):

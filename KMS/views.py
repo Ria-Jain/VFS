@@ -18,9 +18,36 @@ def index(request):
 		answers = Answer.objects.filter(question=ques)
 		for ans in answers:
 			answer_rq.append(ans)
+
+	questions_ma = Question.objects.order_by('-numAns')
+	answer_ma = []
+	for ques in questions_ma:
+		answers = Answer.objects.filter(question=ques)
+		for ans in answers:
+			answer_ma.append(ans)
+
+	questions_ra = Question.objects.order_by('-recentAnswer')
+	answer_ra = []
+	for ques in questions_ra:
+		answers = Answer.objects.filter(question=ques)
+		for ans in answers:
+			answer_ra.append(ans)
+
+	questions_na = Question.objects.filter(numAns=0)
+	answer_na = []
+	for ques in questions_na:
+		answers = Answer.objects.filter(question=ques)
+		for ans in answers:
+			answer_na.append(ans)
 	context ={
 		'questions_rq' : questions_rq,
 		'answers_rq' : answer_rq,
+		'questions_ma' : questions_ma,
+		'answers_ma' : answer_ma,
+		'questions_ra' : questions_ra,
+		'answers_ra' : answer_ra,
+		'questions_na' : questions_na,
+		'answers_na' : answer_na
 	}
 	return render(request,'index.html', context)
 
@@ -137,11 +164,14 @@ def question_detail(request, question_id):
 				author = request.user
 				question = Question.objects.get(id=question_id)
 				text = request.POST['answer']
+				question.numAns+=1
+				question.recentAnswer=timezone.now()
 				ans = Answer.objects.create(
 						author=author,
 						answer_text=text,
 						question=question
 					)
+				question.save()
 				ans.save()
 			else:
 				for key in request.POST:
