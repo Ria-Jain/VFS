@@ -12,18 +12,45 @@ import datetime
 # Create your views here.
 
 def index(request):
-	questions = Question.objects.order_by('created_date')
+	questions_all = Question.objects.all()
+	answer_all = []
+	for ques in questions_all:
+		answers = Answer.objects.filter(question=ques)
+		for ans in answers:
+			answer_all.append(ans)
 	context = {
-		'questions' : questions
+		'questions_all' : questions_all,
+		'answers_all' : answer_all
 	}
 	return render(request,'index.html', context)
 
 def base(request):
-	return render(request,'base.html')
+	questions_all = Question.objects.all()
+	answer_all = []
+	for ques in questions_all:
+		answers = Answer.objects.filter(question=ques)
+		for ans in answers:
+			answer_all.append(ans)
+	context = {
+		'questions_all' : questions_all,
+		'answers_all' : answer_all
+	}
+	print(context)
+	return render(request,'base.html', context)
 
 
 def user_profile(request):
-	return render(request, 'user_profile.html')
+	questions_all = Question.objects.all()
+	answer_all = []
+	for ques in questions_all:
+		answers = Answer.objects.filter(question=ques)
+		for ans in answers:
+			answer_all.append(ans)
+	context = {
+		'questions_all' : questions_all,
+		'answers_all' : answer_all
+	}
+	return render(request, 'user_profile.html', context)
 
 def login_site(request):
 	if request.method == 'POST':
@@ -48,7 +75,7 @@ def logout(request):
 		logout(request)
 		return redirect('/login/')
 	else:
-		return HttpResponse('You need to log in')
+		return redirect('/index/')
 
 def register(request):
 	if request.method == 'POST':
@@ -67,6 +94,13 @@ def register(request):
 def ask_question(request):
 	if request.user.is_authenticated():
 		print('Authenticated')
+		questions_all = Question.objects.all()
+		answer_all = []
+		for ques in questions_all:
+			answers = Answer.objects.filter(question=ques)
+			for ans in answers:
+				answer_all.append(ans)
+
 		if request.method == 'POST':
 			print('POST request')
 			author = request.user
@@ -81,8 +115,12 @@ def ask_question(request):
 			print('Saved')
 			return redirect('/index/')
 		else:
+			context = {
+				'questions_all' : questions_all,
+				'answers_all' : answer_all
+			}
 			print('GET request')
-			return render(request, 'ask_question.html')
+			return render(request, 'ask_question.html', context)
 	else:
 		print('Not Authenticated')
 		return redirect('/login/')
@@ -90,31 +128,43 @@ def count(request):
 	return render(request, 'count.html')
 
 def question_detail(request, question_id):
+	questions_all = Question.objects.all()
+	answer_all = []
+	for ques in questions_all:
+		answers = Answer.objects.filter(question=ques)
+		for ans in answers:
+			answer_all.append(ans)
 	if request.method == 'POST':
-		if 'answer-submit' in request.POST:
-			author = request.user
-			question = Question.objects.get(id=question_id)
-			text = request.POST['answer']
-			ans = Answer.objects.create(
-					author=author,
-					answer_text=text,
-					question=question
-				)
-			ans.save()
+		if request.user.is_authenticated():
+			if 'answer-submit' in request.POST:
+				author = request.user
+				question = Question.objects.get(id=question_id)
+				text = request.POST['answer']
+				ans = Answer.objects.create(
+						author=author,
+						answer_text=text,
+						question=question
+					)
+				ans.save()
+			else:
+				for key in request.POST:
+					print(key)
+				author=request.user
+				answer=Answer.objects.get(id=key)
+				text=request.POST['comment']
+				question=Question.objects.get(id=question_id)
+				com = Comment.objects.create(
+						author=author,
+						comment_text=text,
+						answer=answer,
+						question=question
+					)
+				com.save()
 		else:
-			for key in request.POST:
-				print(key)
-			author=request.user
-			answer=Answer.objects.get(id=key)
-			text=request.POST['comment']
-			question=Question.objects.get(id=question_id)
-			com = Comment.objects.create(
-					author=author,
-					comment_text=text,
-					answer=answer,
-					question=question
-				)
-			com.save()
+			context={}
+			context['error'] = 'You need to log in first.'
+			return render(request,'login.html',context)
+
 
 		return redirect('/question_detail/' + str(question_id) + '/')
 	else :
@@ -128,10 +178,12 @@ def question_detail(request, question_id):
 			'answers' : answers,
 			'user' : request.user,
 			'comments' : c,
+			'questions_all' : questions_all,
+			'answers_all' : answer_all
 		}
 		print(context)
 		return render(request, 'question_detail.html', context)
-
+	
 
 def countUp(request, question_id, answer_id):
 	ans = Answer.objects.get(id=answer_id)
@@ -144,3 +196,4 @@ def countDown(request, question_id, answer_id):
 	ans.avotes-=1
 	ans.save()
 	return redirect('/question_detail/' + str(question_id) + '/')
+

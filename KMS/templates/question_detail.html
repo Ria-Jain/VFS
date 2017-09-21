@@ -31,7 +31,7 @@
 						</div>
 						<span class="question-category"><a href="#"><i class="icon-folder-close"></i>wordpress</a></span>
 						<span class="question-date"><i class="icon-time"></i>4 mins ago</span>
-						<span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>
+						<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ answers|length }} Answer</a></span>
 						<span class="question-view"><i class="icon-user"></i>70 views</span>
 						<span class="single-question-vote-result">+22</span>
 						<ul class="single-question-vote">
@@ -43,9 +43,10 @@
 				</article>
 
 				<div id="commentlist" class="page-content">
-					<div class="boxedtitle page-title"><h2>Answers (<span class="color">{{ answers|length }}</span> )</h2></div>
+					<div class="boxedtitle page-title"><h2>Answers (<span class="color">{{ answers|length }}</span>)</h2></div>
 					<ol class="commentlist clearfix">
 					    {% for ans in answers %}
+					    <br>
 					    <li class="comment">
 					        <div class="comment-body comment-body-answered clearfix">
 					            <div class="avatar"><img alt="" src="{% static 'images/demo/admin.jpg'}"></div>
@@ -60,23 +61,16 @@
 					                	</div>
 					                	<span class="question-vote-result">{{ ans.avotes }}</span>
 					                	<div class="comment-meta">
-					                        <div class="date"><i class="icon-time"></i>{{ ans.created_date }}</div>
+					                        <div class="date"><i class="icon-time"></i>{{ ans.created_date   }} - {{  question.created_date|timesince:ans.created_date   }}</div>
 					                    </div>
-					                    <a class="comment-reply" href="#"><i class="icon-reply"></i>Reply</a>
 					                </div>
 					                <div class="text"><p>{{ ans.answer_text }}</p>
 					                </div>
-					                <form method="post">
-					                	{% csrf_token %}
-					                    <input type="text" value="Reply" name="comment" onfocus="if(this.value=='Reply')this.value='';" onblur="if(this.value=='')this.value='Reply';">
-					                    <p class="form-submit">
-				        					<input name="{{ ans.id }}" type="submit" value="Submit" class="button small color">
-				        				</p>
-					                </form>
+
 					            </div>
 					        </div>
 					        <!-- <h1>{{ comments|length }}</h1> -->
-
+					        <br>
 					        {% for comment in comments %}
 						        {% if comment|length != 0 %}
 						        	{% for c in comment %}
@@ -102,7 +96,22 @@
 								    {% endfor %}
 						        {% endif%}
 							{% endfor %}
+							<br>
+						    <form method="post">
+			                	{% csrf_token %}
+			                    <div class="row" width="80%">
+			                    	<div class="col-md-8 col-md-offset-2">
+				                    <input type="text" value="Reply" name="comment" style="width:80%" onfocus="if(this.value=='Your Reply')this.value='';" onblur="if(this.value=='')this.value='Your Reply';">
+				                    </div>
+				                    <div class="col-md-2">
+				                    <p class="form-submit">
+			        					<input name="{{ ans.id }}" type="submit" value="Submit" class="button small color">
+			        				</p>
+			        				</div>
+			        			</div>
+			                </form>
 					    </li>
+					    <br>
 					{% endfor %}
 					</ol><!-- End commentlist -->
 				</div><!-- End page-content -->

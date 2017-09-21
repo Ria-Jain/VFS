@@ -35,6 +35,14 @@
     <link rel="shortcut icon" href="{% static 'images/favicon.png' %}">
 
 </head>
+<style type="text/css">
+    body{
+        background-color: #eaeaeb;
+    }
+    .search_field{
+        background-color: #eaeaeb;
+    }
+</style>
 <body>
 
 <!--<div class="loader"><div class="loader_html"></div></div>-->
@@ -143,7 +151,7 @@
             </nav>
             <div class="header-search">
                 <form>
-                    <input type="text" value="Search here ..." onfocus="if(this.value=='Search here ...')this.value='';" onblur="if(this.value=='')this.value='Search here ...';">
+                    <input type="text" style="background-color: #eaeaeb; color: black;" value="Search here ..." onfocus="if(this.value=='Search here ...')this.value='';" onblur="if(this.value=='')this.value='Search here ...';">
                     <button type="submit" class="search-submit"></button>
                 </form>
             </div>
@@ -151,10 +159,10 @@
     </div><!-- End header-top -->
     <header id="header">
         <section class="container clearfix">
-            <div class="logo"><a href="index.html"><img alt="" src="../static/images/logo.png"></a></div>
+            <div class="logo"><a href="/index/"><img alt="" src="../static/images/logo.png"></a></div>
             <nav class="navigation">
                 <ul>
-                    <li class="current_page_item"><a href="index.html">Home</a>
+                    <li class="current_page_item"><a href="/index/">Home</a>
                         <ul>
                             <li class="current_page_item"><a href="index.html">Home</a></li>
                             <li><a href="index_2.html">Home 2</a></li>
@@ -279,8 +287,8 @@
                     <h3 class="widget_title">Stats</h3>
                     <div class="ul_list ul_list-icon-ok">
                         <ul>
-                            <li><i class="icon-question-sign"></i>Questions ( <span>20</span> )</li>
-                            <li><i class="icon-comment"></i>Answers ( <span>50</span> )</li>
+                            <li><i class="icon-question-sign"></i>Questions ( <span>{{ questions_all|length }}</span> )</li>
+                            <li><i class="icon-comment"></i>Answers ( <span>{{ answers_all|length }}</span> )</li>
                         </ul>
                     </div>
                 </div>
