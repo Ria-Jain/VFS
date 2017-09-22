@@ -239,7 +239,7 @@
                         <form class="form-style form-style-2" method="POST" action='/search/'>
                             {% csrf_token %}
                             <p>
-                                <input type="text" name='question_title' id="question_title" value="Ask any question and you be sure find your answer ?" onfocus="if(this.value=='Ask any question and you be sure find your answer ?')this.value='';" onblur="if(this.value=='')this.value='Ask any question and you be sure find your answer ?';">
+                                <input type="text" name='question_title'id="question_title" value="Ask any question and you be sure find your answer ?" onfocus="if(this.value=='Ask any question and you be sure find your answer ?')this.value='';" onblur="if(this.value=='')this.value='Ask any question and you be sure find your answer ?';">
                                 <i class="icon-pencil"></i>
                                 <span class="color button small publish-question">Ask Now</span>
                             </p>
@@ -264,8 +264,9 @@
                     <a href="/profile/">
                         <div class="widget widget_login">
                             <h3 class="widget_title">Profile</h3>
+                            {% for c in cuser %}
                             <div class="form-style form-style-2">
-                                <img alt="" src="../static/images/demo/avatar.png">
+                                <img alt="" src="../static/images/demo/{{ c.profilePic }}">
                                 <br>
                                 <br>
                                 <h6>{{ request.user.username }}</h6>
@@ -294,6 +295,7 @@
                                 </ul> -->
                                 <div class="clearfix"></div>
                             </div>
+                            {% endfor %}
                         </div>
                     </a>
 

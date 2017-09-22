@@ -9,12 +9,13 @@
 			<div class="form-style form-style-4">
 				<form method='post' action='#'>
 					{% csrf_token %}
+					{% for c in cuser %}
 					<div class="form-style form-style-2">
-						<div class="user-profile-img"><img src="../static/images/demo/admin.jpg" alt="admin"></div>
+						<div class="user-profile-img"><img src="../static/images/demo/{{ c.profilePic }}"></div>
 						<p class="user-profile-p">
 							<label>	Profile Picture</label>
 							<div class="fileinputs">
-								<input type="file" class="file">
+								<input type="file" class="file" name="proPic">
 								<div class="fakefile">
 									<button type="button" class="button small margin_0">Select file</button>
 									<span><i class="icon-arrow-up"></i>Browse</span>
@@ -23,7 +24,6 @@
 						<p></p>
 						<div class="clearfix"></div>
 					</div>
-					{% for c in cuser %}
 						<div class="form-inputs clearfix">
 							<p>
 								<label>First Name</label>

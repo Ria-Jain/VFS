@@ -47,7 +47,15 @@ def index(request):
 		answers = Answer.objects.filter(question=ques)
 		for ans in answers:
 			answer_na.append(ans)
+
+	pro_all = Profile.objects.all()
+	cuser=[]
+	for pro in pro_all:
+		if pro.username == request.user.username:
+			cuser.append(pro)
+
 	context ={
+		'cuser': cuser,
 		'questions_all' : questions_all,
 		'answers_all' : answer_all,
 		'questions_rq' : questions_rq,
@@ -68,7 +76,15 @@ def base(request):
 		answers = Answer.objects.filter(question=ques)
 		for ans in answers:
 			answer_all.append(ans)
+
+	pro_all = Profile.objects.all()
+	cuser=[]
+	for pro in pro_all:
+		if pro.username == request.user.username:
+			cuser.append(pro)
+
 	context = {
+		'cuser': cuser,
 		'questions_all' : questions_all,
 		'answers_all' : answer_all
 	}
@@ -150,6 +166,13 @@ def ask_question(request):
 				answer_all.append(ans)
 
 		if request.method == 'POST':
+			pro_all = Profile.objects.all()
+			cuser= []
+			for pro in pro_all:
+				if pro.username == request.user.username:
+					pro.numQues+=1
+					break;
+			pro.save()
 			print('POST request')
 			author = request.user
 			question_title = request.POST['question_title']
@@ -172,8 +195,6 @@ def ask_question(request):
 	else:
 		print('Not Authenticated')
 		return redirect('/login/')
-def count(request):
-	return render(request, 'count.html')
 
 def question_detail(request, question_id):
 	questions_all = Question.objects.all()
@@ -195,6 +216,13 @@ def question_detail(request, question_id):
 						answer_text=text,
 						question=question
 					)
+				pro_all = Profile.objects.all()
+				for pro in pro_all:
+					if pro.username == request.user.username:
+						pro.numAns+=1
+						pro.points+=2
+						break;
+				pro.save()
 				question.save()
 				ans.save()
 			else:
@@ -258,7 +286,8 @@ def edit(request):
 		website=request.POST['website']
 		about=request.POST['about']
 		phone=request.POST['phone']
-
+		proPic=request.POST['proPic']
+		print(request.POST)
 		pro_all=Profile.objects.all()
 		for pro in pro_all:
 			if pro.username == username:
@@ -269,6 +298,7 @@ def edit(request):
 				pro.website=website
 				pro.aboutYourself=about
 				pro.phone=phone
+				pro.profilePic=proPic
 				break
 		if flag !=1:
 			pro=Profile.objects.create(
@@ -280,8 +310,10 @@ def edit(request):
 					website=website,
 					aboutYourself=about,
 					phone=phone,
-					regDate=timezone.now()
+					regDate=timezone.now(),
+					profilePic=proPic
 				)
+			print(proPic)
 		pro.save()
 		user.first_name=fname
 		user.last_name=lname
