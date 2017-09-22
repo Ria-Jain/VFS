@@ -3,7 +3,7 @@ To - Do :
 		i.   Register/Login page
 		ii.  Homepage
 		iii. Search Query Process (same as ii)
-		iv.  Question Detail Page 
+		iv.  Question Detail Page
 		v.   Answer to The Question (same as iv)
 		vi.  Add Comments
 	b. Jquery UI
@@ -11,10 +11,40 @@ To - Do :
 
 
 Left :
-	a. Search 
+	a. Search
 	b. Comments
 	c. Upvotes
 
 
-Bugs So Far : 
-	a.  
+Bugs So Far :
+	a.
+
+
+
+Done:
+	1. Index.html
+	2. Login/Register/Logout
+	3. Question Detail
+	4. Add Question
+	5. Add Answer
+	6. Display Answer
+	7. Add Comment
+	8. Display comment
+	9. Search
+	10. Display search results
+	11. User profile
+	12. Edit profile
+
+To Do:
+	1. Complete User profile
+	2. AJAX
+		a. Up/Downvote
+			i. User cannot upvote his own answer
+			ii. can only upvote once
+		b. Adding Answer/comment
+	3. Points system
+	4. Number of views per question
+	5. User profile front end
+	6. Add comment front end text bar
+	7. Number of questions/answers by single user
+	8. View other people's profiles

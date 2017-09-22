@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+    <div class="col-md-9">
+        <div class="tabs-warp question-tab">
+            <div class="tab-inner-warp">
+                <div class="tab-inner">
+                    {% for q in questions %}
+                    <article class="question question-type-normal">
+                        <h2>
+                            <a href="/question_detail/{{ q.id }}">{{ q.question_title }}</a>
+                        </h2>
+                        <div class="question-type-main">
+                                <i class="icon-question-sign"></i>Question
+                        </div>
+                        <div class="question-author">
+                            <a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="static/images/demo/avatar.png"></a>
+                        </div>
+                        <div class="question-inner">
+                            <div class="clearfix"></div>
+                            <p class="question-desc">{{ q.question_text }}</p>
+                            <div class="question-details">
+                                <span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
+                            </div>
+                            <span class="question-date"><i class="icon-time"></i>4 mins ago</span>
+                            <span class="question-comment"><a href="#"><i class="icon-comment"></i>5 Answer</a></span>
+                            <span class="question-view"><i class="icon-user"></i>70 views</span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

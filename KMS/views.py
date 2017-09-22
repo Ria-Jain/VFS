@@ -9,6 +9,7 @@ from django.contrib.auth import authenticate, login, logout
 import smtplib
 import hashlib
 import datetime
+from django.db.models import Q
 # Create your views here.
 
 def index(request):
@@ -311,7 +312,24 @@ def edit(request):
 def search(request):
 	if request.method == 'POST':
 		s = request.POST['question_title']
-		print(s)
-		return HttpResponse('Hi')
+		querywords = s.split()	#Who is Foo-Bar
+		stopwords = ['what','who','is','a','at','is','he']
+		result = []
+		for word in querywords:
+			if word.lower() not in stopwords:
+				result.append(word)
+		query = Q()
+		for word in result:
+			query = query | Q(question_title__contains=word) | Q(question_text__contains=word)
+			questions = Question.objects.filter(query)
+			# questions.append(Question.objects.filter(
+			# 		question__Question_title__contains=word
+			# 	)
+			# )
+		print(len(questions))
+		context = {
+			'questions' : questions
+		}
+		return render(request, 'search.html', context)
 	else:
 		return HttpResponse('What?')
