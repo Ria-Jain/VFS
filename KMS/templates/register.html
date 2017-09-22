@@ -101,9 +101,9 @@ body {
   background: linear-gradient(to left, #76b852, #8DC26F);
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;      
+  -moz-osx-font-smoothing: grayscale;
 }
-  
+
 </style>
 <head>
   <meta charset="UTF-8" />
@@ -127,17 +127,21 @@ body {
   <div class="form">
    <h2 style="color:black;">Sign Up</h2>
     <div style="color:black;">{{error}}</div>
-   
+
     <form class="login-form" action="/register/" method="POST">
     {% csrf_token %}
       <div class="form-group">
-          <label class="form-label" for="name">Name</label>
-          <input type="text" class="form-control" id="name" name="name" placeholder="Name" tabindex="1" required>
+          <label class="form-label" for="fname">First Name</label>
+          <input type="text" class="form-control" id="fname" name="fname" placeholder="First Name" tabindex="1" required>
+      </div>
+      <div class="form-group">
+          <label class="form-label" for="lname">Last Name</label>
+          <input type="text" class="form-control" id="lname" name="lname" placeholder="Last Name" tabindex="1" required>
       </div>
       <div class="form-group">
           <label class="form-label" for="email">Email</label>
           <input type="email" class="form-control" id="email" name="email" placeholder="Email" tabindex="2" required>
-      </div>                            
+      </div>
       <div class="form-group">
           <label class="form-label" for="password">Password</label>
           <input type="password" class="form-control" id="passoword" name="password" placeholder="Password" tabindex="3" required>

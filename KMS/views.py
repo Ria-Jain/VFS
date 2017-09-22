@@ -234,3 +234,29 @@ def countDown(request, question_id, answer_id):
 	ans.save()
 	return redirect('/question_detail/' + str(question_id) + '/')
 
+def createProfile(request):
+	print('POST request')
+	user = request.user
+	question_title = request.POST['question_title']
+	question_text = request.POST['question_text']
+	question = Question.objects.create(
+			author=author,
+			question_title=question_title,
+			question_text=question_text,
+		)
+	question.save()
+	print('Saved')
+	return redirect('/index/')
+
+def edit(request):
+	questions_all = Question.objects.all()
+	answer_all = []
+	for ques in questions_all:
+		answers = Answer.objects.filter(question=ques)
+		for ans in answers:
+			answer_all.append(ans)
+	context = {
+			'questions_all' : questions_all,
+			'answers_all' : answer_all
+	}
+	return render(request, 'edit_profile.html', context)
