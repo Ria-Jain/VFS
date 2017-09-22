@@ -34,3 +34,13 @@ class Comment(models.Model):
 
 class Profile(models.Model):
 	user= models.ForeignKey(User)
+	firstName = models.CharField(max_length=100, default=' ')
+	lastName = models.CharField(max_length=100, default=' ')
+	username = models.CharField(max_length=100, default=' ')
+	country = models.CharField(max_length=100, default=' ')
+	website = models.CharField(max_length=100, default=' ')
+	aboutYourself = models.CharField(max_length=500, default=' ')
+	phone=models.CharField(max_length=10, default=' ')
+	regDate=models.DateTimeField(auto_now_add=True)
+	def __str__(self):
+		return str(self.id) + '-' + self.user.username + ' Profile'

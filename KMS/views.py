@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
-from .models import Question,Answer, Comment
+from .models import Question,Answer, Comment, Profile
 from django.utils import timezone
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -82,9 +82,17 @@ def user_profile(request):
 		answers = Answer.objects.filter(question=ques)
 		for ans in answers:
 			answer_all.append(ans)
+
+	pro_all=Profile.objects.all()
+	cuser=[]
+	for pro in pro_all:
+		if pro.username == request.user.username:
+			cuser.append(pro)
+
 	context = {
 		'questions_all' : questions_all,
-		'answers_all' : answer_all
+		'answers_all' : answer_all,
+		'cuser' : cuser
 	}
 	return render(request, 'user_profile.html', context)
 
@@ -112,16 +120,21 @@ def logout_site(request):
 
 def register(request):
 	if request.method == 'POST':
-		name = request.POST['name']
+		firstName = request.POST['fname']
+		lastName = request.POST['lname']
 		username = request.POST['email']
 		password = request.POST['password']
 		user = User.objects.create(
-				username = username
+				username = username,
+				first_name = firstName,
+				last_name = lastName
 			)
 		user.set_password(password)
 		user.save()
-		login(request, user)
-		return redirect('/index/')
+		user = authenticate(username=username, password=password)
+		if user is not None:
+			login(request, user)
+			return redirect('/index/')
 	else:
 		return render(request, 'register.html')
 
@@ -234,32 +247,66 @@ def countDown(request, question_id, answer_id):
 	ans.save()
 	return redirect('/question_detail/' + str(question_id) + '/')
 
-def createProfile(request):
-	print('POST request')
-	user = request.user
-	question_title = request.POST['question_title']
-	question_text = request.POST['question_text']
-	question = Question.objects.create(
-			author=author,
-			question_title=question_title,
-			question_text=question_text,
-		)
-	question.save()
-	print('Saved')
-	return redirect('/index/')
-
 def edit(request):
-	questions_all = Question.objects.all()
-	answer_all = []
-	for ques in questions_all:
-		answers = Answer.objects.filter(question=ques)
-		for ans in answers:
-			answer_all.append(ans)
-	context = {
-			'questions_all' : questions_all,
-			'answers_all' : answer_all
-	}
-	return render(request, 'edit_profile.html', context)
+	if request.method == 'POST':
+		user=User.objects.get(id=request.user.id)
+		fname=request.POST['fname']
+		lname=request.POST['lname']
+		username=request.user.username
+		country=request.POST['country']
+		website=request.POST['website']
+		about=request.POST['about']
+		phone=request.POST['phone']
+
+		pro_all=Profile.objects.all()
+		for pro in pro_all:
+			if pro.username == username:
+				flag=1
+				pro.firstName=fname
+				pro.lastName=lname
+				pro.country=country
+				pro.website=website
+				pro.aboutYourself=about
+				pro.phone=phone
+				break
+		if flag !=1:
+			pro=Profile.objects.create(
+					user=user,
+					firstName=fname,
+					lastName=lname,
+					username=username,
+					country=country,
+					website=website,
+					aboutYourself=about,
+					phone=phone,
+					regDate=timezone.now()
+				)
+		pro.save()
+		user.first_name=fname
+		user.last_name=lname
+		user.username=username
+		user.save()
+		print('Hi')
+		return redirect('/profile/')
+	else:
+		questions_all = Question.objects.all()
+		answer_all = []
+		for ques in questions_all:
+			answers = Answer.objects.filter(question=ques)
+			for ans in answers:
+				answer_all.append(ans)
+		pro_all = Profile.objects.all()
+		cuser= []
+		for pro in pro_all:
+			if pro.username == request.user.username:
+				cuser.append(pro)
+
+		context = {
+				'questions_all' : questions_all,
+				'answers_all' : answer_all,
+				'cuser' : cuser
+		}
+		return render(request, 'edit_profile.html', context)
 
 def search(request):
 	if request.method == 'POST':
