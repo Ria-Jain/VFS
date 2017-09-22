@@ -260,3 +260,11 @@ def edit(request):
 			'answers_all' : answer_all
 	}
 	return render(request, 'edit_profile.html', context)
+
+def search(request):
+	if request.method == 'POST':
+		s = request.POST['question_title']
+		print(s)
+		return HttpResponse('Hi')
+	else:
+		return HttpResponse('What?')

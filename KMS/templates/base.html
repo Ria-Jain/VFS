@@ -236,9 +236,10 @@
                         <!-- <a class="color button dark_button medium" href="#">About Us</a>
                         <a class="color button dark_button medium" href="#">Join Now</a> -->
                         <!-- <div class="clearfix"></div> -->
-                        <form class="form-style form-style-2">
+                        <form class="form-style form-style-2" method="POST" action='/search/'>
+                            {% csrf_token %}
                             <p>
-                                <input type="text" id="question_title" value="Ask any question and you be sure find your answer ?" onfocus="if(this.value=='Ask any question and you be sure find your answer ?')this.value='';" onblur="if(this.value=='')this.value='Ask any question and you be sure find your answer ?';">
+                                <input type="text" name='question_title' id="question_title" value="Ask any question and you be sure find your answer ?" onfocus="if(this.value=='Ask any question and you be sure find your answer ?')this.value='';" onblur="if(this.value=='')this.value='Ask any question and you be sure find your answer ?';">
                                 <i class="icon-pencil"></i>
                                 <span class="color button small publish-question">Ask Now</span>
                             </p>
