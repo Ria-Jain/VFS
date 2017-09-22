@@ -12,6 +12,13 @@ import datetime
 # Create your views here.
 
 def index(request):
+	questions_all = Question.objects.all()
+	answer_all = []
+	for ques in questions_all:
+		answers = Answer.objects.filter(question=ques)
+		for ans in answers:
+			answer_all.append(ans)
+
 	questions_rq = Question.objects.order_by('-created_date')
 	answer_rq = []
 	for ques in questions_rq:
@@ -40,6 +47,8 @@ def index(request):
 		for ans in answers:
 			answer_na.append(ans)
 	context ={
+		'questions_all' : questions_all,
+		'answers_all' : answer_all,
 		'questions_rq' : questions_rq,
 		'answers_rq' : answer_rq,
 		'questions_ma' : questions_ma,
