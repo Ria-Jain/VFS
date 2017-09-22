@@ -111,6 +111,7 @@ def register(request):
 			)
 		user.set_password(password)
 		user.save()
+		login(request, user)
 		return redirect('/index/')
 	else:
 		return render(request, 'register.html')
