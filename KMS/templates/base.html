@@ -360,27 +360,18 @@
                 <div class="widget widget_highest_points">
                     <h3 class="widget_title">Highest points</h3>
                     <ul>
+                    {% for user in users %}
                         <li>
                             <div class="author-img">
                                 <a href="#"><img width="60" height="60" src="../static/images/demo/admin.jpg" alt=""></a>
+                                <h6><a href="#">{{ user.firstName }}</a></h6>
                             </div>
-                            <h6><a href="#">admin</a></h6>
-                            <span class="comment">12 Points</span>
+                            <h6><a href="/viewprofile/{{ user.user.id }}">{{ user.username }}</a></h6>
+                            <span class="comment">{{ user.points }} points</span>
+                            <br>
+                            <br>
                         </li>
-                        <li>
-                            <div class="author-img">
-                                <a href="#"><img width="60" height="60" src="../static/images/demo/avatar.png" alt=""></a>
-                            </div>
-                            <h6><a href="#">vbegy</a></h6>
-                            <span class="comment">10 Points</span>
-                        </li>
-                        <li>
-                            <div class="author-img">
-                                <a href="#"><img width="60" height="60" src="../static/images/demo/avatar.png" alt=""></a>
-                            </div>
-                            <h6><a href="#">ahmed</a></h6>
-                            <span class="comment">5 Points</span>
-                        </li>
+                    {% endfor %}
                     </ul>
                 </div>
 

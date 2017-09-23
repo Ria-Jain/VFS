@@ -48,7 +48,7 @@ def index(request):
 		for ans in answers:
 			answer_na.append(ans)
 
-	pro_all = Profile.objects.all()
+	pro_all = Profile.objects.order_by('-points')[:3]
 	cuser=[]
 	for pro in pro_all:
 		if pro.username == request.user.username:
@@ -56,6 +56,7 @@ def index(request):
 
 	context ={
 		'cuser': cuser,
+		'users' : pro_all,
 		'questions_all' : questions_all,
 		'answers_all' : answer_all,
 		'questions_rq' : questions_rq,
@@ -77,7 +78,7 @@ def base(request):
 		for ans in answers:
 			answer_all.append(ans)
 
-	pro_all = Profile.objects.all()
+	pro_all = Profile.objects.order_by('-points')[:3]
 	cuser=[]
 	for pro in pro_all:
 		if pro.username == request.user.username:
@@ -107,6 +108,7 @@ def user_profile(request):
 			cuser.append(pro)
 
 	context = {
+		'users' : pro_all,
 		'questions_all' : questions_all,
 		'answers_all' : answer_all,
 		'cuser' : cuser
@@ -166,7 +168,7 @@ def ask_question(request):
 				answer_all.append(ans)
 
 		if request.method == 'POST':
-			pro_all = Profile.objects.all()
+			pro_all = Profile.objects.order_by('-points')[:3]
 			cuser= []
 			for pro in pro_all:
 				if pro.username == request.user.username:
@@ -186,7 +188,14 @@ def ask_question(request):
 			print('Saved')
 			return redirect('/index/')
 		else:
+			pro_all = Profile.objects.order_by('-points')[:3]
+			cuser=[]
+			for pro in pro_all:
+				if pro.username == request.user.username:
+					cuser.append(pro)
 			context = {
+				'users' : pro_all,
+				'cuser': cuser,
 				'questions_all' : questions_all,
 				'answers_all' : answer_all
 			}
@@ -216,7 +225,7 @@ def question_detail(request, question_id):
 						answer_text=text,
 						question=question
 					)
-				pro_all = Profile.objects.all()
+				pro_all = Profile.objects.order_by('-points')[:3]
 				for pro in pro_all:
 					if pro.username == request.user.username:
 						pro.numAns+=1
@@ -247,12 +256,19 @@ def question_detail(request, question_id):
 
 		return redirect('/question_detail/' + str(question_id) + '/')
 	else :
+		pro_all = Profile.objects.order_by('-points')[:3]
+		cuser=[]
+		for pro in pro_all:
+			if pro.username == request.user.username:
+				cuser.append(pro)
 		ques = Question.objects.get(id=question_id)
 		answers = Answer.objects.filter(question=ques)
 		c = []
 		for ans in answers:
 			c.append(Comment.objects.filter(answer=ans))
 		context = {
+			'users' : pro_all,
+			'cuser': cuser,
 			'question' : ques,
 			'answers' : answers,
 			'user' : request.user,
@@ -328,13 +344,15 @@ def edit(request):
 			answers = Answer.objects.filter(question=ques)
 			for ans in answers:
 				answer_all.append(ans)
-		pro_all = Profile.objects.all()
+		pro_all = Profile.objects.order_by('-points')[:3]
 		cuser= []
 		for pro in pro_all:
 			if pro.username == request.user.username:
 				cuser.append(pro)
 
 		context = {
+				'users' : pro_all,
+				'cuser': cuser,
 				'questions_all' : questions_all,
 				'answers_all' : answer_all,
 				'cuser' : cuser
@@ -343,6 +361,17 @@ def edit(request):
 
 def search(request):
 	if request.method == 'POST':
+		pro_all = Profile.objects.order_by('-points')[:3]
+		cuser=[]
+		for pro in pro_all:
+			if pro.username == request.user.username:
+				cuser.append(pro)
+		questions_all = Question.objects.all()
+		answer_all = []
+		for ques in questions_all:
+			answers = Answer.objects.filter(question=ques)
+			for ans in answers:
+				answer_all.append(ans)
 		s = request.POST['question_title']
 		querywords = s.split()	#Who is Foo-Bar
 		stopwords = ['what','who','is','a','at','is','he']
@@ -350,18 +379,50 @@ def search(request):
 		for word in querywords:
 			if word.lower() not in stopwords:
 				result.append(word)
-		query = Q()
+		query_title = Q()
+		query_text = Q()
 		for word in result:
-			query = query | Q(question_title__contains=word) | Q(question_text__contains=word)
-			questions = Question.objects.filter(query)
+			query_title = query_title | Q(question_title__contains=word)
+			query_text = query_text | Q(question_text__contains=word)
+			questions_title = Question.objects.filter(query_title)
+			questions_text = Question.objects.filter(query_text)
 			# questions.append(Question.objects.filter(
 			# 		question__Question_title__contains=word
 			# 	)
 			# )
-		print(len(questions))
 		context = {
-			'questions' : questions
+			'questions_title' : questions_title,
+			'questions_text' : questions_text,
+			'users' : pro_all,
+			'cuser': cuser,
+			'questions_all' : questions_all,
+			'answers_all' : answer_all
 		}
 		return render(request, 'search.html', context)
 	else:
 		return HttpResponse('What?')
+
+def viewprofile(request, user_id):
+	pro_all = Profile.objects.order_by('-points')[:3]
+	cuser=[]
+	for pro in pro_all:
+		if pro.username == request.user.username:
+			cuser.append(pro)
+	showuser = User.objects.get(id = user_id)
+	showprofile = Profile.objects.get(user=showuser)
+	questions_all = Question.objects.all()
+	answer_all = []
+	for ques in questions_all:
+		answers = Answer.objects.filter(question=ques)
+		for ans in answers:
+			answer_all.append(ans)
+	print(showprofile)
+	context = {
+		'showuser' : showprofile,
+		'users' : pro_all,
+		'cuser': cuser,
+		'questions_all' : questions_all,
+		'answers_all' : answer_all
+	}
+	print(context)
+	return render(request, 'viewprofile.html', context)
