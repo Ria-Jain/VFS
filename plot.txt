@@ -1,26 +1,3 @@
-To - Do :
-	a. Front-End
-		i.   Register/Login page
-		ii.  Homepage
-		iii. Search Query Process (same as ii)
-		iv.  Question Detail Page
-		v.   Answer to The Question (same as iv)
-		vi.  Add Comments
-	b. Jquery UI
-	c. Full Text Search - Rake/Django readymade
-
-
-Left :
-	a. Search
-	b. Comments
-	c. Upvotes
-
-
-Bugs So Far :
-	a.
-
-
-
 Done:
 	1. Index.html
 	2. Login/Register/Logout
@@ -34,6 +11,9 @@ Done:
 	10. Display search results
 	11. User profile
 	12. Edit profile
+	13. View other people's profiles
+	14. Number of questions/answers by single user
+	15. Number of views per question
 
 To Do:
 	1. Complete User profile
@@ -43,8 +23,14 @@ To Do:
 			ii. can only upvote once
 		b. Adding Answer/comment
 	3. Points system
-	4. Number of views per question
+	4. Check all pages for profie pictures question,comment, answer
 	5. User profile front end
 	6. Add comment front end text bar
-	7. Number of questions/answers by single user
-	8. View other people's profiles
+	7. uploading pictures
+	8. Related Question 
+	/9. Tags	
+	10. SpaCy
+	11. is_solved() per question
+	12. is_upvoted()
+	13. sort answers based on upvotes
+	14. search button fix

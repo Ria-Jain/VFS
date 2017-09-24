@@ -847,7 +847,7 @@ div[class*="slider_shadow"]:before, div[class^="header_shadow"] {
 	padding: 4px 10px;
 	position: absolute;
 	top: 20px;
-	right: 86px;
+	right: 2%;
 }
 .question-type-main i {
 	margin-right: 5px;

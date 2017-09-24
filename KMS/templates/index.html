@@ -44,6 +44,9 @@
 								<h2>
 									<a href="/question_detail/{{ q.id }}">{{ q.question_title }}</a>
 								</h2>
+								<div class="question-type-main">
+										<i class="icon-question-sign"></i>Question
+								</div>
 								<div class="question-author">
 									{% for user in users_rq %}
 										{% for u in user %}
