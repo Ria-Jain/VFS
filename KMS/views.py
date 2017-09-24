@@ -50,13 +50,20 @@ def index(request):
 
 	pro_all = Profile.objects.order_by('-points')[:3]
 	cuser=[]
-	for pro in pro_all:
-		if pro.username == request.user.username:
-			cuser.append(pro)
+
+	showprofile=0
+	if(request.user.username):
+		print('hi')
+		for pro in pro_all:
+			if pro.username == request.user.username:
+				cuser.append(pro)
+		showuser = User.objects.get(id = request.user.id)
+		showprofile = Profile.objects.get(user=showuser)
 
 	context ={
 		'cuser': cuser,
 		'users' : pro_all,
+		'showuser' : showprofile,
 		'questions_all' : questions_all,
 		'answers_all' : answer_all,
 		'questions_rq' : questions_rq,
@@ -94,25 +101,44 @@ def base(request):
 
 
 def user_profile(request):
+	pro_all = Profile.objects.order_by('-points')[:3]
 	questions_all = Question.objects.all()
 	answer_all = []
 	for ques in questions_all:
 		answers = Answer.objects.filter(question=ques)
 		for ans in answers:
 			answer_all.append(ans)
+	u_questions_all = Question.objects.filter(author=request.user)
+	u_answers_all = Answer.objects.filter(author=request.user)
+	u_answers_all_q=[]
+	for u in u_answers_all:
+		ques=Question.objects.get(id=u.question.id)
+		u_answers_all_q.append(ques)
 
-	pro_all=Profile.objects.all()
-	cuser=[]
-	for pro in pro_all:
-		if pro.username == request.user.username:
-			cuser.append(pro)
+	u_comments_all = Comment.objects.filter(author=request.user)
+	u_comments_all_a = []
+	u_comments_all_q =[]
+	for u in u_comments_all:
+		ques=Question.objects.get(id=u.question.id)
+		u_comments_all_q.append(ques)
+		ans=Answer.objects.get(id=u.answer.id)
+		u_comments_all_a.append(ans)
 
+	showuser = User.objects.get(id = request.user.id)
+	showprofile = Profile.objects.get(user=showuser)
 	context = {
-		'users' : pro_all,
 		'questions_all' : questions_all,
 		'answers_all' : answer_all,
-		'cuser' : cuser
+		'u_questions_all' : u_questions_all,
+		'u_answers_all' : u_answers_all,
+		'u_answers_all_q' : u_answers_all_q,
+		'u_comments_all' : u_comments_all,
+		'u_comments_all_q' : u_comments_all_q,
+		'u_comments_all_a' : u_comments_all_a,
+		'showuser' : showprofile,
+		'users' : pro_all
 	}
+	print(context)
 	return render(request, 'user_profile.html', context)
 
 def login_site(request):
@@ -193,9 +219,12 @@ def ask_question(request):
 			for pro in pro_all:
 				if pro.username == request.user.username:
 					cuser.append(pro)
+			showuser = User.objects.get(id = request.user.id)
+			showprofile = Profile.objects.get(user=showuser)
 			context = {
 				'users' : pro_all,
 				'cuser': cuser,
+				'showuser' : showprofile,
 				'questions_all' : questions_all,
 				'answers_all' : answer_all
 			}
@@ -262,6 +291,7 @@ def question_detail(request, question_id):
 			if pro.username == request.user.username:
 				cuser.append(pro)
 		ques = Question.objects.get(id=question_id)
+		ques.numViews+=1
 		answers = Answer.objects.filter(question=ques)
 		c = []
 		for ans in answers:
@@ -276,6 +306,7 @@ def question_detail(request, question_id):
 			'questions_all' : questions_all,
 			'answers_all' : answer_all
 		}
+		ques.save()
 		print(context)
 		return render(request, 'question_detail.html', context)
 
@@ -409,6 +440,7 @@ def viewprofile(request, user_id):
 		if pro.username == request.user.username:
 			cuser.append(pro)
 	showuser = User.objects.get(id = user_id)
+	print(showuser)
 	showprofile = Profile.objects.get(user=showuser)
 	questions_all = Question.objects.all()
 	answer_all = []
@@ -416,11 +448,34 @@ def viewprofile(request, user_id):
 		answers = Answer.objects.filter(question=ques)
 		for ans in answers:
 			answer_all.append(ans)
-	print(showprofile)
+
+	u_questions_all = Question.objects.all()
+	for u in u_questions_all:
+		print(u.author)
+	u_answers_all = Answer.objects.filter(author=showuser)
+	u_answers_all_q=[]
+	for u in u_answers_all:
+		ques=Question.objects.get(id=u.question.id)
+		u_answers_all_q.append(ques)
+
+	u_comments_all = Comment.objects.filter(author=showuser)
+	u_comments_all_a = []
+	u_comments_all_q =[]
+	for u in u_comments_all:
+		ques=Question.objects.get(id=u.question.id)
+		u_comments_all_q.append(ques)
+		ans=Answer.objects.get(id=u.answer.id)
+		u_comments_all_a.append(ans)
+
 	context = {
+		'users': pro_all,
 		'showuser' : showprofile,
-		'users' : pro_all,
-		'cuser': cuser,
+		'u_questions_all' : u_questions_all,
+		'u_answers_all' : u_answers_all,
+		'u_answers_all_q' : u_answers_all_q,
+		'u_comments_all' : u_comments_all,
+		'u_comments_all_q' : u_comments_all_q,
+		'u_comments_all_a' : u_comments_all_a,
 		'questions_all' : questions_all,
 		'answers_all' : answer_all
 	}

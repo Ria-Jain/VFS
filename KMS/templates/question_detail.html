@@ -14,30 +14,22 @@
 				        <h4>{{ question.author.username }}</h4>
 				    </div>
 				</div><!-- End about-author -->
-				<article class="question single-question question-type-normal">
+				<article class="question question-type-normal">
 					<h2>
-						<a href="single_question.html">{{ question.question_title }}</a>
+						<a href="/question_detail/{{ question.id }}">{{ question.question_title }}</a>
 					</h2>
-					<a class="question-report" href="#">Report</a>
-					<div class="question-type-main"><i class="icon-question-sign"></i>Question</div>
+					<div class="question-author">
+						<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="static/images/demo/avatar.png"></a>
+					</div>
 					<div class="question-inner">
 						<div class="clearfix"></div>
-						<div class="question-desc">
-							<p>{{ question.question_text }}</p>
-						</div>
+						<p class="question-desc">{{ question.question_text }}</p>
 						<div class="question-details">
 							<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
-							<span class="question-favorite"><i class="icon-star"></i>5</span>
 						</div>
-						<span class="question-category"><a href="#"><i class="icon-folder-close"></i>wordpress</a></span>
-						<span class="question-date"><i class="icon-time"></i>4 mins ago</span>
-						<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ answers|length }} Answer</a></span>
-						<span class="question-view"><i class="icon-user"></i>70 views</span>
-						<span class="single-question-vote-result">+22</span>
-						<ul class="single-question-vote">
-							<li><a href="#" class="single-question-vote-down" title="Dislike"><i class="icon-thumbs-down"></i></a></li>
-							<li><a href="#" class="single-question-vote-up" title="Like"><i class="icon-thumbs-up"></i></a></li>
-						</ul>
+						<span class="question-date"><i class="icon-time"></i>{{ question.created_date }}</span>
+						<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ question.numAns }} Answers</a></span>
+						<span class="question-view"><i class="icon-user"></i>{{question.numViews}} views</span>
 						<div class="clearfix"></div>
 					</div>
 				</article>
@@ -46,7 +38,6 @@
 					<div class="boxedtitle page-title"><h2>Answers (<span class="color">{{ answers|length }}</span>)</h2></div>
 					<ol class="commentlist clearfix">
 					    {% for ans in answers %}
-					    <br>
 					    <li class="comment">
 					        <div class="comment-body comment-body-answered clearfix">
 					            <div class="avatar"><img alt="" src="{% static 'images/demo/admin.jpg'}"></div>
@@ -66,11 +57,9 @@
 					                </div>
 					                <div class="text"><p>{{ ans.answer_text }}</p>
 					                </div>
-
 					            </div>
 					        </div>
 					        <!-- <h1>{{ comments|length }}</h1> -->
-					        <br>
 					        {% for comment in comments %}
 						        {% if comment|length != 0 %}
 						        	{% for c in comment %}
@@ -96,7 +85,6 @@
 								    {% endfor %}
 						        {% endif%}
 							{% endfor %}
-							<br>
 						    <form method="post">
 			                	{% csrf_token %}
 			                    <div class="row" width="100%">
@@ -128,7 +116,6 @@
 						        </div>
 						    </div> -->
 					    </li>
-					    <br>
 					{% endfor %}
 					</ol><!-- End commentlist -->
 				</div><!-- End page-content -->

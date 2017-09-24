@@ -2,25 +2,22 @@
 {% load staticfiles %}
 
 {% block content %}
-
-{% for c in cuser %}
 			<div class="col-md-9">
 				<div class="row">
 					<div class="user-profile">
 						<div class="col-md-12">
 							<div class="page-content">
-								<h2>About {{ c.firstName }} {{ c.lastName }}</h2>
-								<a href="/edit/">Edit</a>
-								<div class="user-profile-img"><img width="60" height="60" src="../static/images/demo/{{ c.profilePic }}"></div>
+								<h2>About {{ showuser.firstName }} {{ showuser.lastName }}</h2>
+								<div class="user-profile-img"><img width="60" height="60" src="../static/images/demo/{{ showuser.profilePic }}"></div>
 								<div class="ul_list ul_list-icon-ok about-user">
 									<ul>
-										<li><i class="icon-plus"></i>Registered : <span>{{ c.regDate }}</span></li>
-										<li><i class="icon-map-marker"></i>Country : <span>{{ c.country }}</span></li>
-										<li><i class="icon-globe"></i>Website : <a target="_blank" href="https://2code.info/">{{ c.website }}</a></li>
-										<li><i class="icon-trophy"></i>Points : <a target="_blank" href="https://2code.info/">{{ c.points }}</a></li>
+										<li><i class="icon-plus"></i>Registered : <span>{{ showuser.regDate }}</span></li>
+										<li><i class="icon-map-marker"></i>Country : <span>{{ showuser.country }}</span></li>
+										<li><i class="icon-globe"></i>Website : <a target="_blank" href="https://2code.info/">{{ showuser.website }}</a></li>
+										<li><i class="icon-trophy"></i>Points : <a target="_blank" href="https://2code.info/">{{ showuser.points }}</a></li>
 									</ul>
 								</div>
-								<p>{{c.aboutYourself}}</p>
+								<p>{{showuser.aboutYourself}}</p>
 								<div class="clearfix"></div>
 								<span class="user-follow-me">Follow Me</span>
 								<a href="#" original-title="Facebook" class="tooltip-n">
@@ -63,48 +60,177 @@
 						<div class="col-md-12">
 							<div class="page-content page-content-user-profile">
 								<div class="user-profile-widget">
-									<h2>User Stats</h2>
-									<div class="ul_list ul_list-icon-ok">
-										<ul>
-											<li><i class="icon-question-sign"></i><a href="user_questions.html">Questions<span> ( <span>{{c.numQues}}</span> ) </span></a></li>
-											<li><i class="icon-comment"></i><a href="user_answers.html">Answers<span> ( <span>{{c.numAns}}</span> ) </span></a></li>
-											<li><i class="icon-heart"></i><a href="user_points.html">Points<span> ( <span>{{c.points}}</span> ) </span></a></li>
-										</ul>
+									<h2>User Contributions</h2>
+									<div class="tabs-warp question-tab">
+							            <ul class="tabs">
+							                <li class="tab"><a href="#" class="current">Questions ({{u_questions_all|length}})</a></li>
+							                <li class="tab"><a href="#">Answers ({{u_answers_all|length}})</a></li>
+							                <li class="tab"><a href="#">Comments ({{u_comments_all|length}})</a></li>
+							            </ul>
+							            <div class="tab-inner-warp">
+											<div class="tab-inner">
+												{% for q in u_questions_all %}
+												<article class="question question-type-normal">
+													<h2>
+														<a href="/question_detail/{{ q.id }}">{{ q.question_title }}</a>
+													</h2>
+													<div class="question-author">
+														<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="static/images/demo/avatar.png"></a>
+													</div>
+													<div class="question-inner">
+														<div class="clearfix"></div>
+														<p class="question-desc">{{ q.question_text }}</p>
+														<div class="question-details">
+															<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
+														</div>
+														<span class="question-date"><i class="icon-time"></i>{{ q.created_date }}</span>
+														<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
+														<span class="question-view"><i class="icon-user"></i>{{q.numViews}} views</span>
+														<div class="clearfix"></div>
+													</div>
+												</article>
+												{% endfor %}
+										    </div>
+										</div>
+										<div class="tab-inner-warp">
+											<div class="tab-inner">
+												{% for ans in u_answers_all %}
+													{% for question in u_answers_all_q %}
+														{% if question.id = ans.question.id %}
+															<article class="question question-type-normal">
+																<h2>
+																	<a href="/question_detail/{{ question.id }}">{{ question.question_title }}</a>
+																</h2>
+																<div class="question-author">
+																	<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="static/images/demo/avatar.png"></a>
+																</div>
+																<div class="question-inner">
+																	<div class="clearfix"></div>
+																	<p class="question-desc">{{ question.question_text }}</p>
+																	<div class="question-details">
+																		<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
+																	</div>
+																	<span class="question-date"><i class="icon-time"></i>{{ question.created_date }}</span>
+																	<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ question.numAns }} Answers</a></span>
+																	<span class="question-view"><i class="icon-user"></i>{{question.numViews}} views</span>
+																	<div class="clearfix"></div>
+																</div>
+															</article>
+														{% endif %}
+													{% endfor %}
+													<div id="commentlist" class="page-content">
+
+														<ol class="commentlist clearfix">
+														    <li class="comment">
+														        <div class="comment-body comment-body-answered clearfix">
+														            <div class="avatar"><img alt="" src="{% static 'images/demo/admin.jpg'}"></div>
+														            <div class="comment-text">
+														                <div class="author clearfix">
+														                	<div class="comment-author"><a href="#">{{ ans.author.username }}</a></div>
+														                	<div class="comment-vote">
+															                	<ul class="question-vote">
+															                		<li><a href="/countUp/{{ question.id }}/{{ ans.id }}" class="question-vote-up" title="Like"></a></li>
+															                		<li><a href="/countDown/{{ question.id }}/{{ ans.id }}" class="question-vote-down" title="Dislike"></a></li>
+															                	</ul>
+														                	</div>
+														                	<span class="question-vote-result">{{ ans.avotes }}</span>
+														                	<div class="comment-meta">
+														                        <div class="date"><i class="icon-time"></i>{{ ans.created_date   }} - {{  question.created_date|timesince:ans.created_date   }}</div>
+														                    </div>
+														                </div>
+														                <div class="text"><p>{{ ans.answer_text }}</p>
+														                </div>
+														            </div>
+														        </div>
+														    </li>
+														</ol>
+													</div>
+												{% endfor %}
+											</div>
+										</div>
+										<div class="tab-inner-warp">
+											<div class="tab-inner">
+												{% for c in u_comments_all_q %}
+													<article class="question question-type-normal">
+														<h2>
+															<a href="/question_detail/{{ c.id }}">{{ c.question_title }}</a>
+														</h2>
+														<div class="question-author">
+															<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="static/images/demo/avatar.png"></a>
+														</div>
+														<div class="question-inner">
+															<div class="clearfix"></div>
+															<p class="question-desc">{{ c.question_text }}</p>
+															<div class="question-details">
+																<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
+															</div>
+															<span class="question-date"><i class="icon-time"></i>{{ c.created_date }}</span>
+															<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ c.numAns }} Answers</a></span>
+															<span class="question-view"><i class="icon-user"></i>{{c.numViews}} views</span>
+															<div class="clearfix"></div>
+														</div>
+													</article>
+												<div id="commentlist" class="page-content">
+													<ol class="commentlist clearfix">
+													    {% for ans in u_comments_all_a %}
+														    {% if ans.question.id = c.id %}
+															    <li class="comment">
+															        <div class="comment-body comment-body-answered clearfix">
+															            <div class="avatar"><img alt="" src="{% static 'images/demo/admin.jpg'}"></div>
+															            <div class="comment-text">
+															                <div class="author clearfix">
+															                	<div class="comment-author"><a href="#">{{ ans.author.username }}</a></div>
+															                	<div class="comment-vote">
+																                	<ul class="question-vote">
+																                		<li><a href="/countUp/{{ question.id }}/{{ ans.id }}" class="question-vote-up" title="Like"></a></li>
+																                		<li><a href="/countDown/{{ question.id }}/{{ ans.id }}" class="question-vote-down" title="Dislike"></a></li>
+																                	</ul>
+															                	</div>
+															                	<span class="question-vote-result">{{ ans.avotes }}</span>
+															                	<div class="comment-meta">
+															                        <div class="date"><i class="icon-time"></i>{{ ans.created_date   }} - {{  question.created_date|timesince:ans.created_date   }}</div>
+															                    </div>
+															                </div>
+															                <div class="text"><p>{{ ans.answer_text }}</p>
+															                </div>
+															            </div>
+															        </div>
+															        <!-- <h1>{{ comments|length }}</h1> -->
+															        {% for comment in u_comments_all %}
+														        		{% if comment.answer.id == ans.id %}
+																	        <ul class="children">
+																	            <li class="comment">
+																	                <div class="comment-body clearfix">
+																	                	<div class="avatar"><img alt="" src="../static/images/demo/avatar.png"></div>
+																	                    <div class="comment-text">
+																	                        <div class="author clearfix">
+																	                        	<div class="comment-author"><a href="#">{{ comment.author.username }}</a></div>
+																	                        	<div class="comment-meta">
+																	                                <div class="date"><i class="icon-time"></i>{{ comment.created_date }}</div>
+																	                            </div>
+																	                        </div>
+																	                        <div class="text"><p>{{ comment.comment_text }}</p>
+																	                        </div>
+																	                    </div>
+																	                </div>
+																	            </li>
+																	        </ul>
+																	    {% endif %}
+																	{% endfor %}
+															    </li>
+															{% endif %}
+														{% endfor %}
+													</ol><!-- End commentlist -->
+												</div><!-- End page-content -->
+												{% endfor %}
+											</div>
+										</div>
 									</div>
 								</div><!-- End user-profile-widget -->
 							</div><!-- End page-content -->
 						</div><!-- End col-md-12 -->
 					</div><!-- End user-profile -->
 				</div><!-- End row -->
-				<div class="clearfix"></div>
-				<div class="page-content">
-					<div class="user-stats">
-						<div class="user-stats-head">
-							<div class="block-stats-1 stats-head">#</div>
-							<div class="block-stats-2 stats-head">Today</div>
-							<div class="block-stats-3 stats-head">Month</div>
-							<div class="block-stats-4 stats-head">Total</div>
-						</div>
-						<div class="user-stats-item">
-							<div class="block-stats-1">Questions</div>
-							<div class="block-stats-2">5</div>
-							<div class="block-stats-3">20</div>
-							<div class="block-stats-4">100</div>
-						</div>
-						<div class="user-stats-item">
-							<div class="block-stats-1">Answers</div>
-							<div class="block-stats-2">30</div>
-							<div class="block-stats-3">150</div>
-							<div class="block-stats-4">1000</div>
-						</div>
-						<div class="user-stats-item user-stats-item-last">
-							<div class="block-stats-1">Visitors</div>
-							<div class="block-stats-2">100</div>
-							<div class="block-stats-3">3000</div>
-							<div class="block-stats-4">5000</div>
-						</div>
-					</div><!-- End user-stats -->
-				</div><!-- End page-content -->
+
 			</div><!-- End main -->
-{% endfor %}
 {% endblock %}

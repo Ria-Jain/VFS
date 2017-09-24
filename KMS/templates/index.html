@@ -35,7 +35,7 @@
 		                <li class="tab"><a href="#" class="current">Recent Questions</a></li>
 		                <li class="tab"><a href="#">Most Responses</a></li>
 		                <li class="tab"><a href="#">Recently Answered</a></li>
-		                <li class="tab"><a href="#">No answers</a></li>
+		                <li class="tab"><a href="#">Unanswered</a></li>
 		            </ul>
 		            <div class="tab-inner-warp">
 						<div class="tab-inner">
@@ -44,9 +44,6 @@
 								<h2>
 									<a href="/question_detail/{{ q.id }}">{{ q.question_title }}</a>
 								</h2>
-								<div class="question-type-main">
-										<i class="icon-question-sign"></i>Question
-								</div>
 								<div class="question-author">
 									<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="static/images/demo/avatar.png"></a>
 								</div>
@@ -57,8 +54,8 @@
 										<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
 									</div>
 									<span class="question-date"><i class="icon-time"></i>{{ q.created_date }}</span>
-									<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answer</a></span>
-									<span class="question-view"><i class="icon-user"></i>x views</span>
+									<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
+									<span class="question-view"><i class="icon-user"></i>{{q.numViews}} views</span>
 									<div class="clearfix"></div>
 								</div>
 							</article>
@@ -85,8 +82,8 @@
 										<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
 									</div>
 									<span class="question-date"><i class="icon-time"></i>{{ q.created_date }}</span>
-									<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answer</a></span>
-									<span class="question-view"><i class="icon-user"></i>70 views</span>
+									<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
+									<span class="question-view"><i class="icon-user"></i>{{q.numViews}} views</span>
 									<div class="clearfix"></div>
 								</div>
 							</article>
@@ -113,8 +110,8 @@
 										<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
 									</div>
 									<span class="question-date"><i class="icon-time"></i>{{ q.created_date }}</span>
-									<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answer</a></span>
-									<span class="question-view"><i class="icon-user"></i>70 views</span>
+									<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
+									<span class="question-view"><i class="icon-user"></i>{{q.numViews}} views</span>
 									<div class="clearfix"></div>
 								</div>
 							</article>
@@ -141,8 +138,8 @@
 										<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
 									</div>
 									<span class="question-date"><i class="icon-time"></i>{{ q.created_date }}</span>
-									<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answer</a></span>
-									<span class="question-view"><i class="icon-user"></i>70 views</span>
+									<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
+									<span class="question-view"><i class="icon-user"></i>{{q.numViews}} views</span>
 									<div class="clearfix"></div>
 								</div>
 							</article>
