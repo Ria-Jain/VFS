@@ -45,7 +45,13 @@
 									<a href="/question_detail/{{ q.id }}">{{ q.question_title }}</a>
 								</h2>
 								<div class="question-author">
-									<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="static/images/demo/avatar.png"></a>
+									{% for user in users_rq %}
+										{% for u in user %}
+											{% if u.user = q.author %}
+												<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/images/demo/{{ u.profilePic }}"></a>
+											{% endif %}
+										{% endfor %}
+									{% endfor %}
 								</div>
 								<div class="question-inner">
 									<div class="clearfix"></div>
@@ -73,7 +79,13 @@
 										<i class="icon-question-sign"></i>Question
 								</div>
 								<div class="question-author">
-									<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="static/images/demo/avatar.png"></a>
+									{% for user in users_ma %}
+										{% for u in user %}
+											{% if u.user = q.author %}
+												<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/images/demo/{{ u.profilePic }}"></a>
+											{% endif %}
+										{% endfor %}
+									{% endfor %}
 								</div>
 								<div class="question-inner">
 									<div class="clearfix"></div>
@@ -101,7 +113,13 @@
 										<i class="icon-question-sign"></i>Question
 								</div>
 								<div class="question-author">
-									<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="static/images/demo/avatar.png"></a>
+									{% for user in users_ra %}
+										{% for u in user %}
+											{% if u.user = q.author %}
+												<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/images/demo/{{ u.profilePic }}"></a>
+											{% endif %}
+										{% endfor %}
+									{% endfor %}
 								</div>
 								<div class="question-inner">
 									<div class="clearfix"></div>
@@ -129,7 +147,13 @@
 										<i class="icon-question-sign"></i>Question
 								</div>
 								<div class="question-author">
-									<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="static/images/demo/avatar.png"></a>
+									{% for user in users_na %}
+										{% for u in user %}
+											{% if u.user = q.author %}
+												<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/images/demo/{{ u.profilePic }}"></a>
+											{% endif %}
+										{% endfor %}
+									{% endfor %}
 								</div>
 								<div class="question-inner">
 									<div class="clearfix"></div>
@@ -149,3 +173,22 @@
 		        </div><!-- End page-content -->
 			</div><!-- End main -->
 {% endblock %}
+
+
+<script src="../../static/js/jquery.min.js"></script>
+<script src="../../static/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="../../static/js/jquery.easing.1.3.min.js"></script>
+<script src="../../static/js/html5.js"></script>
+<script src="../../static/js/twitter/jquery.tweet.js"></script>
+<script src="../../static/js/jflickrfeed.min.js"></script>
+<script src="../../static/js/jquery.inview.min.js"></script>
+<script src="../../static/js/jquery.tipsy.js"></script>
+<script src="../../static/js/tabs.js"></script>
+<script src="../../static/js/jquery.flexslider.js"></script>
+<script src="../../static/js/jquery.prettyPhoto.js"></script>
+<script src="../../static/js/jquery.carouFredSel-6.2.1-packed.js"></script>
+<script src="../../static/js/jquery.scrollTo.js"></script>
+<script src="../../static/js/jquery.nav.js"></script>
+<script src="../../static/js/tags.js"></script>
+<script src="../../static/js/jquery.bxslider.min.js"></script>
+<script src="../../static/js/custom.js"></script>

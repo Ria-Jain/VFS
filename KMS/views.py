@@ -22,28 +22,40 @@ def index(request):
 
 	questions_rq = Question.objects.order_by('-created_date')
 	answer_rq = []
+	users_rq=[]
 	for ques in questions_rq:
+		user=Profile.objects.filter(user=ques.author)
+		users_rq.append(user)
 		answers = Answer.objects.filter(question=ques)
 		for ans in answers:
 			answer_rq.append(ans)
 
 	questions_ma = Question.objects.order_by('-numAns')
 	answer_ma = []
+	users_ma=[]
 	for ques in questions_ma:
+		user = Profile.objects.filter(user=ques.author)
+		users_ma.append(user)
 		answers = Answer.objects.filter(question=ques)
 		for ans in answers:
 			answer_ma.append(ans)
 
-	questions_ra = Question.objects.order_by('-recentAnswer')
+	questions_ra = Question.objects.filter(numAns__gt=0).order_by('-recentAnswer')
 	answer_ra = []
+	users_ra=[]
 	for ques in questions_ra:
+		user=Profile.objects.filter(user=ques.author)
+		users_ra.append(user)
 		answers = Answer.objects.filter(question=ques)
 		for ans in answers:
 			answer_ra.append(ans)
 
-	questions_na = Question.objects.filter(numAns=0)
+	questions_na = Question.objects.filter(numAns=0).order_by('-created_date')
 	answer_na = []
+	users_na=[]
 	for ques in questions_na:
+		user=Profile.objects.filter(user=ques.author)
+		users_na.append(user)
 		answers = Answer.objects.filter(question=ques)
 		for ans in answers:
 			answer_na.append(ans)
@@ -64,7 +76,7 @@ def index(request):
 	context ={
 		'cuser': cuser,
 		'users' : pro_all,
-		'showuser' : showprofile,
+		'showUser' : showprofile,
 		'questions_all' : questions_all,
 		'answers_all' : answer_all,
 		'questions_rq' : questions_rq,
@@ -74,8 +86,13 @@ def index(request):
 		'questions_ra' : questions_ra,
 		'answers_ra' : answer_ra,
 		'questions_na' : questions_na,
-		'answers_na' : answer_na
+		'answers_na' : answer_na,
+		'users_rq' : users_rq,
+		'users_ra' : users_ra,
+		'users_ma' : users_ma,
+		'users_na' : users_na,
 	}
+	print(context)
 	return render(request,'index.html', context)
 
 def base(request):
@@ -136,7 +153,7 @@ def user_profile(request):
 		'u_comments_all' : u_comments_all,
 		'u_comments_all_q' : u_comments_all_q,
 		'u_comments_all_a' : u_comments_all_a,
-		'showuser' : showprofile,
+		'showUser' : showprofile,
 		'users' : pro_all
 	}
 	print(context)
@@ -225,7 +242,7 @@ def ask_question(request):
 			context = {
 				'users' : pro_all,
 				'cuser': cuser,
-				'showuser' : showprofile,
+				'showUser' : showprofile,
 				'questions_all' : questions_all,
 				'answers_all' : answer_all
 			}
@@ -413,16 +430,21 @@ def search(request):
 				result.append(word)
 		query_title = Q()
 		query_text = Q()
+		query_tt = Q()
 		for word in result:
 			query_title = query_title | Q(question_title__contains=word)
 			query_text = query_text | Q(question_text__contains=word)
+			query_tt = query_text | Q(question_text__contains=word) | Q(question_title__contains=word)
 			questions_title = Question.objects.filter(query_title)
 			questions_text = Question.objects.filter(query_text)
+			questions_tt = Question.objects.filter(query_tt)
 			# questions.append(Question.objects.filter(
 			# 		question__Question_title__contains=word
 			# 	)
 			# )
 		context = {
+			's' : s,
+			'questions_tt' : questions_tt,
 			'questions_title' : questions_title,
 			'questions_text' : questions_text,
 			'users' : pro_all,
@@ -442,6 +464,10 @@ def viewprofile(request, user_id):
 			cuser.append(pro)
 	showuser = User.objects.get(id = user_id)
 	print(showuser)
+
+	currentUser=User.objects.get(id=request.user.id)
+	currentUserProfile=Profile.objects.get(user=currentUser)
+
 	showprofile = Profile.objects.get(user=showuser)
 	questions_all = Question.objects.all()
 	answer_all = []
@@ -469,6 +495,7 @@ def viewprofile(request, user_id):
 	context = {
 		'users': pro_all,
 		'showuser' : showprofile,
+		'showUser' : currentUserProfile,
 		'u_questions_all' : u_questions_all,
 		'u_answers_all' : u_answers_all,
 		'u_answers_all_q' : u_answers_all_q,
