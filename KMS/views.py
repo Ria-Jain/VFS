@@ -58,7 +58,8 @@ def index(request):
 			if pro.username == request.user.username:
 				cuser.append(pro)
 		showuser = User.objects.get(id = request.user.id)
-		showprofile = Profile.objects.get(user=showuser)
+		if Profile.objects.get(user=showuser):
+			showprofile= Profile.objects.get(user=showuser)
 
 	context ={
 		'cuser': cuser,
@@ -449,9 +450,7 @@ def viewprofile(request, user_id):
 		for ans in answers:
 			answer_all.append(ans)
 
-	u_questions_all = Question.objects.all()
-	for u in u_questions_all:
-		print(u.author)
+	u_questions_all = Question.objects.filter(author=showuser)
 	u_answers_all = Answer.objects.filter(author=showuser)
 	u_answers_all_q=[]
 	for u in u_answers_all:
