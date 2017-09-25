@@ -66,6 +66,7 @@ search.html
 		a. pro pic of author
 		b. name-username of author
 	3. Question views, answers time
+	4. Not what you are looking for? ask this question, redirect and autofill description
 
 register.html
 	1. color fix
