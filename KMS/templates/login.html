@@ -101,9 +101,9 @@ body {
   background: linear-gradient(to left, #76b852, #8DC26F);
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;      
+  -moz-osx-font-smoothing: grayscale;
 }
-  
+
 </style>
 <head>
   <meta charset="UTF-8" />
@@ -127,13 +127,13 @@ body {
   <div class="form">
    <h2 style="color:black;">Log In</h2>
     <div style="color:black;">{{error}}</div>
-   
+
     <form class="login-form" action="/login/" method="POST">
     {% csrf_token %}
       <input type="email" placeholder="email" name="email"/>
       <input type="password" placeholder="password" name="password"/>
-<button type="submit">Login</button>     
- <p class="message">Not registered? <a href="/register/">Create an account</a></p>
+<button type="submit">Login</button>
+ <p class="message">Not Registered? <a href="/register/">Create an account</a></p>
     </form>
   </div>
 </div>
