@@ -49,9 +49,6 @@ edit.html
 	3. Sidebar profile picture
 	5. User first and last name
 
-login.html
-	1. color fix
-
 question_detail.html
 	1. Profile pic of user
 	2. User first name last name
@@ -65,11 +62,8 @@ search.html
 	2. Question
 		a. pro pic of author
 		b. name-username of author
-	3. Question views, answers time
-	4. Not what you are looking for? ask this question, redirect and autofill description
+	3. Not what you are looking for? ask this question, redirect and autofill description
 
-register.html
-	1. color fix
 
 user_profile.html
 	1. Edit icon

@@ -6,8 +6,7 @@ from django.utils import timezone
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-import smtplib
-import hashlib
+import spacy
 import datetime
 from django.db.models import Q
 # Create your views here.
@@ -422,31 +421,37 @@ def search(request):
 			for ans in answers:
 				answer_all.append(ans)
 		s = request.POST['question_title']
-		querywords = s.split()	#Who is Foo-Bar
-		stopwords = ['what','who','is','a','at','is','he']
+		nlp = spacy.load('en')
+		st1 = nlp(s)
+		res = []
 		result = []
-		for word in querywords:
+		for n in st1.noun_chunks:
+			res.append(str(n))
+		# querywords = s.split()	#Who is Foo-Bar
+		stopwords = ['you','me','us','them','what','who','is','a','at','is','he','the','how','where','to']
+		# result = []
+		for word in res:
 			if word.lower() not in stopwords:
 				result.append(word)
+		print(result)
 		query_title = Q()
 		query_text = Q()
-		query_tt = Q()
+		# query_tt = Q()
 		for word in result:
 			query_title = query_title | Q(question_title__contains=word)
 			query_text = query_text | Q(question_text__contains=word)
-			query_tt = query_text | Q(question_text__contains=word) | Q(question_title__contains=word)
+			# query_tt = query_text | Q(question_text__contains=word) | Q(question_title__contains=word)
 			questions_title = Question.objects.filter(query_title)
 			questions_text = Question.objects.filter(query_text)
-			questions_tt = Question.objects.filter(query_tt)
+			# questions_tt = Question.objects.filter(query_tt)
 			# questions.append(Question.objects.filter(
 			# 		question__Question_title__contains=word
 			# 	)
 			# )
+		questions_tt = list(set().union(questions_title,questions_text))
 		context = {
 			's' : s,
 			'questions_tt' : questions_tt,
-			'questions_title' : questions_title,
-			'questions_text' : questions_text,
 			'users' : pro_all,
 			'cuser': cuser,
 			'questions_all' : questions_all,
@@ -455,7 +460,6 @@ def search(request):
 		return render(request, 'search.html', context)
 	else:
 		return HttpResponse('What?')
-
 def viewprofile(request, user_id):
 	pro_all = Profile.objects.order_by('-points')[:3]
 	cuser=[]
