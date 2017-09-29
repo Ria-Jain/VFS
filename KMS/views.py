@@ -3,12 +3,13 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from .models import Question,Answer, Comment, Profile
 from django.utils import timezone
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 import spacy
 import datetime
 from django.db.models import Q
+import json
 # Create your views here.
 
 def index(request):
@@ -62,20 +63,20 @@ def index(request):
 	pro_all = Profile.objects.order_by('-points')[:3]
 	cuser=[]
 
-	showprofile=0
-	if(request.user.username):
-		print('hi')
-		for pro in pro_all:
-			if pro.username == request.user.username:
-				cuser.append(pro)
-		showuser = User.objects.get(id = request.user.id)
-		if Profile.objects.get(user=showuser):
-			showprofile= Profile.objects.get(user=showuser)
+	# showprofile=0
+	# if(request.user.username):
+		# print('hi')
+		# for pro in pro_all:
+			# if pro.username == request.user.username:
+				# cuser.append(pro)
+		# showuser = User.objects.get(id = request.user.id)
+		# if Profile.objects.get(user=showuser):
+			# showprofile= Profile.objects.get(user=showuser)
 
 	context ={
-		'cuser': cuser,
+		# 'cuser': cuser,
 		'users' : pro_all,
-		'showUser' : showprofile,
+		# 'showUser' : showprofile,
 		'questions_all' : questions_all,
 		'answers_all' : answer_all,
 		'questions_rq' : questions_rq,
@@ -236,12 +237,12 @@ def ask_question(request):
 			for pro in pro_all:
 				if pro.username == request.user.username:
 					cuser.append(pro)
-			showuser = User.objects.get(id = request.user.id)
-			showprofile = Profile.objects.get(user=showuser)
+			# showuser = User.objects.get(id = request.user.id)
+			# showprofile = Profile.objects.get(user=showuser)
 			context = {
 				'users' : pro_all,
 				'cuser': cuser,
-				'showUser' : showprofile,
+				# 'showUser' : showprofile,
 				'questions_all' : questions_all,
 				'answers_all' : answer_all
 			}
@@ -260,40 +261,41 @@ def question_detail(request, question_id):
 			answer_all.append(ans)
 	if request.method == 'POST':
 		if request.user.is_authenticated():
-			if 'answer-submit' in request.POST:
-				author = request.user
-				question = Question.objects.get(id=question_id)
-				text = request.POST['answer']
-				question.numAns+=1
-				question.recentAnswer=timezone.now()
-				ans = Answer.objects.create(
-						author=author,
-						answer_text=text,
-						question=question
-					)
-				pro_all = Profile.objects.order_by('-points')[:3]
-				for pro in pro_all:
-					if pro.username == request.user.username:
-						pro.numAns+=1
-						pro.points+=2
-						break;
-				pro.save()
-				question.save()
-				ans.save()
-			else:
-				for key in request.POST:
-					print(key)
-				author=request.user
-				answer=Answer.objects.get(id=key)
-				text=request.POST['comment']
-				question=Question.objects.get(id=question_id)
-				com = Comment.objects.create(
-						author=author,
-						comment_text=text,
-						answer=answer,
-						question=question
-					)
-				com.save()
+			pass
+			# if 'answer-submit' in request.POST:
+			# 	author = request.user
+			# 	question = Question.objects.get(id=question_id)
+			# 	text = request.POST['answer']
+			# 	question.numAns+=1
+			# 	question.recentAnswer=timezone.now()
+			# 	ans = Answer.objects.create(
+			# 			author=author,
+			# 			answer_text=text,
+			# 			question=question
+			# 		)
+			# 	pro_all = Profile.objects.order_by('-points')[:3]
+			# 	for pro in pro_all:
+			# 		if pro.username == request.user.username:
+			# 			pro.numAns+=1
+			# 			pro.points+=2
+			# 			break;
+			# 	pro.save()
+			# 	question.save()
+			# 	ans.save()
+			# else:
+			# 	for key in request.POST:
+			# 		print(key)
+			# 	author=request.user
+			# 	answer=Answer.objects.get(id=key)
+			# 	text=request.POST['comment']
+			# 	question=Question.objects.get(id=question_id)
+			# 	com = Comment.objects.create(
+			# 			author=author,
+			# 			comment_text=text,
+			# 			answer=answer,
+			# 			question=question
+			# 		)
+			# 	com.save()
 		else:
 			context={}
 			context['error'] = 'You need to log in first.'
@@ -511,3 +513,15 @@ def viewprofile(request, user_id):
 	}
 	print(context)
 	return render(request, 'viewprofile.html', context)
+
+
+def reply_ajax(request):
+	a = json.dumps(request.body.decode('utf-8'))
+
+	a = a.split('&csrfmiddlewaretoken')[0]
+	a = a.split('value=')[1]
+
+	print (a)
+	
+
+	return JsonResponse({"success":"true","value":a,"name":request.user.username})
