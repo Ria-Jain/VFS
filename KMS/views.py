@@ -519,19 +519,19 @@ def reply_ajax(request, question_id):
 		answer=Answer.objects.get(id=a_id)
 		ctext=text
 		question=Question.objects.get(id=question_id)
-		# com = Comment.objects.create(
-		# 		author=author,
-		# 		comment_text=ctext,
-		# 		answer=answer,
-		# 		question=question
-		# 	)
-		# com.save()
+		com = Comment.objects.create(
+				author=author,
+				comment_text=ctext,
+				answer=answer,
+				question=question
+			)
+		com.save()
 		return JsonResponse({
 			"success":"true",
 			"text":text,
 			"a_id":a_id,
 			"name":request.user.username,
-			# "created_date":com.created_date
+			"created_date":com.created_date
 			})
 	else:
 		context={}
