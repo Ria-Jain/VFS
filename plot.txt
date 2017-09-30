@@ -21,15 +21,15 @@ To Do:
 		a. Up/Downvote
 			i. User cannot upvote his own answer
 			ii. can only upvote once
-		b. Adding Answer/comment
-	3. Points system
+		//b. Adding Answer/comment
+	//3. Points system
 	4. Check all pages for profie pictures question,comment, answer
 	5. User profile front end
 	6. Add comment front end text bar
 	7. uploading pictures
 	8. Related Question
-	/9. Tags
-	10. SpaCy
+	9. Tags
+	//10. SpaCy
 	11. is_solved() per question
 	12. is_upvoted()
 	13. sort answers based on upvotes
@@ -54,7 +54,7 @@ question_detail.html
 	2. User first name last name
 	3. Profile picture of question author
 	4. first name last name of author
-	5. Question/Answer/Comment tags
+	//5. Question/Answer/Comment tags
 	6. Comment reply button
 
 search.html
@@ -62,7 +62,7 @@ search.html
 	2. Question
 		a. pro pic of author
 		b. name-username of author
-	3. Not what you are looking for? ask this question, redirect and autofill description
+	//3. Not what you are looking for? ask this question, redirect and autofill description
 
 
 user_profile.html

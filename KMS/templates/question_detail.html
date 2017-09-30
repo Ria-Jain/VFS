@@ -48,17 +48,21 @@
 		</div>
 		<div class="author-bio">
 			<br>
-			<h4>{{ question.author.username }}</h4>
+			<h3 >Question asked by </h3>
+			<h4 style="color: #c2c2d6;">{{ question.author.username }} - {{ question.author.first_name }} {{ question.author.last_name }}</h4>
 		</div>
 	</div><!-- End about-author -->
 	<article class="question question-type-normal">
-		<h2>
+		<h2 style="margin-left: 2%;">
 			<a href="/question_detail/{{ question.id }}">{{ question.question_title }}</a>
 		</h2>
-		<div class="question-author">
-			<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="static/images/demo/avatar.png"></a>
+		<div class="question-type-main">
+				<i class="icon-question-sign"></i>Question
 		</div>
-		<div class="question-inner">
+		<!-- <div class="question-author">
+			<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="static/images/demo/avatar.png"></a>
+		</div> -->
+		<div class="question-inner" style="margin-left: 2%;">
 			<div class="clearfix"></div>
 			<p class="question-desc">{{ question.question_text }}</p>
 			<div class="question-details">
@@ -91,6 +95,9 @@
 							<div class="comment-meta">
 								<div class="date"><i class="icon-time"></i>{{ ans.created_date   }} - {{  question.created_date|timesince:ans.created_date   }}</div>
 							</div>
+							<div class="question-type-main" style="background-color: #008066;top: 20px; right: 0.2%;">
+									<i class="icon-pencil"></i>Answer
+							</div>
 						</div>
 						<div class="text"><p>{{ ans.answer_text }}</p>
 						</div>
@@ -109,6 +116,9 @@
 									<div class="comment-author"><a href="#">{{ c.author.username }}</a></div>
 									<div class="comment-meta">
 										<div class="date"><i class="icon-time"></i>{{ c.created_date }}</div>
+									</div>
+									<div class="question-type-main" style="background-color: #004d99; top: 20px; right: 0.2%;">
+											<i class="icon-comments-alt"></i>Comment
 									</div>
 								</div>
 								<div class="text"><p>{{ c.comment_text }}</p>

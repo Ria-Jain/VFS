@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-import spacy
+from nltk.corpus import stopwords
 import datetime
 from django.db.models import Q
 import json
@@ -407,19 +407,13 @@ def search(request):
 			answers = Answer.objects.filter(question=ques)
 			for ans in answers:
 				answer_all.append(ans)
-		s = request.POST['question_title']
-		nlp = spacy.load('en')
-		st1 = nlp(s)
-		res = []
-		result = []
-		for n in st1.noun_chunks:
-			res.append(str(n))
+		t = request.POST['question_title']
 		# querywords = s.split()	#Who is Foo-Bar
-		stopwords = ['you','me','us','them','what','who','is','a','at','is','he','the','how','where','to']
-		# result = []
-		for word in res:
-			if word.lower() not in stopwords:
-				result.append(word)
+		s=set(stopwords.words('english'))
+		result = filter(lambda w: not w in s,t.split())
+		# for word in querywords:
+		# 	if word.lower() not in stopwords:
+		# 		result.append(word)
 		print(result)
 		query_title = Q()
 		query_text = Q()
@@ -437,7 +431,7 @@ def search(request):
 			# )
 		questions_tt = list(set().union(questions_title,questions_text))
 		context = {
-			's' : s,
+			's' : t,
 			'questions_tt' : questions_tt,
 			'users' : pro_all,
 			'cuser': cuser,

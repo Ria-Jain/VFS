@@ -239,7 +239,7 @@
                         <form class="form-style form-style-2" method="POST" action='/search/'>
                             {% csrf_token %}
                             <p>
-                                <input type="text" name='question_title'id="question_title" value="Ask any question and you be sure find your answer ?" onfocus="if(this.value=='Ask any question and you be sure find your answer ?')this.value='';" onblur="if(this.value=='')this.value='Ask any question and you be sure find your answer ?';">
+                                <input type="text" name='question_title'id="question_title" placeholder="Ask any question and you be sure find your answer ?">
                                 <i class="icon-pencil"></i>
                                 <span class="color button small publish-question">Ask Now</span>
                             </p>
