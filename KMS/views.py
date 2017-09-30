@@ -10,6 +10,7 @@ import spacy
 import datetime
 from django.db.models import Q
 import json
+import urllib
 # Create your views here.
 
 def index(request):
@@ -261,41 +262,25 @@ def question_detail(request, question_id):
 			answer_all.append(ans)
 	if request.method == 'POST':
 		if request.user.is_authenticated():
-			pass
-			# if 'answer-submit' in request.POST:
-			# 	author = request.user
-			# 	question = Question.objects.get(id=question_id)
-			# 	text = request.POST['answer']
-			# 	question.numAns+=1
-			# 	question.recentAnswer=timezone.now()
-			# 	ans = Answer.objects.create(
-			# 			author=author,
-			# 			answer_text=text,
-			# 			question=question
-			# 		)
-			# 	pro_all = Profile.objects.order_by('-points')[:3]
-			# 	for pro in pro_all:
-			# 		if pro.username == request.user.username:
-			# 			pro.numAns+=1
-			# 			pro.points+=2
-			# 			break;
-			# 	pro.save()
-			# 	question.save()
-			# 	ans.save()
-			# else:
-			# 	for key in request.POST:
-			# 		print(key)
-			# 	author=request.user
-			# 	answer=Answer.objects.get(id=key)
-			# 	text=request.POST['comment']
-			# 	question=Question.objects.get(id=question_id)
-			# 	com = Comment.objects.create(
-			# 			author=author,
-			# 			comment_text=text,
-			# 			answer=answer,
-			# 			question=question
-			# 		)
-			# 	com.save()
+			author = request.user
+			question = Question.objects.get(id=question_id)
+			text = request.POST['answer']
+			question.numAns+=1
+			question.recentAnswer=timezone.now()
+			ans = Answer.objects.create(
+					author=author,
+					answer_text=text,
+					question=question
+				)
+			pro_all = Profile.objects.order_by('-points')[:3]
+			for pro in pro_all:
+				if pro.username == request.user.username:
+					pro.numAns+=1
+					pro.points+=2
+					break;
+			pro.save()
+			question.save()
+			ans.save()
 		else:
 			context={}
 			context['error'] = 'You need to log in first.'
@@ -515,13 +500,40 @@ def viewprofile(request, user_id):
 	return render(request, 'viewprofile.html', context)
 
 
-def reply_ajax(request):
-	a = json.dumps(request.body.decode('utf-8'))
-
-	a = a.split('&csrfmiddlewaretoken')[0]
-	a = a.split('value=')[1]
-
-	print (a)
-	
-
-	return JsonResponse({"success":"true","value":a,"name":request.user.username})
+def reply_ajax(request, question_id):
+	if request.user.is_authenticated():
+		a = json.dumps(request.body.decode('utf-8'))
+		print (a)
+		a = a.split('&csrfmiddlewaretoken')[0]
+		a = a.split('value=')[1]
+		text = a.split('&')[0]
+		words = text.split('+')
+		text = " ".join(words)
+		text = urllib.unquote(text).decode('utf8')
+		a_id = a.split('&')[1].split('=')[1]
+		print (a_id)
+		print (text)
+		print(question_id)
+		print(words)
+		author=request.user
+		answer=Answer.objects.get(id=a_id)
+		ctext=text
+		question=Question.objects.get(id=question_id)
+		# com = Comment.objects.create(
+		# 		author=author,
+		# 		comment_text=ctext,
+		# 		answer=answer,
+		# 		question=question
+		# 	)
+		# com.save()
+		return JsonResponse({
+			"success":"true",
+			"text":text,
+			"a_id":a_id,
+			"name":request.user.username,
+			# "created_date":com.created_date
+			})
+	else:
+		context={}
+		context['error'] = 'You need to log in first.'
+		return render(request,'login.html',context)

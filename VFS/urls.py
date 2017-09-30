@@ -35,5 +35,5 @@ urlpatterns = [
     url(r'^question_detail/(?P<question_id>\d+)/$', views.question_detail),
     url(r'^viewprofile/(?P<user_id>\d+)/$', views.viewprofile),
 
-    url(r'^reply_ajax/$', views.reply_ajax),
+    url(r'^reply_ajax/(?P<question_id>\d+)/$', views.reply_ajax),
 ]

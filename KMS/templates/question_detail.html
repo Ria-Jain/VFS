@@ -5,81 +5,41 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-
+		
+{% if user.is_authenticated %}
 <script type='text/javascript'>
-
-	// function getCookie(name) {
-	// 	var cookieValue = null;
-	// 	if (document.cookie && document.cookie != '') {
-	// 		var cookies = document.cookie.split(';');
-	// 		for (var i = 0; i < cookies.length; i++) {
-	// 			var cookie = jQuery.trim(cookies[i]);
- //                // Does this cookie string begin with the name we want?
- //                if (cookie.substring(0, name.length + 1) == (name + '=')) {
- //                	cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
- //                	break;
- //                }
- //            }
- //        }
- //        return cookieValue;
- //    }
- //    var csrftoken = getCookie('csrftoken');
- //    function csrfSafeMethod(method) {
- //        // these HTTP methods do not require CSRF protection
- //        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
- //    }
-
- //    function sameOrigin(url) {
- //        // test that a given url is a same-origin URL
- //        // url could be relative or scheme relative or absolute
- //        var host = document.location.host; // host + port
- //        var protocol = document.location.protocol;
- //        var sr_origin = '//' + host;
- //        var origin = protocol + sr_origin;
- //        // Allow absolute or scheme relative URLs to same origin
- //        return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
- //        (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
- //            // or any other URL that isn't scheme relative or absolute i.e relative.
- //            !(/^(\/\/|http:|https:).*/.test(url));
- //        }
-
-
-
- //        $.ajaxSetup({
- //        	beforeSend: function (xhr, settings) {
- //        		if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
- //                // Send the token to same-origin, relative URLs only.
- //                // Send the token only if the method warrants CSRF protection
- //                // Using the CSRFToken value acquired earlier
- //                xhr.setRequestHeader("X-CSRFToken", csrftoken);
- //            }
- //        }
- //    });
-
-
- console.log(u);
- function c() {
- 	console.log( document.getElementById('reply').value);
+ function c(a_id) {
+ 	var text = document.getElementById('reply-'+a_id).value;
+ 	console.log(text);
 
  	$.ajax({
- 		url: '/reply_ajax/',
+ 		url: '/reply_ajax/{{ question.id }}/',
  		type: 'POST',
  		dataType: "json",
  		data: {
- 			"value": document.getElementById('reply').value,
+ 			"value": decodeURIComponent(text),
+ 			"ans_id" : a_id,
+
  			"csrfmiddlewaretoken" : '{{csrf_token}}'
  		},
  		success: function (data) {
  			console.log(data);
  			var li = document.createElement(li)
- 			li.innerHTML = '<li class="comment"><div class="comment-body clearfix"><div class="avatar"><img alt="" src="../static/images/demo/avatar.png"></div><div class="comment-text"><div class="author clearfix"><div class="comment-author"><a href="#">'+data.name+'</a></div>			<div class="comment-meta"><div class="date"><i class="icon-time"></i>{{ c.created_date }}</div></div></div><div class="text"><p>'+data.value+'</p></div></div></div></li>';
- 			document.getElementById('comment').appendChild(li)
+ 			li.innerHTML = '<li class="comment"><div class="comment-body clearfix"><div class="avatar"><img alt="" src="../static/images/demo/avatar.png"></div><div class="comment-text"><div class="author clearfix"><div class="comment-author"><a href="#">'+data.name+'</a></div><div class="comment-meta"><div class="date"><i class="icon-time"></i>'+data.created_date+'</div></div></div><div class="text"><p>'+data.text+'</p></div></div></div></li>';
+ 			document.getElementById('comment-'+a_id).appendChild(li)
  		}
 
  	});
-
+ 	document.getElementById('reply-'+a_id).value = null;
  }
 </script>
+{% else %}
+<script type="text/javascript">
+	function c(a_id) {
+	location.href="/login/"
+}
+</script>
+{% endif %}
 
 <div class="col-md-9">
 	<div class="about-author clearfix">
@@ -136,12 +96,11 @@
 						</div>
 					</div>
 				</div>
-				<!-- <h1>{{ comments|length }}</h1> -->
 				{% for comment in comments %}
 				{% if comment|length != 0 %}
 				{% for c in comment %}
 				{% if c.answer.id == ans.id %}
-				<ul class="children" id = "comment">
+				<ul class="children" id = "comment-{{ans.id}}">
 					<li class="comment">
 						<div class="comment-body clearfix">
 							<div class="avatar"><img alt="" src="../static/images/demo/avatar.png"></div>
@@ -166,40 +125,16 @@
 
 				<div class="row" width="100%">
 					<div class="col-md-5 col-md-offset-2">
-						<input type="text" placeholder="Reply" name="comment" id="reply">
+						<input type="text" placeholder="Reply" name="comment" id="reply-{{ans.id}}">
 					</div>
 					<div class="col-md-3">
 						<p class="form-submit">
 							<!-- <input name="{{ ans.id }}" type="submit" value="Submit" class="button small color"> -->
-							<button onclick="c()">Submit</button> 
+							<button class="button small color" onclick="c({{ ans.id }})">Submit</button> 
 						</p>
 
 					</div>
-
-
-
-
-
-
-
-
-			                <!-- <div class="section-warp ask-me">
-						        <div class="container clearfix">
-						            <div class="box_icon box_warp box_no_border box_no_background" box_border="transparent" box_background="transparent" box_color="#FFF">
-						                <div class="row">
-						                    <div class="col-md-12">
-								                <form class="form-style form-style-2">
-						                            <p>
-						                                <input type="text" id="question_title" value="Ask any question and you be sure find your answer ?" onfocus="if(this.value=='Ask any question and you be sure find your answer ?')this.value='';" onblur="if(this.value=='')this.value='Ask any question and you be sure find your answer ?';">
-						                                <i class="icon-pencil"></i>
-						                                <span class="color button small publish-question">Ask Now</span>
-						                            </p>
-						                        </form>
-						                    </div>
-						                </div>
-						            </div>
-						        </div>
-						    </div> -->
+				</div>
 						</li>
 						{% endfor %}
 					</ol><!-- End commentlist -->
@@ -239,53 +174,4 @@
 
 			</div><!-- End main -->
 
-
-			<script>
-
-				function sendajax(){
-					$.ajax({
-						type: 'POST',
-						url: '/reply_ajax/',
-						dataType: "json",
-						data: document.getElementById('reply').value,
-						success: function (data) {
-							console.log(data);
-						}
-						error: function() {
-							alert('ajax error');
-						}
-					});
-				}
-			</script>
-
-
 			{% endblock %}
-
-
-
-<!--
-'question':
-	<Question: 1 - email@id.com>,
-'user':
-	<SimpleLazyObject: <User: admin>>,
-'answers':
-	<QuerySet [<Answer: email@id.com answered>,
-				<Answer: abc@gmail.com answered>,
-				<Answer: xyzabc@gmail.com answered>,
-				<Answer: xyzabc3@gmail.com answered>,
-				<Answer: abc@gmail.com answered>,
-				<Answer: abc@gmail.com answered>,
-				<Answer: abc@gmail.com answered>,
-				<Answer: abc@gmail.com answered>]>,
-'comments':
-	[<QuerySet []>,
-	<QuerySet [<Comment: xyzabc@gmail.com commented>,
-	<Comment: xyzabc3@gmail.com commented>,
-	<Comment: xyz@gmail.com commented>]>,
-	<QuerySet []>,
-	<QuerySet []>,
-	<QuerySet []>,
-	<QuerySet []>,
-	<QuerySet []>,
-	<QuerySet []>]
- -->
