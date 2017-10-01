@@ -82,7 +82,7 @@
 														<a href="/question_detail/{{ q.id }}">{{ q.question_title }}</a>
 													</h2>
 													<div class="question-author">
-														{% for proques in u_p_questions_all %}
+														{% for proques in allprofile %}
 															{% if q.author.username = proques.username %}
 																<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/images/demo/{{ proques.profilePic }}"></a>
 															{% endif %}
@@ -113,7 +113,7 @@
 																	<a href="/question_detail/{{ question.id }}">{{ question.question_title }}</a>
 																</h2>
 																<div class="question-author">
-																	{% for proques in u_p_answers_all_q %}
+																	{% for proques in allprofile %}
 																		{% if proques.username = question.author.username %}
 																			<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/images/demo/{{proques.profilePic}}"></a>
 																		{% endif %}
@@ -139,7 +139,7 @@
 														    <li class="comment">
 														        <div class="comment-body comment-body-answered clearfix">
 												            		<div class="avatar">
-												            			{% for proans in u_p_answers_all %}
+												            			{% for proans in allprofile %}
 																			{% if ans.author.username = proans.username %}
 												            					<img alt="" src="../../static/images/demo/{{proans.profilePic}}">
 												            				{% endif %}
@@ -177,7 +177,7 @@
 															<a href="/question_detail/{{ c.id }}">{{ c.question_title }}</a>
 														</h2>
 														<div class="question-author">
-															{% for proques in u_p_comments_all_q %}
+															{% for proques in allprofile %}
 																{% if proques.username = c.author.username %}
 																	<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/images/demo/{{ proques.profilePic }}"></a>
 																{% endif %}
@@ -202,7 +202,7 @@
 																    <li class="comment">
 																        <div class="comment-body comment-body-answered clearfix">
 																            <div class="avatar">
-																            	{% for proans in u_p_comments_all_a %}
+																            	{% for proans in allprofile %}
 																            		{% if proans.username = ans.author.username %}
 																            			<img alt="" src="../../static/images/demo/{{ proans.profilePic }}">
 																            		{% endif %}
@@ -233,7 +233,7 @@
 																		            <li class="comment">
 																		                <div class="comment-body clearfix">
 																		                	<div class="avatar">
-																		                		{% for procom in u_p_comments_all %}
+																		                		{% for procom in allprofile %}
 																		                			{% if procom.username = comment.author.username %}
 																			                			<img alt="" src="../../static/images/demo/{{ procom.profilePic }}">
 																			                		{% endif %}

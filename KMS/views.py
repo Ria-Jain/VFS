@@ -126,39 +126,40 @@ def user_profile(request):
 		for ans in answers:
 			answer_all.append(ans)
 	u_questions_all = Question.objects.filter(author=request.user)
-	u_p_questions_all = []
-	for ques in u_questions_all:
-		pro=Profile.objects.get(user=ques.author)
-		u_p_questions_all.append(pro)
+	pro=Profile.objects.all()
+	# u_p_questions_all = []
+	# for ques in u_questions_all:
+	# 	pro=Profile.objects.get(user=ques.author)
+	# 	u_p_questions_all.append(pro)
 	u_answers_all = Answer.objects.filter(author=request.user)
 	u_answers_all_q=[]
-	u_p_answers_all=[]
-	u_p_answers_all_q=[]
+	# u_p_answers_all=[]
+	# u_p_answers_all_q=[]
 	for u in u_answers_all:
 		ques=Question.objects.get(id=u.question.id)
-		pro=Profile.objects.get(user=ques.author)
-		u_p_answers_all_q.append(pro)
+
+		# u_p_answers_all_q.append(pro)
 		u_answers_all_q.append(ques)
-		pro=Profile.objects.get(user=u.author)
-		u_p_answers_all.append(pro)
+		# pro=Profile.objects.get(user=u.author)
+		# u_p_answers_all.append(pro)
 
 	u_comments_all = Comment.objects.filter(author=request.user)
-	u_p_comments_all=[]
-	for comment in u_comments_all:
-		pro=Profile.objects.get(user=comment.author)
-		u_p_comments_all.append(pro)
+	# u_p_comments_all=[]
+	# for comment in u_comments_all:
+	# 	pro=Profile.objects.get(user=comment.author)
+	# 	u_p_comments_all.append(pro)
 	u_comments_all_a = []
-	u_p_comments_all_a = []
+	# u_p_comments_all_a = []
 	u_comments_all_q =[]
-	u_p_comments_all_q =[]
+	# u_p_comments_all_q =[]
 	for u in u_comments_all:
 		ques=Question.objects.get(id=u.question.id)
-		pro=Profile.objects.get(user=ques.author)
-		u_p_comments_all_q.append(pro)
+		# pro=Profile.objects.get(user=ques.author)
+		# u_p_comments_all_q.append(pro)
 		u_comments_all_q.append(ques)
 		ans=Answer.objects.get(id=u.answer.id)
-		pro=Profile.objects.get(user=ans.author)
-		u_p_comments_all_a.append(pro)
+		# pro=Profile.objects.get(user=ans.author)
+		# u_p_comments_all_a.append(pro)
 		u_comments_all_a.append(ans)
 
 	showuser = User.objects.get(id = request.user.id)
@@ -167,17 +168,18 @@ def user_profile(request):
 		'questions_all' : questions_all,
 		'answers_all' : answer_all,
 		'u_questions_all' : u_questions_all,
-		'u_p_questions_all': u_p_questions_all,
+		# 'u_p_questions_all': u_p_questions_all,
 		'u_answers_all' : u_answers_all,
-		'u_p_answers_all' : u_p_answers_all,
+		# 'u_p_answers_all' : u_p_answers_all,
 		'u_answers_all_q' : u_answers_all_q,
-		'u_p_answers_all_q' : u_p_answers_all_q,
+		# 'u_p_answers_all_q' : u_p_answers_all_q,
 		'u_comments_all' : u_comments_all,
-		'u_p_comments_all' : u_p_comments_all,
+		# 'u_p_comments_all' : u_p_comments_all,
 		'u_comments_all_q' : u_comments_all_q,
-		'u_p_comments_all_q' : u_p_comments_all_q,
+		# 'u_p_comments_all_q' : u_p_comments_all_q,
 		'u_comments_all_a' : u_comments_all_a,
-		'u_p_comments_all_a' : u_p_comments_all_a,
+		# 'u_p_comments_all_a' : u_p_comments_all_a,
+		'allprofile': pro,
 		'showUser' : showprofile,
 		'users' : pro_all
 	}
@@ -547,41 +549,42 @@ def viewprofile(request, user_id):
 			answer_all.append(ans)
 
 	u_questions_all = Question.objects.filter(author=showuser)
-	u_p_questions_all = []
-	for ques in u_questions_all:
-		pro=Profile.objects.get(user=ques.author)
-		u_p_questions_all.append(pro)
+	pro=Profile.objects.all()
+	# u_p_questions_all = []
+	# for ques in u_questions_all:
+	# 	pro=Profile.objects.get(user=ques.author)
+	# 	u_p_questions_all.append(pro)
 	u_answers_all = Answer.objects.filter(author=showuser)
 	u_answers_all_q=[]
-	u_p_answers_all=[]
-	u_p_answers_all_q=[]
+	# u_p_answers_all=[]
+	# u_p_answers_all_q=[]
 	for u in u_answers_all:
 		ques=Question.objects.get(id=u.question.id)
-		pro=Profile.objects.get(user=ques.author)
-		u_p_answers_all_q.append(pro)
+		# pro=Profile.objects.get(user=ques.author)
+		# u_p_answers_all_q.append(pro)
 		u_answers_all_q.append(ques)
-		pro=Profile.objects.get(user=u.author)
-		u_p_answers_all.append(pro)
+		# pro=Profile.objects.get(user=u.author)
+		# u_p_answers_all.append(pro)
 
 	u_comments_all = Comment.objects.filter(author=showuser)
 	print(u_comments_all)
-	u_p_comments_all=[]
-	for comment in u_comments_all:
-		pro=Profile.objects.get(user=comment.author)
-		u_p_comments_all.append(pro)
+	# u_p_comments_all=[]
+	# for comment in u_comments_all:
+	# 	pro=Profile.objects.get(user=comment.author)
+	# 	u_p_comments_all.append(pro)
 	u_comments_all_a = []
-	u_p_comments_all_a = []
+	# u_p_comments_all_a = []
 	u_comments_all_q =[]
-	u_p_comments_all_q =[]
+	# u_p_comments_all_q =[]
 	for u in u_comments_all:
 		ques=Question.objects.get(id=u.question.id)
-		pro=Profile.objects.get(user=ques.author)
-		u_p_comments_all_q.append(pro)
+		# pro=Profile.objects.get(user=ques.author)
+		# u_p_comments_all_q.append(pro)
 		u_comments_all_q.append(ques)
 		ans=Answer.objects.get(id=u.answer.id)
-		pro=Profile.objects.get(user=ans.author)
-		print(pro)
-		u_p_comments_all_a.append(pro)
+		# pro=Profile.objects.get(user=ans.author)
+		# print(pro)
+		# u_p_comments_all_a.append(pro)
 		u_comments_all_a.append(ans)
 
 	context = {
@@ -589,19 +592,20 @@ def viewprofile(request, user_id):
 		'showuser' : showprofile,
 		'showUser' : currentUserProfile,
 		'u_questions_all' : u_questions_all,
-		'u_p_questions_all' : u_p_questions_all,
+		# 'u_p_questions_all' : u_p_questions_all,
 		'u_answers_all' : u_answers_all,
 		'u_answers_all_q' : u_answers_all_q,
-		'u_p_answers_all' : u_p_answers_all,
-		'u_p_answers_all_q':u_p_answers_all_q,
+		# 'u_p_answers_all' : u_p_answers_all,
+		# 'u_p_answers_all_q':u_p_answers_all_q,
 		'u_comments_all' : u_comments_all,
 		'u_comments_all_q' : u_comments_all_q,
 		'u_comments_all_a' : u_comments_all_a,
-		'u_p_comments_all' : u_p_comments_all,
-		'u_p_comments_all_q' : u_p_comments_all_q,
-		'u_p_comments_all_a' : u_p_comments_all_a,
+		# 'u_p_comments_all' : u_p_comments_all,
+		# 'u_p_comments_all_q' : u_p_comments_all_q,
+		# 'u_p_comments_all_a' : u_p_comments_all_a,
 		'questions_all' : questions_all,
-		'answers_all' : answer_all
+		'answers_all' : answer_all,
+		'allprofile' : pro
 	}
 	print(context)
 	return render(request, 'viewprofile.html', context)
