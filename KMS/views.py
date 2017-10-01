@@ -505,27 +505,23 @@ def reply_ajax(request, question_id):
 		text = " ".join(words)
 		text = urllib.unquote(text).decode('utf8')
 		a_id = a.split('&')[1].split('=')[1]
-		print (a_id)
-		print (text)
-		print(question_id)
-		print(words)
-		author=request.user
-		answer=Answer.objects.get(id=a_id)
-		ctext=text
-		question=Question.objects.get(id=question_id)
-		com = Comment.objects.create(
-				author=author,
-				comment_text=ctext,
-				answer=answer,
-				question=question
-			)
-		com.save()
+		# author=request.user
+		# answer=Answer.objects.get(id=a_id)
+		# ctext=text
+		# question=Question.objects.get(id=question_id)
+		# com = Comment.objects.create(
+		# 		author=author,
+		# 		comment_text=ctext,
+		# 		answer=answer,
+		# 		question=question
+		# 	)
+		# com.save()
 		return JsonResponse({
 			"success":"true",
 			"text":text,
 			"a_id":a_id,
 			"name":request.user.username,
-			"created_date":com.created_date
+			# "created_date":com.created_date
 			})
 	else:
 		context={}
