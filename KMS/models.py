@@ -16,6 +16,14 @@ class Question(models.Model):
 	recentAnswer=models.DateTimeField(auto_now_add=True)
 	def __str__(self):
 		return str(self.id) + " - " + self.author.username
+
+# class Vote(models.Model):
+# 	voter = models.ForeignKey(User)
+# 	answer = models.ForeignKey(Answer)
+# 	isVoted = models.IntegerField(default=0)
+# 	def __str_(self):
+# 		return str(self.voter.username) + " on " + str(self.answer.id)
+
 class Answer(models.Model):
 	author = models.ForeignKey(User)
 	question = models.ForeignKey(Question)

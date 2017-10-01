@@ -40,11 +40,93 @@
 </script>
 {% else %}
 <script type="text/javascript">
+	
 	function c(a_id) {
 	location.href="/login/"
 }
 </script>
 {% endif %}
+
+<script type="text/javascript">
+	var up = 0;
+	var down = 0;
+	function upvote(a_id) {
+		up+=1;
+		if(up%2!=0)
+		{
+			console.log(a_id);
+			console.log(document.getElementById('votes-'+a_id).innerHTML)
+			$.ajax({
+				url: '/countUp/'+a_id,
+				type: 'POST',
+				data: {
+					"ans_id" : a_id,
+		 			"csrfmiddlewaretoken" : '{{csrf_token}}'
+				},
+				success: function (data) {
+					console.log(data);
+					document.getElementById('votes-'+a_id).innerHTML = data.votes;
+				}
+
+			});
+		alert('Casted an Upvote')
+		}
+		else
+		{
+			$.ajax({
+				url: '/countDown/'+a_id,
+				type: 'POST',
+				data: {
+					"ans_id" : a_id,
+		 			"csrfmiddlewaretoken" : '{{csrf_token}}'
+				},
+				success: function (data) {
+					document.getElementById('votes-'+a_id).innerHTML = data.votes;
+				}
+
+			});
+		alert('Undoed an Upvote')
+		}
+	}
+	function downvote(a_id) {
+		down+=1;
+		if(down%2!=0)
+		{
+			console.log(a_id);
+			console.log(document.getElementById('votes-'+a_id).innerHTML)
+			$.ajax({
+				url: '/countDown/'+a_id,
+				type: 'POST',
+				data: {
+					"ans_id" : a_id,
+		 			"csrfmiddlewaretoken" : '{{csrf_token}}'
+				},
+				success: function (data) {
+					console.log(data);
+					document.getElementById('votes-'+a_id).innerHTML = data.votes;
+				}
+
+			});
+		alert('Casted a Downvote')
+		}
+		else
+		{
+			$.ajax({
+				url: '/countUp/'+a_id,
+				type: 'POST',
+				data: {
+					"ans_id" : a_id,
+		 			"csrfmiddlewaretoken" : '{{csrf_token}}'
+				},
+				success: function (data) {
+					document.getElementById('votes-'+a_id).innerHTML = data.votes;
+				}
+
+			});
+		alert('Undoed a Downvote')
+		}
+	}
+</script>
 
 <div class="col-md-9">
 	<div class="about-author clearfix">
@@ -92,11 +174,11 @@
 							<div class="comment-author"><a href="#">{{ ans.author.username }}</a></div>
 							<div class="comment-vote">
 								<ul class="question-vote">
-									<li><a href="/countUp/{{ question.id }}/{{ ans.id }}" class="question-vote-up" title="Like"></a></li>
-									<li><a href="/countDown/{{ question.id }}/{{ ans.id }}" class="question-vote-down" title="Dislike"></a></li>
+									<li class="question-vote-up" title="Like" onclick="upvote({{ ans.id }})"></li>
+									<li class="question-vote-down" title="Dislike" onclick="downvote({{ ans.id }})"></li>
 								</ul>
 							</div>
-							<span class="question-vote-result">{{ ans.avotes }}</span>
+							<span class="question-vote-result" id="votes-{{ans.id}}">{{ ans.avotes }}</span>
 							<div class="comment-meta">
 								<div class="date"><i class="icon-time"></i>{{ ans.created_date   }} - {{  question.created_date|timesince:ans.created_date   }}</div>
 							</div>

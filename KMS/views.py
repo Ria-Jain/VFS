@@ -315,17 +315,7 @@ def question_detail(request, question_id):
 		return render(request, 'question_detail.html', context)
 
 
-def countUp(request, question_id, answer_id):
-	ans = Answer.objects.get(id=answer_id)
-	ans.avotes+=1
-	ans.save()
-	return redirect('/question_detail/' + str(question_id) + '/')
 
-def countDown(request, question_id, answer_id):
-	ans = Answer.objects.get(id=answer_id)
-	ans.avotes-=1
-	ans.save()
-	return redirect('/question_detail/' + str(question_id) + '/')
 
 def edit(request):
 	if request.method == 'POST':
@@ -494,6 +484,38 @@ def viewprofile(request, user_id):
 	return render(request, 'viewprofile.html', context)
 
 
+def countUp(request, answer_id):
+	if request.user.is_authenticated():
+		ans = Answer.objects.get(id=answer_id)
+		ans.avotes+=1
+		print(ans.avotes)
+		ans.save()
+		return JsonResponse({
+			"success": "true",
+			"votes":ans.avotes
+		})
+	else:
+		context={}
+		context['error'] = 'You need to log in first.'
+		return render(request,'login.html',context)
+
+
+def countDown(request, answer_id):
+	if request.user.is_authenticated():
+		ans = Answer.objects.get(id=answer_id)
+		ans.avotes-=1
+		ans.save()
+		return JsonResponse({
+			"success": "true",
+			"votes":ans.avotes
+		})
+	else:
+		context={}
+		context['error'] = 'You need to log in first.'
+		return render(request,'login.html',context)
+
+
+
 def reply_ajax(request, question_id):
 	if request.user.is_authenticated():
 		a = json.dumps(request.body.decode('utf-8'))
@@ -505,23 +527,23 @@ def reply_ajax(request, question_id):
 		text = " ".join(words)
 		text = urllib.unquote(text).decode('utf8')
 		a_id = a.split('&')[1].split('=')[1]
-		# author=request.user
-		# answer=Answer.objects.get(id=a_id)
-		# ctext=text
-		# question=Question.objects.get(id=question_id)
-		# com = Comment.objects.create(
-		# 		author=author,
-		# 		comment_text=ctext,
-		# 		answer=answer,
-		# 		question=question
-		# 	)
-		# com.save()
+		author=request.user
+		answer=Answer.objects.get(id=a_id)
+		ctext=text
+		question=Question.objects.get(id=question_id)
+		com = Comment.objects.create(
+				author=author,
+				comment_text=ctext,
+				answer=answer,
+				question=question
+			)
+		com.save()
 		return JsonResponse({
 			"success":"true",
 			"text":text,
 			"a_id":a_id,
 			"name":request.user.username,
-			# "created_date":com.created_date
+			"created_date":com.created_date
 			})
 	else:
 		context={}
