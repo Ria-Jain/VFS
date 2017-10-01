@@ -455,22 +455,28 @@ def edit(request):
 		pro_all = Profile.objects.order_by('-points')[:3]
 		cuser= []
 		if(request.user.username):
-			print('hi')
-			for pro in pro_all:
-				if pro.username == request.user.username:
-					cuser.append(pro)
+			pro=Profile.objects.get(user=request.user)
+
+
+
+
+			# print('hi')
+			# for pro in pro_all:
+			# 	if pro.username == request.user.username:
+			# 		cuser.append(pro)
 			showuser = User.objects.get(id = request.user.id)
 			if Profile.objects.get(user=showuser):
 				showprofile= Profile.objects.get(user=showuser)
 
 		context = {
 				'users' : pro_all,
-				'cuser': cuser,
+				'u_profile': pro,
 				'showUser' : showprofile,
 				'questions_all' : questions_all,
 				'answers_all' : answer_all,
-				'cuser' : cuser
+				# 'cuser' : cuser
 		}
+		print(context)
 		return render(request, 'edit_profile.html', context)
 
 def search(request):

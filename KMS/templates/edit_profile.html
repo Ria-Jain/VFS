@@ -5,13 +5,12 @@
 	<div class="col-md-9">
 		<div class="page-content">
 			<div class="boxedtitle page-title"><h2>Edit Profile</h2></div>
-
 			<div class="form-style form-style-4">
+
 				<form method='post' action='#'>
 					{% csrf_token %}
-					{% for c in cuser %}
 					<div class="form-style form-style-2">
-						<div class="user-profile-img"><img src="../static/images/demo/{{ c.profilePic }}"></div>
+						<div class="user-profile-img"><img src="../static/images/demo/{{ u_profile.profilePic }}"></div>
 						<p class="user-profile-p">
 							<label>	Profile Picture</label>
 							<div class="fileinputs">
@@ -27,29 +26,29 @@
 						<div class="form-inputs clearfix">
 							<p>
 								<label>First Name</label>
-								<input type="text" name ="fname" value={{ c.firstName }}>
+								<input type="text" name ="fname" value={{ u_profile.firstName }}>
 							</p>
 							<p>
 								<label>Last Name</label>
-								<input type="text" name ="lname" value={{ c.lastName }}>
+								<input type="text" name ="lname" value={{ u_profile.lastName }}>
 							</p>
 							<p>
 								<label>Phone Number</label>
-								<input type="text" name ="phone" value={{ c.phone }}>
+								<input type="text" name ="phone" value={{ u_profile.phone }}>
 							</p>
 							<p>
 								<label>Website</label>
-								<input type="text" name ="website" value={{ c.website }}>
+								<input type="text" name ="website" value={{ u_profile.website }}>
 							</p>
 							<p>
 								<label>Country</label>
-								<input type="text" name ="country" value={{ c.country }}>
+								<input type="text" name ="country" value={{ u_profile.country }}>
 							</p>
 						</div>
 						<div class="form-style form-style-2">
 							<p>
 								<label>About Yourself</label>
-								<textarea cols="58" rows="8" name ="about">{{ c.aboutYourself }}</textarea>
+								<textarea cols="58" rows="8" name ="about">{{ u_profile.aboutYourself }}</textarea>
 							</p>
 						</div>
 						<div class="form-inputs clearfix">
@@ -74,7 +73,6 @@
 								<input type="text" name ="github">
 							</p>
 						</div>
-					{% endfor %}
 					<p class="form-submit">
 						<input type="submit" value="Update" class="button color small login-submit submit">
 					</p>
