@@ -21,42 +21,6 @@
 								</div>
 								<p>{{showUser.aboutYourself}}</p>
 								<div class="clearfix"></div>
-								<span class="user-follow-me">Follow Me</span>
-								<a href="#" original-title="Facebook" class="tooltip-n">
-									<span class="icon_i">
-										<span class="icon_square" icon_size="30" span_bg="#3b5997" span_hover="#2f3239">
-											<i class="social_icon-facebook"></i>
-										</span>
-									</span>
-								</a>
-								<a href="#" original-title="Twitter" class="tooltip-n">
-									<span class="icon_i">
-										<span class="icon_square" icon_size="30" span_bg="#00baf0" span_hover="#2f3239">
-											<i class="social_icon-twitter"></i>
-										</span>
-									</span>
-								</a>
-								<a href="#" original-title="Linkedin" class="tooltip-n">
-									<span class="icon_i">
-										<span class="icon_square" icon_size="30" span_bg="#006599" span_hover="#2f3239">
-											<i class="social_icon-linkedin"></i>
-										</span>
-									</span>
-								</a>
-								<a href="#" original-title="Google plus" class="tooltip-n">
-									<span class="icon_i">
-										<span class="icon_square" icon_size="30" span_bg="#c43c2c" span_hover="#2f3239">
-											<i class="social_icon-gplus"></i>
-										</span>
-									</span>
-								</a>
-								<a href="#" original-title="Email" class="tooltip-n">
-									<span class="icon_i">
-										<span class="icon_square" icon_size="30" span_bg="#000" span_hover="#2f3239">
-											<i class="social_icon-email"></i>
-										</span>
-									</span>
-								</a>
 							</div><!-- End page-content -->
 						</div><!-- End col-md-12 -->
 						<div class="col-md-12">
@@ -77,7 +41,11 @@
 														<a href="/question_detail/{{ q.id }}">{{ q.question_title }}</a>
 													</h2>
 													<div class="question-author">
-														<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="static/images/demo/avatar.png"></a>
+														{% for proques in u_p_questions_all %}
+															{% if q.author.username = proques.username %}
+																<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/images/demo/{{ proques.profilePic }}"></a>
+															{% endif %}
+														{% endfor %}
 													</div>
 													<div class="question-inner">
 														<div class="clearfix"></div>
@@ -104,7 +72,11 @@
 																	<a href="/question_detail/{{ question.id }}">{{ question.question_title }}</a>
 																</h2>
 																<div class="question-author">
-																	<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="static/images/demo/avatar.png"></a>
+																	{% for proques in u_p_answers_all_q %}
+																		{% if proques.username = question.author.username %}
+																			<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/images/demo/{{proques.profilePic}}"></a>
+																		{% endif %}
+																	{% endfor %}
 																</div>
 																<div class="question-inner">
 																	<div class="clearfix"></div>
@@ -125,7 +97,13 @@
 														<ol class="commentlist clearfix">
 														    <li class="comment">
 														        <div class="comment-body comment-body-answered clearfix">
-														            <div class="avatar"><img alt="" src="{% static 'images/demo/admin.jpg'}"></div>
+														            <div class="avatar">
+														            	{% for proans in u_p_answers_all %}
+																			{% if ans.author.username = proans.username %}
+												            					<img alt="" src="../../static/images/demo/{{proans.profilePic}}">
+												            				{% endif %}
+												            			{% endfor %}
+														            </div>
 														            <div class="comment-text">
 														                <div class="author clearfix">
 														                	<div class="comment-author"><a href="#">{{ ans.author.username }}</a></div>
@@ -158,7 +136,11 @@
 															<a href="/question_detail/{{ c.id }}">{{ c.question_title }}</a>
 														</h2>
 														<div class="question-author">
-															<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="static/images/demo/avatar.png"></a>
+															{% for proques in u_p_comments_all_q %}
+																{% if proques.username = c.author.username %}
+																	<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/images/demo/{{ proques.profilePic }}"></a>
+																{% endif %}
+															{% endfor %}
 														</div>
 														<div class="question-inner">
 															<div class="clearfix"></div>
@@ -178,7 +160,13 @@
 														    {% if ans.question.id = c.id %}
 															    <li class="comment">
 															        <div class="comment-body comment-body-answered clearfix">
-															            <div class="avatar"><img alt="" src="{% static 'images/demo/admin.jpg'}"></div>
+															            <div class="avatar">
+															            	{% for proans in u_p_comments_all_a %}
+															            		{% if proans.username = ans.author.username %}
+															            			<img alt="" src="../../static/images/demo/{{ proans.profilePic }}">
+															            		{% endif %}
+															            	{% endfor %}
+															            </div>
 															            <div class="comment-text">
 															                <div class="author clearfix">
 															                	<div class="comment-author"><a href="#">{{ ans.author.username }}</a></div>
@@ -203,7 +191,13 @@
 																	        <ul class="children">
 																	            <li class="comment">
 																	                <div class="comment-body clearfix">
-																	                	<div class="avatar"><img alt="" src="../static/images/demo/avatar.png"></div>
+																	                	<div class="avatar">
+																	                		{% for procom in u_p_comments_all %}
+																	                			{% if procom.username = comment.author.username%}
+																		                			<img alt="" src="../../static/images/demo/{{ procom.profilePic }}">
+																		                		{% endif %}
+																	                		{% endfor %}
+																	                	</div>
 																	                    <div class="comment-text">
 																	                        <div class="author clearfix">
 																	                        	<div class="comment-author"><a href="#">{{ comment.author.username }}</a></div>
