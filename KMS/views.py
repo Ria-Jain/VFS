@@ -224,6 +224,14 @@ def register(request):
 		user = authenticate(username=username, password=password)
 		if user is not None:
 			login(request, user)
+			profile=Profile.objects.create(
+					user=user,
+					firstName=firstName,
+					lastName=lastName,
+					username=username,
+					regDate=timezone.now(),
+				)
+			profile.save()
 			return redirect('/index/')
 	else:
 		return render(request, 'register.html')
