@@ -527,6 +527,7 @@ def reply_ajax(request, question_id):
 		text = " ".join(words)
 		text = urllib.unquote(text).decode('utf8')
 		a_id = a.split('&')[1].split('=')[1]
+		
 		author=request.user
 		answer=Answer.objects.get(id=a_id)
 		ctext=text

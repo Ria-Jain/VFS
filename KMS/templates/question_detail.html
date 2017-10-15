@@ -10,7 +10,7 @@
 <script type='text/javascript'>
  function c(a_id) {
  	var text = document.getElementById('reply-'+a_id).value;
- 	console.log(text);
+ 	// console.log(text);
 
  	$.ajax({
  		url: '/reply_ajax/{{ question.id }}/',
@@ -19,7 +19,6 @@
  		data: {
  			"value": decodeURIComponent(text),
  			"ans_id" : a_id,
-
  			"csrfmiddlewaretoken" : '{{csrf_token}}'
  		},
  		success: function (data) {
@@ -227,7 +226,7 @@
 					<div class="col-md-3">
 						<p class="form-submit">
 							<!-- <input name="{{ ans.id }}" type="submit" value="Submit" class="button small color"> -->
-							<button class="button small color" onclick="c({{ ans.id }})">Submit</button> 
+							<button class="button small color" onclick="c( {{ ans.id }} )">Submit</button> 
 						</p>
 
 					</div>
