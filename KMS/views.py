@@ -362,27 +362,39 @@ def question_detail(request, question_id):
 				pc.append(pro)
 
 		if(request.user.username):
-			print('hi')
 			for pro in pro_all:
 				if pro.username == request.user.username:
 					cuser.append(pro)
 			showuser = User.objects.get(id = request.user.id)
-			if Profile.objects.get(user=showuser):
-				showprofile= Profile.objects.get(user=showuser)
-		context = {
-			'users' : pro_all,
-			'cuser': cuser,
-			'showUser' : showprofile,
-			'profile_q' : pq,
-			'profile_a' : pa,
-			'profile_c' : pc,
-			'question' : ques,
-			'answers' : answers,
-			'user' : request.user,
-			'comments' : c,
-			'questions_all' : questions_all,
-			'answers_all' : answer_all
-		}
+			showprofile= Profile.objects.get(user=showuser)
+			context = {
+				'users' : pro_all,
+				'cuser': cuser,
+				'showUser' : showprofile,
+				'profile_q' : pq,
+				'profile_a' : pa,
+				'profile_c' : pc,
+				'question' : ques,
+				'answers' : answers,
+				'user' : request.user,
+				'comments' : c,
+				'questions_all' : questions_all,
+				'answers_all' : answer_all
+			}
+		else:
+			context = {
+				'users' : pro_all,
+				'profile_q' : pq,
+				'profile_a' : pa,
+				'profile_c' : pc,
+				'question' : ques,
+				'answers' : answers,
+				'user' : request.user,
+				'comments' : c,
+				'questions_all' : questions_all,
+				'answers_all' : answer_all
+			}
+
 		ques.save()
 		print(context)
 		return render(request, 'question_detail.html', context)
