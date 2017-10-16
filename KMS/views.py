@@ -3,12 +3,14 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from .models import Question,Answer, Comment, Profile
 from django.utils import timezone
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-# import spacy
+from nltk.corpus import stopwords
 import datetime
-# from django.db.models import Q
+from django.db.models import Q
+import json
+import urllib
 # Create your views here.
 
 def index(request):
@@ -61,8 +63,23 @@ def index(request):
 
 	pro_all = Profile.objects.order_by('-points')[:3]
 	cuser=[]
-
-	showprofile=0
+	context ={
+				'users' : pro_all,
+				'questions_all' : questions_all,
+				'answers_all' : answer_all,
+				'questions_rq' : questions_rq,
+				'answers_rq' : answer_rq,
+				'questions_ma' : questions_ma,
+				'answers_ma' : answer_ma,
+				'questions_ra' : questions_ra,
+				'answers_ra' : answer_ra,
+				'questions_na' : questions_na,
+				'answers_na' : answer_na,
+				'users_rq' : users_rq,
+				'users_ra' : users_ra,
+				'users_ma' : users_ma,
+				'users_na' : users_na,
+			}
 	if(request.user.username):
 		print('hi')
 		for pro in pro_all:
@@ -71,26 +88,25 @@ def index(request):
 		showuser = User.objects.get(id = request.user.id)
 		if Profile.objects.get(user=showuser):
 			showprofile= Profile.objects.get(user=showuser)
-
-	context ={
-		'cuser': cuser,
-		'users' : pro_all,
-		'showUser' : showprofile,
-		'questions_all' : questions_all,
-		'answers_all' : answer_all,
-		'questions_rq' : questions_rq,
-		'answers_rq' : answer_rq,
-		'questions_ma' : questions_ma,
-		'answers_ma' : answer_ma,
-		'questions_ra' : questions_ra,
-		'answers_ra' : answer_ra,
-		'questions_na' : questions_na,
-		'answers_na' : answer_na,
-		'users_rq' : users_rq,
-		'users_ra' : users_ra,
-		'users_ma' : users_ma,
-		'users_na' : users_na,
-	}
+			context ={
+				# 'cuser': cuser,
+				'users' : pro_all,
+				'showUser' : showprofile,
+				'questions_all' : questions_all,
+				'answers_all' : answer_all,
+				'questions_rq' : questions_rq,
+				'answers_rq' : answer_rq,
+				'questions_ma' : questions_ma,
+				'answers_ma' : answer_ma,
+				'questions_ra' : questions_ra,
+				'answers_ra' : answer_ra,
+				'questions_na' : questions_na,
+				'answers_na' : answer_na,
+				'users_rq' : users_rq,
+				'users_ra' : users_ra,
+				'users_ma' : users_ma,
+				'users_na' : users_na,
+			}
 	print(context)
 	return render(request,'index.html', context)
 
@@ -127,39 +143,19 @@ def user_profile(request):
 			answer_all.append(ans)
 	u_questions_all = Question.objects.filter(author=request.user)
 	pro=Profile.objects.all()
-	# u_p_questions_all = []
-	# for ques in u_questions_all:
-	# 	pro=Profile.objects.get(user=ques.author)
-	# 	u_p_questions_all.append(pro)
 	u_answers_all = Answer.objects.filter(author=request.user)
 	u_answers_all_q=[]
-	# u_p_answers_all=[]
-	# u_p_answers_all_q=[]
 	for u in u_answers_all:
 		ques=Question.objects.get(id=u.question.id)
-
-		# u_p_answers_all_q.append(pro)
 		u_answers_all_q.append(ques)
-		# pro=Profile.objects.get(user=u.author)
-		# u_p_answers_all.append(pro)
 
 	u_comments_all = Comment.objects.filter(author=request.user)
-	# u_p_comments_all=[]
-	# for comment in u_comments_all:
-	# 	pro=Profile.objects.get(user=comment.author)
-	# 	u_p_comments_all.append(pro)
 	u_comments_all_a = []
-	# u_p_comments_all_a = []
 	u_comments_all_q =[]
-	# u_p_comments_all_q =[]
 	for u in u_comments_all:
 		ques=Question.objects.get(id=u.question.id)
-		# pro=Profile.objects.get(user=ques.author)
-		# u_p_comments_all_q.append(pro)
 		u_comments_all_q.append(ques)
 		ans=Answer.objects.get(id=u.answer.id)
-		# pro=Profile.objects.get(user=ans.author)
-		# u_p_comments_all_a.append(pro)
 		u_comments_all_a.append(ans)
 
 	showuser = User.objects.get(id = request.user.id)
@@ -168,18 +164,12 @@ def user_profile(request):
 		'questions_all' : questions_all,
 		'answers_all' : answer_all,
 		'u_questions_all' : u_questions_all,
-		# 'u_p_questions_all': u_p_questions_all,
 		'u_answers_all' : u_answers_all,
-		# 'u_p_answers_all' : u_p_answers_all,
 		'u_answers_all_q' : u_answers_all_q,
-		# 'u_p_answers_all_q' : u_p_answers_all_q,
 		'u_comments_all' : u_comments_all,
-		# 'u_p_comments_all' : u_p_comments_all,
 		'u_comments_all_q' : u_comments_all_q,
-		# 'u_p_comments_all_q' : u_p_comments_all_q,
 		'u_comments_all_a' : u_comments_all_a,
-		# 'u_p_comments_all_a' : u_p_comments_all_a,
-		'allprofile': pro,
+		'allprofile' : pro,
 		'showUser' : showprofile,
 		'users' : pro_all
 	}
@@ -231,7 +221,6 @@ def register(request):
 					username=username,
 					regDate=timezone.now(),
 				)
-			profile.save()
 			return redirect('/index/')
 	else:
 		return render(request, 'register.html')
@@ -316,7 +305,7 @@ def question_detail(request, question_id):
 				pro.save()
 				question.save()
 				ans.save()
-			else:
+			else: 
 				for key in request.POST:
 					print(key)
 				author=request.user
@@ -347,20 +336,18 @@ def question_detail(request, question_id):
 		ques.numViews+=1
 		pq=Profile.objects.get(user=ques.author)
 		answers = Answer.objects.filter(question=ques)
-		pa=[]
+		pa = []
 		for ans in answers:
 			pro=Profile.objects.get(user=ans.author)
 			pa.append(pro)
 		print(pa)
-		c = []
-		pc= []
+		c =[]
+		pc=[]
+		
 		for ans in answers:
 			com=Comment.objects.filter(answer=ans)
 			c.append(com)
-			for comment in com:
-				pro=Profile.objects.get(user=comment.author)
-				pc.append(pro)
-
+		pc=Profile.objects.all()
 		if(request.user.username):
 			for pro in pro_all:
 				if pro.username == request.user.username:
@@ -400,17 +387,7 @@ def question_detail(request, question_id):
 		return render(request, 'question_detail.html', context)
 
 
-def countUp(request, question_id, answer_id):
-	ans = Answer.objects.get(id=answer_id)
-	ans.avotes+=1
-	ans.save()
-	return redirect('/question_detail/' + str(question_id) + '/')
 
-def countDown(request, question_id, answer_id):
-	ans = Answer.objects.get(id=answer_id)
-	ans.avotes-=1
-	ans.save()
-	return redirect('/question_detail/' + str(question_id) + '/')
 
 def edit(request):
 	if request.method == 'POST':
@@ -465,29 +442,27 @@ def edit(request):
 			for ans in answers:
 				answer_all.append(ans)
 		pro_all = Profile.objects.order_by('-points')[:3]
-		cuser= []
-		if(request.user.username):
+		cuser= [] 
+		if (request.user.username):
 			pro=Profile.objects.get(user=request.user)
-
-
-
-
-			# print('hi')
-			# for pro in pro_all:
-			# 	if pro.username == request.user.username:
-			# 		cuser.append(pro)
-			showuser = User.objects.get(id = request.user.id)
+			showuser = User.objects.get(id=request.user.id)
 			if Profile.objects.get(user=showuser):
-				showprofile= Profile.objects.get(user=showuser)
-
-		context = {
+				showprofile=Profile.objects.get(user=showuser)
+				context = {
 				'users' : pro_all,
 				'u_profile': pro,
-				'showUser' : showprofile,
+				'showUser':showprofile,
 				'questions_all' : questions_all,
 				'answers_all' : answer_all,
-				# 'cuser' : cuser
-		}
+				'cuser' : cuser
+				}
+			else:
+				context = {
+				'users' : pro_all,
+				'questions_all' : questions_all,
+				'answers_all' : answer_all,
+				'cuser' : cuser
+				}
 		print(context)
 		return render(request, 'edit_profile.html', context)
 
@@ -504,27 +479,13 @@ def search(request):
 			answers = Answer.objects.filter(question=ques)
 			for ans in answers:
 				answer_all.append(ans)
-		if(request.user.username):
-			print('hi')
-			for pro in pro_all:
-				if pro.username == request.user.username:
-					cuser.append(pro)
-			showuser = User.objects.get(id = request.user.id)
-			if Profile.objects.get(user=showuser):
-				showprofile= Profile.objects.get(user=showuser)
-		s = request.POST['question_title']
-		nlp = spacy.load('en')
-		st1 = nlp(s)
-		res = []
-		result = []
-		for n in st1.noun_chunks:
-			res.append(str(n))
+		t = request.POST['question_title']
 		# querywords = s.split()	#Who is Foo-Bar
-		stopwords = ['you','me','us','them','what','who','is','a','at','is','he','the','how','where','to']
-		# result = []
-		for word in res:
-			if word.lower() not in stopwords:
-				result.append(word)
+		s=set(stopwords.words('english'))
+		result = filter(lambda w: not w in s,t.split())
+		# for word in querywords:
+		# 	if word.lower() not in stopwords:
+		# 		result.append(word)
 		print(result)
 		query_title = Q()
 		query_text = Q()
@@ -541,19 +502,35 @@ def search(request):
 			# 	)
 			# )
 		questions_tt = list(set().union(questions_title,questions_text))
-		context = {
-			's' : s,
-			'questions_tt' : questions_tt,
-			'users' : pro_all,
-			'cuser': cuser,
-			'showUser' : showprofile,
-			'questions_all' : questions_all,
-			'answers_all' : answer_all
-		}
+		if(request.user.username):
+			print('hi')
+			for pro in pro_all:
+				if pro.username == request.user.username:
+					cuser.append(pro)
+			showuser = User.objects.get(id = request.user.id)
+			if Profile.objects.get(user=showuser):
+				showprofile= Profile.objects.get(user=showuser)
+				context = {
+					's' : t,
+					'questions_tt' : questions_tt,
+					'users' : pro_all,
+					'cuser': cuser,
+					'showUser':showprofile,
+					'questions_all' : questions_all,
+					'answers_all' : answer_all
+				}
+			else: 
+				context = {
+					's' : t,
+					'questions_tt' : questions_tt,
+					'users' : pro_all,
+					'cuser': cuser,
+					'questions_all' : questions_all,
+					'answers_all' : answer_all
+				}
 		return render(request, 'search.html', context)
 	else:
 		return HttpResponse('What?')
-	return render(request, 'search.html', context)
 def viewprofile(request, user_id):
 	pro_all = Profile.objects.order_by('-points')[:3]
 	cuser=[]
@@ -576,41 +553,19 @@ def viewprofile(request, user_id):
 
 	u_questions_all = Question.objects.filter(author=showuser)
 	pro=Profile.objects.all()
-	# u_p_questions_all = []
-	# for ques in u_questions_all:
-	# 	pro=Profile.objects.get(user=ques.author)
-	# 	u_p_questions_all.append(pro)
 	u_answers_all = Answer.objects.filter(author=showuser)
 	u_answers_all_q=[]
-	# u_p_answers_all=[]
-	# u_p_answers_all_q=[]
 	for u in u_answers_all:
 		ques=Question.objects.get(id=u.question.id)
-		# pro=Profile.objects.get(user=ques.author)
-		# u_p_answers_all_q.append(pro)
 		u_answers_all_q.append(ques)
-		# pro=Profile.objects.get(user=u.author)
-		# u_p_answers_all.append(pro)
 
 	u_comments_all = Comment.objects.filter(author=showuser)
-	print(u_comments_all)
-	# u_p_comments_all=[]
-	# for comment in u_comments_all:
-	# 	pro=Profile.objects.get(user=comment.author)
-	# 	u_p_comments_all.append(pro)
 	u_comments_all_a = []
-	# u_p_comments_all_a = []
 	u_comments_all_q =[]
-	# u_p_comments_all_q =[]
 	for u in u_comments_all:
 		ques=Question.objects.get(id=u.question.id)
-		# pro=Profile.objects.get(user=ques.author)
-		# u_p_comments_all_q.append(pro)
 		u_comments_all_q.append(ques)
 		ans=Answer.objects.get(id=u.answer.id)
-		# pro=Profile.objects.get(user=ans.author)
-		# print(pro)
-		# u_p_comments_all_a.append(pro)
 		u_comments_all_a.append(ans)
 
 	context = {
@@ -618,20 +573,82 @@ def viewprofile(request, user_id):
 		'showuser' : showprofile,
 		'showUser' : currentUserProfile,
 		'u_questions_all' : u_questions_all,
-		# 'u_p_questions_all' : u_p_questions_all,
 		'u_answers_all' : u_answers_all,
 		'u_answers_all_q' : u_answers_all_q,
-		# 'u_p_answers_all' : u_p_answers_all,
-		# 'u_p_answers_all_q':u_p_answers_all_q,
 		'u_comments_all' : u_comments_all,
 		'u_comments_all_q' : u_comments_all_q,
 		'u_comments_all_a' : u_comments_all_a,
-		# 'u_p_comments_all' : u_p_comments_all,
-		# 'u_p_comments_all_q' : u_p_comments_all_q,
-		# 'u_p_comments_all_a' : u_p_comments_all_a,
 		'questions_all' : questions_all,
 		'answers_all' : answer_all,
-		'allprofile' : pro
+		'allprofile': pro
 	}
 	print(context)
 	return render(request, 'viewprofile.html', context)
+
+
+def countUp(request, answer_id):
+	if request.user.is_authenticated():
+		ans = Answer.objects.get(id=answer_id)
+		ans.avotes+=1
+		print(ans.avotes)
+		ans.save()
+		return JsonResponse({
+			"success": "true",
+			"votes":ans.avotes
+		})
+	else:
+		context={}
+		context['error'] = 'You need to log in first.'
+		return render(request,'login.html',context)
+
+
+def countDown(request, answer_id):
+	if request.user.is_authenticated():
+		ans = Answer.objects.get(id=answer_id)
+		ans.avotes-=1
+		ans.save()
+		return JsonResponse({
+			"success": "true",
+			"votes":ans.avotes
+		})
+	else:
+		context={}
+		context['error'] = 'You need to log in first.'
+		return render(request,'login.html',context)
+
+
+
+def reply_ajax(request, question_id):
+	if request.user.is_authenticated():
+		a = json.dumps(request.body.decode('utf-8'))
+		print (a)
+		a = a.split('&csrfmiddlewaretoken')[0]
+		a = a.split('value=')[1]
+		text = a.split('&')[0]
+		words = text.split('+')
+		text = " ".join(words)
+		text = urllib.unquote(text).decode('utf8')
+		a_id = a.split('&')[1].split('=')[1]
+		
+		author=request.user
+		answer=Answer.objects.get(id=a_id)
+		ctext=text
+		question=Question.objects.get(id=question_id)
+		com = Comment.objects.create(
+				author=author,
+				comment_text=ctext,
+				answer=answer,
+				question=question
+			)
+		com.save()
+		return JsonResponse({
+			"success":"true",
+			"text":text,
+			"a_id":a_id,
+			"name":request.user.username,
+			"created_date":com.created_date
+			})
+	else:
+		context={}
+		context['error'] = 'You need to log in first.'
+		return render(request,'login.html',context)

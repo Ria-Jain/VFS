@@ -16,20 +16,20 @@ Done:
 	15. Number of views per question
 
 To Do:
-	1. Complete User profile
+	//1. Complete User profile
 	2. AJAX
 		a. Up/Downvote
 			i. User cannot upvote his own answer
 			ii. can only upvote once
-		b. Adding Answer/comment
-	3. Points system
-	4. Check all pages for profie pictures question,comment, answer
-	5. User profile front end
-	6. Add comment front end text bar
+		//b. Adding Answer/comment
+	//3. Points system
+	//4. Check all pages for profie pictures question,comment, answer
+	//5. User profile front end
+	//6. Add comment front end text bar
 	7. uploading pictures
 	8. Related Question
-	/9. Tags
-	10. SpaCy
+	9. Tags
+	//10. SpaCy
 	11. is_solved() per question
 	12. is_upvoted()
 	13. sort answers based on upvotes
@@ -40,39 +40,37 @@ To Do:
 	18. User viewing his own profile should be able to edit
 	19. User choosing best answer
 
-
-
-
 edit.html
 	1. Image Upload
 	2. Github and Linkedin all site profile storage
+	3. Sidebar profile picture
+	5. User first and last name
 
 question_detail.html
-	1. Question/Answer/Comment tags
-	2. Comment reply button
+	1. Profile pic of user
+	2. User first name last name
+	3. Profile picture of question author
+	4. first name last name of author
+	//5. Question/Answer/Comment tags
+	6. Comment reply button
 
 search.html
+	1. Profile pic
 	2. Question
 		a. pro pic of author
 		b. name-username of author
-	3. Not what you are looking for? ask this question, redirect and autofill description
+	//3. Not what you are looking for? ask this question, redirect and autofill description
 
 
 user_profile.html
 	1. Edit icon
 	2. Remove Follow Me links
 	4. Question/Answer/Comment tags
+	5. Profile pic of question/answer/comments
 	6. Highlight answer/comment of user
 
 view_profile.html
 	1.Profile pic circle
 	2. Question/Answer/Comment tags
-	3. Links to social media
-	4. Highlight answer/comment of user
-
-
-
-
-Bugs:
-view_profile/2 not working
-AAA BBB user_profile not woorking
+	3. Profile pic of question/answer/comments
+	4. Links to social media

@@ -2,6 +2,12 @@
 {% load staticfiles %}
 
 {% block content %}
+    <script type="text/javascript">
+        function a() {
+            location.href = '/ask_question/'
+        }
+    </script>
+
     <div class="col-md-9">
         <h2> Search results for "{{ s }}"</h2>
         <h4 style="color:gray;font-size: 14px;">{{ questions_tt|length }} matches</h4>
@@ -36,5 +42,7 @@
                 </div>
             </div>
         </div>
+        <h3> Not what you looking for? Ask this as a question
+        <button class="button small color" style="margin-left: 5%;" onclick="a()">Submit</button> </h3>
     </div>
 {% endblock %}
