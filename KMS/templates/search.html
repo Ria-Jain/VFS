@@ -24,7 +24,12 @@
                                 <i class="icon-question-sign"></i>Question
                         </div>
                         <div class="question-author">
-                            <a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="static/images/demo/avatar.png"></a>
+                            {% for prosearch in allprofile %}
+                                {% if q.author.username = prosearch.username %}
+                                    <!-- <h1>hi</h1> -->
+                                    <a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/images/demo/{{ prosearch.profilePic }}"></a>
+                                {% endif %}
+                            {% endfor %}
                         </div>
                         <div class="question-inner">
                             <div class="clearfix"></div>

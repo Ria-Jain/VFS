@@ -505,6 +505,8 @@ def search(request):
 			# 	)
 			# )
 		questions_tt = list(set().union(questions_title,questions_text))
+		pc=Profile.objects.all()
+		print(pc)
 		if(request.user.username):
 			print('hi')
 			for pro in pro_all:
@@ -520,7 +522,8 @@ def search(request):
 					'cuser': cuser,
 					'showUser':showprofile,
 					'questions_all' : questions_all,
-					'answers_all' : answer_all
+					'answers_all' : answer_all,
+					'allprofile' : pc,
 				}
 			else:
 				context = {
@@ -529,6 +532,7 @@ def search(request):
 					'users' : pro_all,
 					'cuser': cuser,
 					'questions_all' : questions_all,
+					'allprofile' : pc,
 					'answers_all' : answer_all
 				}
 		return render(request, 'search.html', context)
