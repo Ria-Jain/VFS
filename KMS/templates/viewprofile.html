@@ -82,7 +82,7 @@
 														<a href="/question_detail/{{ q.id }}">{{ q.question_title }}</a>
 													</h2>
 													<div class="question-author">
-														
+
 														{% for proques in allprofile %}
 															{% if q.author.username = proques.username %}
 																<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/images/demo/{{ proques.profilePic }}"></a>
@@ -107,9 +107,7 @@
 										</div>
 										<div class="tab-inner-warp">
 											<div class="tab-inner">
-												{% for ans in u_answers_all %}
 													{% for question in u_answers_all_q %}
-														{% if question.id = ans.question.id %}
 															<article class="question question-type-normal">
 																<h2>
 																	<a href="/question_detail/{{ question.id }}">{{ question.question_title }}</a>
@@ -134,15 +132,14 @@
 																	<div class="clearfix"></div>
 																</div>
 															</article>
-														{% endif %}
-													{% endfor %}
 													<div id="commentlist" class="page-content">
-
 														<ol class="commentlist clearfix">
+															{% for ans in u_answers_all %}
+															{% if ans.question.id == question.id %}
 														    <li class="comment">
 														        <div class="comment-body comment-body-answered clearfix">
 														            <div class="avatar">
-														            	{% for proans in all_profile %}
+														            	{% for proans in allprofile %}
 														            		{% if ans.author.username = proans.username %}
 														            			<img alt="" src="../../static/images/demo/{{proans.profilePic}}">
 												            				{% endif %}
@@ -167,6 +164,8 @@
 														            </div>
 														        </div>
 														    </li>
+															{% endif %}
+															{% endfor %}
 														</ol>
 													</div>
 												{% endfor %}
