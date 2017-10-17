@@ -41,20 +41,20 @@
 <script type="text/javascript">
 	
 	function c(a_id) {
-	location.href="/login/"
+	locationtion.href="/login/"
 }
 </script>
 {% endif %}
 
 <script type="text/javascript">
-	var up = 0;
-	var down = 0;
-	function upvote(a_id) {
-		up+=1;
-		if(up%2!=0)
+	var flag=0;
+	function vote(action,a_id)
+	{
+		if(flag==0 && action=="up")
 		{
-			console.log(a_id);
-			console.log(document.getElementById('votes-'+a_id).innerHTML)
+			// UPVOTE
+			console.log(flag);
+			console.log(action);
 			$.ajax({
 				url: '/countUp/'+a_id,
 				type: 'POST',
@@ -68,10 +68,15 @@
 				}
 
 			});
-		alert('Casted an Upvote')
+			flag = 1;
+			console.log(flag);
+			console.log(action);
 		}
-		else
+		else if (flag==1 && action=="up") 
 		{
+			// DOWNVOTE
+			console.log(flag);
+			console.log(action);
 			$.ajax({
 				url: '/countDown/'+a_id,
 				type: 'POST',
@@ -84,17 +89,60 @@
 				}
 
 			});
-		alert('Undoed an Upvote')
+			flag=0;
+			console.log(flag);
+			console.log(action);
 		}
-	}
-	function downvote(a_id) {
-		down+=1;
-		if(down%2!=0)
+		else if (flag==1 && action=="down")
 		{
-			console.log(a_id);
-			console.log(document.getElementById('votes-'+a_id).innerHTML)
+			//DOWNVOTE * 2
+			console.log(flag);
+			console.log(action);
+			
+			$.ajax({
+				url: '/countDown2/'+a_id,
+				type: 'POST',
+				data: {
+					"ans_id" : a_id,
+		 			"csrfmiddlewaretoken" : '{{csrf_token}}'
+				},
+				success: function (data) {
+					document.getElementById('votes-'+a_id).innerHTML = data.votes;
+				}
+
+			});
+			flag=-1;
+			console.log(flag);
+			console.log(action);
+		}
+		else if(flag==0 && action=="down")
+		{
+			// DOWNVOTE
+			console.log(flag);
+			console.log(action);
 			$.ajax({
 				url: '/countDown/'+a_id,
+				type: 'POST',
+				data: {
+					"ans_id" : a_id,
+		 			"csrfmiddlewaretoken" : '{{csrf_token}}'
+				},
+				success: function (data) {
+					document.getElementById('votes-'+a_id).innerHTML = data.votes;
+				}
+
+			});
+			flag=-1;
+			console.log(flag);
+			console.log(action);
+		}
+		else if(flag==-1 && action=="down")
+		{
+			//UPVOTE
+			console.log(flag);
+			console.log(action);
+			$.ajax({
+				url: '/countUp/'+a_id,
 				type: 'POST',
 				data: {
 					"ans_id" : a_id,
@@ -106,25 +154,127 @@
 				}
 
 			});
-		alert('Casted a Downvote')
+			flag = 0;
+			console.log(flag);
+			console.log(action);
+			
 		}
-		else
+		else if(flag==-1 && action=="up")
 		{
+			//UPVOTE * 2
+			console.log(flag);
+			console.log(action);
 			$.ajax({
-				url: '/countUp/'+a_id,
+				url: '/countUp2/'+a_id,
 				type: 'POST',
 				data: {
 					"ans_id" : a_id,
 		 			"csrfmiddlewaretoken" : '{{csrf_token}}'
 				},
 				success: function (data) {
+					console.log(data);
 					document.getElementById('votes-'+a_id).innerHTML = data.votes;
 				}
 
 			});
-		alert('Undoed a Downvote')
+			flag = 1;
+			console.log(flag);
+			console.log(action);
 		}
 	}
+	// function upvote(a_id) {
+	// 	var up = 0;
+	// 	var down = 0;
+	// 	up+=1;
+	// 	if(up%2!=0)
+	// 	{
+	// 		console.log(a_id);
+	// 		console.log(document.getElementById('votes-'+a_id).innerHTML)
+	// 		$.ajax({
+	// 			url: '/countUp/'+a_id,
+	// 			type: 'POST',
+	// 			data: {
+	// 				"ans_id" : a_id,
+	// 	 			"csrfmiddlewaretoken" : '{{csrf_token}}'
+	// 			},
+	// 			success: function (data) {
+	// 				console.log(data);
+	// 				document.getElementById('votes-'+a_id).innerHTML = data.votes;
+	// 			}
+
+	// 		});
+	// 		$('#votes-'+a_id).css({
+	// 			'background-color' : '#00ff00'
+	// 		});
+	// 	}
+	// 	else
+	// 	{
+	// 		$.ajax({
+	// 			url: '/countDown/'+a_id,
+	// 			type: 'POST',
+	// 			data: {
+	// 				"ans_id" : a_id,
+	// 	 			"csrfmiddlewaretoken" : '{{csrf_token}}'
+	// 			},
+	// 			success: function (data) {
+	// 				document.getElementById('votes-'+a_id).innerHTML = data.votes;
+	// 			}
+
+	// 		});
+	// 		$('#votes-'+a_id).css({
+	// 			'background-color' : '#FFFFFF'
+	// 		});
+	// 	}
+	// }
+	// function downvote(a_id) {
+	// 	var up = 0;
+	// 	var down = 0;
+	// 	down+=1;
+	// 	if(down%2!=0)
+	// 	{
+	// 		console.log(a_id);
+	// 		console.log(document.getElementById('votes-'+a_id).innerHTML)
+	// 		$.ajax({
+	// 			url: '/countDown/'+a_id,
+	// 			type: 'POST',
+	// 			data: {
+	// 				"ans_id" : a_id,
+	// 	 			"csrfmiddlewaretoken" : '{{csrf_token}}'
+	// 			},
+	// 			success: function (data) {
+	// 				console.log(data);
+	// 				document.getElementById('votes-'+a_id).innerHTML = data.votes;
+	// 			}
+
+	// 		});
+	// 		$('#votes-'+a_id).css({
+	// 			'background-color' : '#ff9999'
+	// 		});
+	// 	// alert('Casted a Downvote')
+	// 	}
+	// 	else
+	// 	{
+	// 		$.ajax({
+	// 			url: '/countUp/'+a_id,
+	// 			type: 'POST',
+	// 			data: {
+	// 				"ans_id" : a_id,
+	// 	 			"csrfmiddlewaretoken" : '{{csrf_token}}'
+	// 			},
+	// 			success: function (data) {
+	// 				document.getElementById('votes-'+a_id).innerHTML = data.votes;
+	// 			}
+
+	// 		});
+	// 		$('#votes-'+a_id).css({
+	// 			'background-color' : '#FFFFFF'
+	// 		});
+	// 	// alert('Undoed a Downvote')
+	// 	}
+	// }
+
+
+
 </script>
 
 <div class="col-md-9">
@@ -152,7 +302,7 @@
 			<div class="clearfix"></div>
 			<p class="question-desc">{{ question.question_text }}</p>
 			<div class="question-details">
-				<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
+				<span class="question-answered question-answered-done"><i class="icon-cross"></i>unsolved</span>
 			</div>
 			<span class="question-date"><i class="icon-time"></i>{{ question.created_date }}</span>
 			<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ question.numAns }} Answers</a></span>
@@ -177,8 +327,8 @@
 							<div class="comment-author"><a href="#">{{ ans.author.username }}</a></div>
 							<div class="comment-vote">
 								<ul class="question-vote">
-									<li class="question-vote-up" title="Like" onclick="upvote({{ ans.id }})"></li>
-									<li class="question-vote-down" title="Dislike" onclick="downvote({{ ans.id }})"></li>
+									<li class="question-vote-up" title="Like" onclick="vote('up',{{ ans.id }})"></li>
+									<li class="question-vote-down" title="Dislike" onclick="vote('down',{{ ans.id }})"></li>
 								</ul>
 							</div>
 							<span class="question-vote-result" id="votes-{{ans.id}}">{{ ans.avotes }}</span>

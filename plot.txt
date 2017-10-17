@@ -74,3 +74,7 @@ view_profile.html
 	2. Question/Answer/Comment tags
 	3. Profile pic of question/answer/comments
 	4. Links to social media
+
+//   change color of the number of votes 
+//   is_solved plus points
+//   tags

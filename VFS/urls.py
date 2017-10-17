@@ -31,9 +31,11 @@ urlpatterns = [
     url(r'^profile/$', views.user_profile),
     url(r'^search/$', views.search),
     url(r'^countDown/(?P<answer_id>\d+)$', views.countDown),
+    url(r'^countDown2/(?P<answer_id>\d+)$', views.countDown2),
     url(r'^question_detail/(?P<question_id>\d+)/$', views.question_detail),
     url(r'^viewprofile/(?P<user_id>\d+)/$', views.viewprofile),
 
     url(r'^countUp/(?P<answer_id>\d+)$', views.countUp),
+    url(r'^countUp2/(?P<answer_id>\d+)$', views.countUp2),
     url(r'^reply_ajax/(?P<question_id>\d+)/$', views.reply_ajax),
 ]
