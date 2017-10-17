@@ -233,6 +233,7 @@ def ask_question(request):
 		return redirect('/login/')
 
 def question_detail(request, question_id):
+	flag=0
 	questions_all = Question.objects.all()
 	answer_all = []
 	for ques in questions_all:
@@ -311,12 +312,15 @@ def question_detail(request, question_id):
 			showuser = User.objects.get(id = request.user.id)
 			showprofile= Profile.objects.get(user=showuser)
 			for ans in answers:
+				print(ans)
 				if(ans.author.username != request.user.username):
 					existingVotes=Vote.objects.filter(answer=ans)
+					print(existingVotes)
 					for vote in existingVotes:
 						if vote.voter==request.user:
 							flag=1
 							break
+					print(flag)
 					if flag!=1: 
 						answer=ans
 						voter=request.user
@@ -326,6 +330,7 @@ def question_detail(request, question_id):
 								isVoted=0,
 							)
 						votes.save()
+					flag=0
 
 			context = {
 				'users' : pro_all,
@@ -581,7 +586,18 @@ def viewprofile(request, user_id):
 def countUp(request, answer_id):
 	if request.user.is_authenticated():
 		ans = Answer.objects.get(id=answer_id)
-		ans.avotes+=1
+		voted=Vote.objects.filter(answer=ans).get(voter=request.user)
+		if voted.isVoted==0:		
+			ans.avotes+=1
+			voted.isVoted=1
+		elif voted.isVoted==1:
+			ans.avotes-=1
+			voted.isVoted=0
+		elif voted.isVoted== -1:
+			ans.avotes+=2
+			voted.isVoted=1
+		print('isVoted='+ str(voted.isVoted))
+		voted.save()
 		print(ans.avotes)
 		pro_all = Profile.objects.all()
 		for pro in pro_all:
@@ -598,31 +614,21 @@ def countUp(request, answer_id):
 		context['error'] = 'You need to log in first.'
 		return render(request,'login.html',context)
 
-def countUp2(request, answer_id):
-	if request.user.is_authenticated():
-		ans = Answer.objects.get(id=answer_id)
-		ans.avotes+=2
-		print(ans.avotes)
-		pro_all = Profile.objects.all()
-		for pro in pro_all:
-			if(ans.author.username == pro.username):
-				pro.points+=4
-				pro.save()
-		ans.save()
-		return JsonResponse({
-			"success": "true",
-			"votes":ans.avotes
-		})
-	else:
-		context={}
-		context['error'] = 'You need to log in first.'
-		return render(request,'login.html',context)
-
-
 def countDown(request, answer_id):
 	if request.user.is_authenticated():
 		ans = Answer.objects.get(id=answer_id)
-		ans.avotes-=1
+		voted=Vote.objects.filter(answer=ans).get(voter=request.user)
+		if voted.isVoted==0:		
+			ans.avotes-=1
+			voted.isVoted=-1
+		elif voted.isVoted==1:
+			ans.avotes-=2
+			voted.isVoted=-1
+		elif voted.isVoted== -1:
+			ans.avotes+=1
+			voted.isVoted=0
+		print('isVoted='+ str(voted.isVoted))
+		voted.save()
 		pro_all = Profile.objects.all()
 		for pro in pro_all:
 			if(ans.author.username == pro.username):
@@ -637,25 +643,6 @@ def countDown(request, answer_id):
 		context={}
 		context['error'] = 'You need to log in first.'
 		return render(request,'login.html',context)
-def countDown2(request, answer_id):
-	if request.user.is_authenticated():
-		ans = Answer.objects.get(id=answer_id)
-		ans.avotes-=2
-		pro_all = Profile.objects.all()
-		for pro in pro_all:
-			if(ans.author.username == pro.username):
-				pro.points-=4
-				pro.save()
-		ans.save()
-		return JsonResponse({
-			"success": "true",
-			"votes":ans.avotes
-		})
-	else:
-		context={}
-		context['error'] = 'You need to log in first.'
-		return render(request,'login.html',context)
-
 
 
 def reply_ajax(request, question_id):

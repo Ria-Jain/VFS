@@ -50,7 +50,7 @@
 	var flag=0;
 	function vote(action,a_id)
 	{
-		if(flag==0 && action=="up")
+		if(action=="up")
 		{
 			// UPVOTE
 			console.log(flag);
@@ -68,59 +68,16 @@
 				}
 
 			});
-			flag = 1;
 			console.log(flag);
 			console.log(action);
 		}
-		else if (flag==1 && action=="up") 
-		{
-			// DOWNVOTE
-			console.log(flag);
-			console.log(action);
-			$.ajax({
-				url: '/countDown/'+a_id,
-				type: 'POST',
-				data: {
-					"ans_id" : a_id,
-		 			"csrfmiddlewaretoken" : '{{csrf_token}}'
-				},
-				success: function (data) {
-					document.getElementById('votes-'+a_id).innerHTML = data.votes;
-				}
-
-			});
-			flag=0;
-			console.log(flag);
-			console.log(action);
-		}
-		else if (flag==1 && action=="down")
+		else if (action=="down")
 		{
 			//DOWNVOTE * 2
 			console.log(flag);
 			console.log(action);
 			
 			$.ajax({
-				url: '/countDown2/'+a_id,
-				type: 'POST',
-				data: {
-					"ans_id" : a_id,
-		 			"csrfmiddlewaretoken" : '{{csrf_token}}'
-				},
-				success: function (data) {
-					document.getElementById('votes-'+a_id).innerHTML = data.votes;
-				}
-
-			});
-			flag=-1;
-			console.log(flag);
-			console.log(action);
-		}
-		else if(flag==0 && action=="down")
-		{
-			// DOWNVOTE
-			console.log(flag);
-			console.log(action);
-			$.ajax({
 				url: '/countDown/'+a_id,
 				type: 'POST',
 				data: {
@@ -132,52 +89,6 @@
 				}
 
 			});
-			flag=-1;
-			console.log(flag);
-			console.log(action);
-		}
-		else if(flag==-1 && action=="down")
-		{
-			//UPVOTE
-			console.log(flag);
-			console.log(action);
-			$.ajax({
-				url: '/countUp/'+a_id,
-				type: 'POST',
-				data: {
-					"ans_id" : a_id,
-		 			"csrfmiddlewaretoken" : '{{csrf_token}}'
-				},
-				success: function (data) {
-					console.log(data);
-					document.getElementById('votes-'+a_id).innerHTML = data.votes;
-				}
-
-			});
-			flag = 0;
-			console.log(flag);
-			console.log(action);
-			
-		}
-		else if(flag==-1 && action=="up")
-		{
-			//UPVOTE * 2
-			console.log(flag);
-			console.log(action);
-			$.ajax({
-				url: '/countUp2/'+a_id,
-				type: 'POST',
-				data: {
-					"ans_id" : a_id,
-		 			"csrfmiddlewaretoken" : '{{csrf_token}}'
-				},
-				success: function (data) {
-					console.log(data);
-					document.getElementById('votes-'+a_id).innerHTML = data.votes;
-				}
-
-			});
-			flag = 1;
 			console.log(flag);
 			console.log(action);
 		}
