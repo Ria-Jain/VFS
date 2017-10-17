@@ -23,7 +23,6 @@ To Do:
 
 edit.html
 	1. Image Upload
-	2. Github and Linkedin all site profile storage
 
 question_detail.html
 	6. Comment reply button
@@ -34,5 +33,4 @@ user_profile.html
 
 view_profile.html
 	1.Profile pic circle
-	4. Links to social media
 	6. Highlight answer/comment of user

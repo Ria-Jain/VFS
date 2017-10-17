@@ -26,8 +26,8 @@ SECRET_KEY = '%9d!u76=a9p^epwkwn1(9pzk+(&$*886c!q)e@s8xytbb-&=sm'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-# MEDIA_URL = '/media/'
-MEDIA_ROOT = '/home/gaurav/Desktop/VFS/KMS/static/images/demo'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # Application definition

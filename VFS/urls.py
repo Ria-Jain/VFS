@@ -28,7 +28,6 @@ urlpatterns = [
     url(r'^edit/$', views.edit),
     url(r'^search/$', views.search),
     url(r'^ask_question/$', views.ask_question),
-    url(r'^profile/$', views.user_profile),
     url(r'^search/$', views.search),
     url(r'^countDown/(?P<answer_id>\d+)$', views.countDown),
     url(r'^question_detail/(?P<question_id>\d+)/$', views.question_detail),

@@ -132,53 +132,6 @@ def base(request):
 	print(context)
 	return render(request,'base.html', context)
 
-
-def user_profile(request):
-	pro_all = Profile.objects.order_by('-points')[:3]
-	questions_all = Question.objects.all()
-	answer_all = []
-	for ques in questions_all:
-		answers = Answer.objects.filter(question=ques)
-		for ans in answers:
-			answer_all.append(ans)
-	pro=Profile.objects.all()
-
-
-	u_questions_all = Question.objects.filter(author=request.user)
-	u_answers_all = Answer.objects.filter(author=request.user)
-	u_answers_all_q=[]
-	for u in u_answers_all:
-		ques=Question.objects.get(id=u.question.id)
-		u_answers_all_q.append(ques)
-	u_answers_all_q=set(u_answers_all_q)
-	u_comments_all = Comment.objects.filter(author=request.user)
-	u_comments_all_a = []
-	u_comments_all_q =[]
-	for u in u_comments_all:
-		ques=Question.objects.get(id=u.question.id)
-		u_comments_all_q.append(ques)
-		ans=Answer.objects.get(id=u.answer.id)
-		u_comments_all_a.append(ans)
-	u_comments_all_q=set(u_comments_all_q)
-	u_comments_all_a=set(u_comments_all_a)
-	showuser = User.objects.get(id = request.user.id)
-	showprofile = Profile.objects.get(user=showuser)
-	context = {
-		'questions_all' : questions_all,
-		'answers_all' : answer_all,
-		'u_questions_all' : u_questions_all,
-		'u_answers_all' : u_answers_all,
-		'u_answers_all_q' : u_answers_all_q,
-		'u_comments_all' : u_comments_all,
-		'u_comments_all_q' : u_comments_all_q,
-		'u_comments_all_a' : u_comments_all_a,
-		'allprofile' : pro,
-		'showUser' : showprofile,
-		'users' : pro_all
-	}
-	print(context)
-	return render(request, 'user_profile.html', context)
-
 def login_site(request):
 	if request.method == 'POST':
 		username = request.POST['email']
@@ -604,6 +557,7 @@ def viewprofile(request, user_id):
 		'allprofile': pro
 	}
 	print(context)
+
 	return render(request, 'viewprofile.html', context)
 
 

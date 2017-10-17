@@ -261,7 +261,7 @@
 
             <aside class="col-md-3 sidebar">
                 {% if request.user.username %}
-                    <a href="/profile/">
+                    <a href="/viewprofile/{{request.user.id}}">
                         <div class="widget widget_login">
                             <h3 class="widget_title">My Profile</h3>
 
