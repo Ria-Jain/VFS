@@ -19,6 +19,7 @@ To Do:
 	17. Highest Points user last name
 	18. User viewing his own profile should be able to edit
 	19. User choosing best answer
+	20. Add comment, profile picture
 
 edit.html
 	1. Image Upload

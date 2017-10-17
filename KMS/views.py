@@ -402,7 +402,12 @@ def edit(request):
 		website=request.POST['website']
 		about=request.POST['about']
 		phone=request.POST['phone']
-		proPic=request.POST['proPic']
+		# proPic=request.POST['proPic']
+		facebook=request.POST['fb']
+		twitter=request.POST['twit']
+		linkedin=request.POST['link']
+		github=request.POST['github']
+
 		print(request.POST)
 		pro_all=Profile.objects.all()
 		for pro in pro_all:
@@ -414,22 +419,29 @@ def edit(request):
 				pro.website=website
 				pro.aboutYourself=about
 				pro.phone=phone
-				pro.profilePic=proPic
+				# pro.profilePic=proPic
+				pro.facebook=facebook
+				pro.github=github
+				pro.twitter=twitter
+				pro.linkedin=linkedin
 				break
-		if flag !=1:
-			pro=Profile.objects.create(
-					user=user,
-					firstName=fname,
-					lastName=lname,
-					username=username,
-					country=country,
-					website=website,
-					aboutYourself=about,
-					phone=phone,
-					regDate=timezone.now(),
-					profilePic=proPic
-				)
-			print(proPic)
+		# if flag !=1:
+		# 	pro=Profile.objects.create(
+		# 			user=user,
+		# 			firstName=fname,
+		# 			lastName=lname,
+		# 			username=username,
+		# 			country=country,
+		# 			website=website,
+		# 			aboutYourself=about,
+		# 			phone=phone,
+		# 			regDate=timezone.now(),
+		# 			profilePic=proPic,
+		# 			facebook=facebook,
+		# 			github=github,
+		# 			twitter=twitter,
+		# 			linkedin=linkedin,
+		# 		)
 		pro.save()
 		user.first_name=fname
 		user.last_name=lname
