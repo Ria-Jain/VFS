@@ -5,7 +5,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-		
+
 {% if user.is_authenticated %}
 <script type='text/javascript'>
  function c(a_id) {
@@ -39,7 +39,7 @@
 </script>
 {% else %}
 <script type="text/javascript">
-	
+
 	function c(a_id) {
 	locationtion.href="/login/"
 }
@@ -317,7 +317,7 @@
 			{% for ans in answers %}
 			<li class="comment">
 				<div class="comment-body comment-body-answered clearfix">
-					{% for pro in profile_a %}
+					{% for pro in all_profile %}
 		        		{% if ans.author.username = pro.username %}
 		            		<div class="avatar"><img alt="" src="../../static/images/demo/{{ pro.profilePic }}"></div>
 		        		{% endif %}
@@ -350,7 +350,7 @@
 				<ul class="children" id = "comment-{{ans.id}}">
 					<li class="comment">
 						<div class="comment-body clearfix">
-							{% for pro in profile_c %}
+							{% for pro in all_profile %}
 		                		{% if c.author.username = pro.username %}
 		                			<div class="avatar"><img alt="" src="../../static/images/demo/{{ pro.profilePic }}"></div>
 		                    	{% endif %}
@@ -384,7 +384,7 @@
 					<div class="col-md-3">
 						<p class="form-submit">
 							<!-- <input name="{{ ans.id }}" type="submit" value="Submit" class="button small color"> -->
-							<button class="button small color" onclick="c( {{ ans.id }} )">Submit</button> 
+							<button class="button small color" onclick="c( {{ ans.id }} )">Submit</button>
 						</p>
 
 					</div>

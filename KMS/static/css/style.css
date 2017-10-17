@@ -1254,7 +1254,8 @@ div[class*="slider_shadow"]:before, div[class^="header_shadow"] {
 	font-size: 13px;
 }
 .user-profile-img {
-	width: 85px;
+	width: 65px;
+	height: 65px;
 	float: left;
 	margin-right: 15px;
 	padding: 2px;
@@ -1265,7 +1266,8 @@ div[class*="slider_shadow"]:before, div[class^="header_shadow"] {
 	border-radius: 50%;
 }
 .user-profile-img img {
-	width: 100%;
+	width: 65px !important;
+	height: 65px !important;
 	-moz-border-radius: 50%;
 	-webkit-border-radius: 50%;
 	border-radius: 50%;

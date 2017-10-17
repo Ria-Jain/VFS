@@ -54,23 +54,19 @@
 						<div class="form-inputs clearfix">
 							<p>
 								<label>Facebook</label>
-								<input type="text" name ="fb">
+								<input type="text" placeholder="www.facebook.com/example" name ="fb" {% ifnotequal u_profile.facebook '#' %} value={{ u_profile.facebook }} {% endifnotequal %}>
 							</p>
 							<p>
 								<label>Twitter</label>
-								<input type="text" name ="twit">
+								<input type="text" placeholder="www.twitter.com/example" name ="twit" {% ifnotequal u_profile.twitter '#' %} value={{ u_profile.twitter }} {% endifnotequal %}>
 							</p>
 							<p>
 								<label>Linkedin</label>
-								<input type="email" name ="link">
-							</p>
-							<p>
-								<label>Google plus</label>
-								<input type="text" name ="gplus">
+								<input type="text" placeholder="www.linkedin.com/example" name ="link" {% ifnotequal u_profile.linkedin '#' %} value={{ u_profile.linkedin }} {% endifnotequal %}>
 							</p>
 							<p>
 								<label>Github</label>
-								<input type="text" name ="github">
+								<input type="text" placeholder="www.github.com/example" name ="github" {% ifnotequal u_profile.github '#' %} value={{ u_profile.github }} {% endifnotequal %}>
 							</p>
 						</div>
 					<p class="form-submit">

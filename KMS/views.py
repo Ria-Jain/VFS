@@ -132,50 +132,6 @@ def base(request):
 	print(context)
 	return render(request,'base.html', context)
 
-
-def user_profile(request):
-	pro_all = Profile.objects.order_by('-points')[:3]
-	questions_all = Question.objects.all()
-	answer_all = []
-	for ques in questions_all:
-		answers = Answer.objects.filter(question=ques)
-		for ans in answers:
-			answer_all.append(ans)
-	u_questions_all = Question.objects.filter(author=request.user)
-	pro=Profile.objects.all()
-	u_answers_all = Answer.objects.filter(author=request.user)
-	u_answers_all_q=[]
-	for u in u_answers_all:
-		ques=Question.objects.get(id=u.question.id)
-		u_answers_all_q.append(ques)
-
-	u_comments_all = Comment.objects.filter(author=request.user)
-	u_comments_all_a = []
-	u_comments_all_q =[]
-	for u in u_comments_all:
-		ques=Question.objects.get(id=u.question.id)
-		u_comments_all_q.append(ques)
-		ans=Answer.objects.get(id=u.answer.id)
-		u_comments_all_a.append(ans)
-
-	showuser = User.objects.get(id = request.user.id)
-	showprofile = Profile.objects.get(user=showuser)
-	context = {
-		'questions_all' : questions_all,
-		'answers_all' : answer_all,
-		'u_questions_all' : u_questions_all,
-		'u_answers_all' : u_answers_all,
-		'u_answers_all_q' : u_answers_all_q,
-		'u_comments_all' : u_comments_all,
-		'u_comments_all_q' : u_comments_all_q,
-		'u_comments_all_a' : u_comments_all_a,
-		'allprofile' : pro,
-		'showUser' : showprofile,
-		'users' : pro_all
-	}
-	print(context)
-	return render(request, 'user_profile.html', context)
-
 def login_site(request):
 	if request.method == 'POST':
 		username = request.POST['email']
@@ -305,7 +261,7 @@ def question_detail(request, question_id):
 				pro.save()
 				question.save()
 				ans.save()
-			else: 
+			else:
 				for key in request.POST:
 					print(key)
 				author=request.user
@@ -343,7 +299,7 @@ def question_detail(request, question_id):
 		print(pa)
 		c =[]
 		pc=[]
-		
+
 		for ans in answers:
 			com=Comment.objects.filter(answer=ans)
 			c.append(com)
@@ -360,7 +316,7 @@ def question_detail(request, question_id):
 				'showUser' : showprofile,
 				'profile_q' : pq,
 				'profile_a' : pa,
-				'profile_c' : pc,
+				'all_profile' : pc,
 				'question' : ques,
 				'answers' : answers,
 				'user' : request.user,
@@ -399,7 +355,12 @@ def edit(request):
 		website=request.POST['website']
 		about=request.POST['about']
 		phone=request.POST['phone']
-		proPic=request.POST['proPic']
+		# proPic=request.POST['proPic']
+		facebook=request.POST['fb']
+		twitter=request.POST['twit']
+		linkedin=request.POST['link']
+		github=request.POST['github']
+
 		print(request.POST)
 		pro_all=Profile.objects.all()
 		for pro in pro_all:
@@ -411,22 +372,29 @@ def edit(request):
 				pro.website=website
 				pro.aboutYourself=about
 				pro.phone=phone
-				pro.profilePic=proPic
+				# pro.profilePic=proPic
+				pro.facebook=facebook
+				pro.github=github
+				pro.twitter=twitter
+				pro.linkedin=linkedin
 				break
-		if flag !=1:
-			pro=Profile.objects.create(
-					user=user,
-					firstName=fname,
-					lastName=lname,
-					username=username,
-					country=country,
-					website=website,
-					aboutYourself=about,
-					phone=phone,
-					regDate=timezone.now(),
-					profilePic=proPic
-				)
-			print(proPic)
+		# if flag !=1:
+		# 	pro=Profile.objects.create(
+		# 			user=user,
+		# 			firstName=fname,
+		# 			lastName=lname,
+		# 			username=username,
+		# 			country=country,
+		# 			website=website,
+		# 			aboutYourself=about,
+		# 			phone=phone,
+		# 			regDate=timezone.now(),
+		# 			profilePic=proPic,
+		# 			facebook=facebook,
+		# 			github=github,
+		# 			twitter=twitter,
+		# 			linkedin=linkedin,
+		# 		)
 		pro.save()
 		user.first_name=fname
 		user.last_name=lname
@@ -442,7 +410,7 @@ def edit(request):
 			for ans in answers:
 				answer_all.append(ans)
 		pro_all = Profile.objects.order_by('-points')[:3]
-		cuser= [] 
+		cuser= []
 		if (request.user.username):
 			pro=Profile.objects.get(user=request.user)
 			showuser = User.objects.get(id=request.user.id)
@@ -502,6 +470,8 @@ def search(request):
 			# 	)
 			# )
 		questions_tt = list(set().union(questions_title,questions_text))
+		pc=Profile.objects.all()
+		print(pc)
 		if(request.user.username):
 			print('hi')
 			for pro in pro_all:
@@ -517,15 +487,17 @@ def search(request):
 					'cuser': cuser,
 					'showUser':showprofile,
 					'questions_all' : questions_all,
-					'answers_all' : answer_all
+					'answers_all' : answer_all,
+					'allprofile' : pc,
 				}
-			else: 
+			else:
 				context = {
 					's' : t,
 					'questions_tt' : questions_tt,
 					'users' : pro_all,
 					'cuser': cuser,
 					'questions_all' : questions_all,
+					'allprofile' : pc,
 					'answers_all' : answer_all
 				}
 		return render(request, 'search.html', context)
@@ -558,7 +530,7 @@ def viewprofile(request, user_id):
 	for u in u_answers_all:
 		ques=Question.objects.get(id=u.question.id)
 		u_answers_all_q.append(ques)
-
+	u_answers_all_q=set(u_answers_all_q)
 	u_comments_all = Comment.objects.filter(author=showuser)
 	u_comments_all_a = []
 	u_comments_all_q =[]
@@ -567,6 +539,8 @@ def viewprofile(request, user_id):
 		u_comments_all_q.append(ques)
 		ans=Answer.objects.get(id=u.answer.id)
 		u_comments_all_a.append(ans)
+	u_comments_all_q=set(u_comments_all_q)
+	u_comments_all_a=set(u_comments_all_a)
 
 	context = {
 		'users': pro_all,
@@ -583,6 +557,7 @@ def viewprofile(request, user_id):
 		'allprofile': pro
 	}
 	print(context)
+
 	return render(request, 'viewprofile.html', context)
 
 
@@ -677,7 +652,7 @@ def reply_ajax(request, question_id):
 		text = " ".join(words)
 		text = urllib.unquote(text).decode('utf8')
 		a_id = a.split('&')[1].split('=')[1]
-		
+
 		author=request.user
 		answer=Answer.objects.get(id=a_id)
 		ctext=text
