@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
-from .models import Question,Answer, Comment, Profile
+from .models import Question,Answer, Comment, Profile, Vote
 from django.utils import timezone
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
@@ -310,6 +310,23 @@ def question_detail(request, question_id):
 					cuser.append(pro)
 			showuser = User.objects.get(id = request.user.id)
 			showprofile= Profile.objects.get(user=showuser)
+			for ans in answers:
+				if(ans.author.username != request.user.username):
+					existingVotes=Vote.objects.filter(answer=ans)
+					for vote in existingVotes:
+						if vote.voter==request.user:
+							flag=1
+							break
+					if flag!=1: 
+						answer=ans
+						voter=request.user
+						votes=Vote.objects.create(
+								answer=answer,
+								voter=voter,
+								isVoted=0,
+							)
+						votes.save()
+
 			context = {
 				'users' : pro_all,
 				'cuser': cuser,
