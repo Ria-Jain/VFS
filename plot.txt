@@ -1,11 +1,10 @@
 
 To Do:
-	1. AJAX - best answer
-	2. Add comment front end text bar
+	//1. AJAX - best answer
 	3. uploading pictures
 	4. Related Question
 	5. Tags
-	6. is_solved() per question
+	//6. is_solved() per question
 	7. sort answers based on upvotes
 	8. search button fix
 	9. Fix current nav bar buttons

@@ -30,7 +30,7 @@ urlpatterns = [
     url(r'^ask_question/$', views.ask_question),
     url(r'^search/$', views.search),
     url(r'^countDown/(?P<answer_id>\d+)$', views.countDown),
-    # url(r'^countDown2/(?P<answer_id>\d+)$', views.countDown2),
+    url(r'^bestanswer/(?P<answer_id>\d+)$', views.bestanswer),
     url(r'^question_detail/(?P<question_id>\d+)/$', views.question_detail),
     url(r'^viewprofile/(?P<user_id>\d+)/$', views.viewprofile),
 

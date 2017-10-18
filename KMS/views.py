@@ -644,6 +644,26 @@ def countDown(request, answer_id):
 		context['error'] = 'You need to log in first.'
 		return render(request,'login.html',context)
 
+def bestanswer(request, answer_id):
+	a = json.dumps(request.body.decode('utf-8'))
+	print (a)
+	a = a.split('&csrfmiddlewaretoken')[0]
+	question_id = a.split('ques_id=')[1]	
+	q = Question.objects.get(id=question_id)
+	q.is_solved = 1
+	ans = Answer.objects.get(id=answer_id)
+	ans.bestAnswer = 1
+	ans.save()
+	pro_all = Profile.objects.all()
+	for pro in pro_all:
+		if(ans.author.username == pro.username):
+			pro.points+=10
+			pro.save()
+	q.save()
+	return JsonResponse({
+		"success" : "true",
+		"status" : q.is_solved
+		})
 
 def reply_ajax(request, question_id):
 	if request.user.is_authenticated():

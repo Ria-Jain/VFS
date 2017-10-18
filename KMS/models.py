@@ -13,6 +13,8 @@ class Question(models.Model):
 	qvotes = models.IntegerField(default=0)
 	numAns =models.IntegerField(default=0)
 	numViews =models.IntegerField(default=0)
+	# bestAnswer = models.ForeignKey(Answer)
+	is_solved = models.IntegerField(default=0)
 	recentAnswer=models.DateTimeField(auto_now_add=True)
 	def __str__(self):
 		return str(self.id) + " - " + self.author.username
@@ -21,6 +23,7 @@ class Question(models.Model):
 class Answer(models.Model):
 	author = models.ForeignKey(User)
 	question = models.ForeignKey(Question)
+	bestAnswer = models.IntegerField(default=0)
 	answer_text = models.TextField()
 	created_date = models.DateTimeField(auto_now_add=True)
 	avotes = models.IntegerField(default=0)

@@ -25,11 +25,30 @@
  			var all = data.created_date.split('T');
  			d = all[0];
  			t = all[1];
+ 			t = t.split('.')[0];
+ 			t = t.split(':');
+ 			
+ 			time = t[0]+':'+t[1]
+ 			if(t[0]>=12)
+ 			{
+ 				time+=' p.m.'
+ 			}
+ 			else
+ 			{
+ 				time+=' a.m.'
+ 			}
+ 			console.log(time);
+ 			date=new Date(d);
+ 			dates=""+date;
+ 			date = dates.split(' ');
+ 			d = date[1] + '. ' + date[2] + ', ' + date[3] + ', ';
+ 			console.log(d);
  			// edit the time format to Oct 1, 2017, 11:22 a.m. and itll fall in its place
  			// if no comments presentt it doesnt append
+ 			created_date=d+time
  			console.log(data.created_date);
  			var li = document.createElement(li)
- 			li.innerHTML = '<li class="comment"><div class="comment-body clearfix"><div class="avatar"><img alt="" src="../static/images/demo/avatar.png"></div><div class="comment-text"><div class="author clearfix"><div class="comment-author"><a href="#">'+data.name+'</a></div><div class="comment-meta"><div class="date"><i class="icon-time"></i>'+data.created_date+'</div></div></div><div class="text"><p>'+data.text+'</p></div></div></div></li>';
+ 			li.innerHTML = '<li class="comment"><div class="comment-body clearfix"><div class="avatar"><img alt="" src="../static/images/demo/avatar.png"></div><div class="comment-text"><div class="author clearfix"><div class="comment-author"><a href="#">'+data.name+'</a></div><div class="comment-meta"><div class="date"><i class="icon-time"></i>'+created_date+'</div></div></div><div class="text"><p>'+data.text+'</p></div></div></div></li>';
  			document.getElementById('comment-'+a_id).append(li)
  		}
 
@@ -48,13 +67,27 @@
 
 <script type="text/javascript">
 	var flag=0;
+	function solve(a_id,q_id)
+	{
+		$.ajax({
+				url: '/bestanswer/'+a_id,
+				type: 'POST',
+				data: {
+					"ques_id" : q_id,
+		 			"csrfmiddlewaretoken" : '{{csrf_token}}'
+				},
+				success: function (data) {
+					console.log(data);
+					document.getElementById('status').innerHTML = "solved";
+					document.getElementById('status').css = "color : 'green'";
+				}
+
+			});
+	}
 	function vote(action,a_id)
 	{
 		if(action=="up")
 		{
-			// UPVOTE
-			console.log(flag);
-			console.log(action);
 			$.ajax({
 				url: '/countUp/'+a_id,
 				type: 'POST',
@@ -68,15 +101,9 @@
 				}
 
 			});
-			console.log(flag);
-			console.log(action);
 		}
 		else if (action=="down")
 		{
-			//DOWNVOTE * 2
-			console.log(flag);
-			console.log(action);
-			
 			$.ajax({
 				url: '/countDown/'+a_id,
 				type: 'POST',
@@ -89,103 +116,8 @@
 				}
 
 			});
-			console.log(flag);
-			console.log(action);
 		}
 	}
-	// function upvote(a_id) {
-	// 	var up = 0;
-	// 	var down = 0;
-	// 	up+=1;
-	// 	if(up%2!=0)
-	// 	{
-	// 		console.log(a_id);
-	// 		console.log(document.getElementById('votes-'+a_id).innerHTML)
-	// 		$.ajax({
-	// 			url: '/countUp/'+a_id,
-	// 			type: 'POST',
-	// 			data: {
-	// 				"ans_id" : a_id,
-	// 	 			"csrfmiddlewaretoken" : '{{csrf_token}}'
-	// 			},
-	// 			success: function (data) {
-	// 				console.log(data);
-	// 				document.getElementById('votes-'+a_id).innerHTML = data.votes;
-	// 			}
-
-	// 		});
-	// 		$('#votes-'+a_id).css({
-	// 			'background-color' : '#00ff00'
-	// 		});
-	// 	}
-	// 	else
-	// 	{
-	// 		$.ajax({
-	// 			url: '/countDown/'+a_id,
-	// 			type: 'POST',
-	// 			data: {
-	// 				"ans_id" : a_id,
-	// 	 			"csrfmiddlewaretoken" : '{{csrf_token}}'
-	// 			},
-	// 			success: function (data) {
-	// 				document.getElementById('votes-'+a_id).innerHTML = data.votes;
-	// 			}
-
-	// 		});
-	// 		$('#votes-'+a_id).css({
-	// 			'background-color' : '#FFFFFF'
-	// 		});
-	// 	}
-	// }
-	// function downvote(a_id) {
-	// 	var up = 0;
-	// 	var down = 0;
-	// 	down+=1;
-	// 	if(down%2!=0)
-	// 	{
-	// 		console.log(a_id);
-	// 		console.log(document.getElementById('votes-'+a_id).innerHTML)
-	// 		$.ajax({
-	// 			url: '/countDown/'+a_id,
-	// 			type: 'POST',
-	// 			data: {
-	// 				"ans_id" : a_id,
-	// 	 			"csrfmiddlewaretoken" : '{{csrf_token}}'
-	// 			},
-	// 			success: function (data) {
-	// 				console.log(data);
-	// 				document.getElementById('votes-'+a_id).innerHTML = data.votes;
-	// 			}
-
-	// 		});
-	// 		$('#votes-'+a_id).css({
-	// 			'background-color' : '#ff9999'
-	// 		});
-	// 	// alert('Casted a Downvote')
-	// 	}
-	// 	else
-	// 	{
-	// 		$.ajax({
-	// 			url: '/countUp/'+a_id,
-	// 			type: 'POST',
-	// 			data: {
-	// 				"ans_id" : a_id,
-	// 	 			"csrfmiddlewaretoken" : '{{csrf_token}}'
-	// 			},
-	// 			success: function (data) {
-	// 				document.getElementById('votes-'+a_id).innerHTML = data.votes;
-	// 			}
-
-	// 		});
-	// 		$('#votes-'+a_id).css({
-	// 			'background-color' : '#FFFFFF'
-	// 		});
-	// 	// alert('Undoed a Downvote')
-	// 	}
-	// }
-
-
-
 </script>
 
 <div class="col-md-9">
@@ -193,6 +125,10 @@
 		<div class="author-image">
 			<a href="#" original-title="admin" class="tooltip-n"><img alt="" src="../../static/images/demo/{{ profile_q.profilePic }}"></a>
 		</div>
+<!-- 		{% if request.user.username == showuser.username %}
+			<a href="/edit/" style="margin-left: 70%">Edit 	<i class="icon-pencil"></i></a>
+		{% endif %} -->
+
 		<div class="author-bio">
 			<br>
 			<h3 >Question asked by </h3>
@@ -206,14 +142,17 @@
 		<div class="question-type-main">
 				<i class="icon-question-sign"></i>Question
 		</div>
-		<!-- <div class="question-author">
-			<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="static/images/demo/avatar.png"></a>
-		</div> -->
 		<div class="question-inner" style="margin-left: 2%;">
 			<div class="clearfix"></div>
 			<p class="question-desc">{{ question.question_text }}</p>
 			<div class="question-details">
-				<span class="question-answered question-answered-done"><i class="icon-cross"></i>unsolved</span>
+				<span class="question-answered question-answered-done" id="status">
+					{% if question.is_solved == 0 %}
+						unsolved
+					{% else %}
+						solved
+					{% endif %}
+				</span>
 			</div>
 			<span class="question-date"><i class="icon-time"></i>{{ question.created_date }}</span>
 			<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ question.numAns }} Answers</a></span>
@@ -249,6 +188,11 @@
 							<div class="question-type-main" style="background-color: #008066;top: 20px; right: 0.2%;">
 									<i class="icon-pencil"></i>Answer
 							</div>
+								{% if question.author.username == request.user.username %}
+									{% if question.is_solved == 0 %}
+									<button href="#" onclick="solve( {{ans.id}},{{question.id}} )" style=";margin-left: 86.9%; background-color: #ff7361">Best Answer</button>
+									{% endif %}
+								{% endif %}
 						</div>
 						<div class="text"><p>{{ ans.answer_text }}</p>
 						</div>
@@ -289,21 +233,20 @@
 
 
 				<div class="row" width="100%">
-					<div class="col-md-5 col-md-offset-2">
-						<input type="text" placeholder="Reply" name="comment" id="reply-{{ans.id}}">
+					<div class="col-md-8 col-md-offset-1">
+						<input type="text" style="width: 100%;" placeholder="Comment on this answer" name="comment"  id="reply-{{ans.id}}">
 					</div>
 					<div class="col-md-3">
 						<p class="form-submit">
-							<!-- <input name="{{ ans.id }}" type="submit" value="Submit" class="button small color"> -->
-							<button class="button small color" onclick="c( {{ ans.id }} )">Submit</button>
+							<button class="button small color" style="margin-top:-4%; margin-bottom: -4%;" onclick="c( {{ ans.id }} )">Submit</button>
 						</p>
 
 					</div>
 				</div>
 						</li>
 						{% endfor %}
-					</ol><!-- End commentlist -->
-				</div><!-- End page-content -->
+					</ol>
+				</div>
 
 
 
