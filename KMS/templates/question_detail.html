@@ -198,11 +198,11 @@
 						</div>
 					</div>
 				</div>
-				{% for comment in comments %}
-				{% if comment|length != 0 %}
-				{% for c in comment %}
-				{% if c.answer.id == ans.id %}
 				<ul class="children" id = "comment-{{ans.id}}">
+					{% for comment in comments %}
+					{% if comment|length != 0 %}
+					{% for c in comment %}
+					{% if c.answer.id == ans.id %}
 					<li class="comment">
 						<div class="comment-body clearfix">
 							{% for pro in all_profile %}
@@ -225,11 +225,12 @@
 							</div>
 						</div>
 					</li>
+					{% endif %}
+					{% endfor %}
+					{% endif%}
+					{% endfor %}
 				</ul>
-				{% endif %}
-				{% endfor %}
-				{% endif%}
-				{% endfor %}
+				
 
 
 				<div class="row" width="100%">
