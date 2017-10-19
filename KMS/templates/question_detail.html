@@ -152,12 +152,17 @@
 			<div class="clearfix"></div>
 			<p class="question-desc">{{ question.question_text }}</p>
 			<div class="question-details">
-				<span class="question-answered question-answered-done" id="status">
-					{% if question.is_solved == 0 %}
+				<span class="question-answered ">
+				{% if q.is_solved = 1 %}
+					<span class="question-answered-done">
+						<i class="icon-ok"></i>
+						solved	
+					</span>
+				{% else %}
+					<span style=" color:#FF0000">
 						unsolved
-					{% else %}
-						solved
-					{% endif %}
+					</span>
+				{% endif%}
 				</span>
 			</div>
 			<span class="question-date"><i class="icon-time"></i>{{ question.created_date }}</span>

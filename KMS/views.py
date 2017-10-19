@@ -426,7 +426,6 @@ def question_detail(request, question_id):
 				'comments' : c,
 				'questions_all' : questions_all,
 				'answers_all' : answer_all,
-				'currProfile' : currProfile,
 				'questions_rq5': questions_rq,
 				'answer_rq5' : answer_rq,
 				'users_rq5' : users_rq,
@@ -641,10 +640,6 @@ def search(request):
 		return HttpResponse('What?')
 def viewprofile(request, user_id):
 	pro_all = Profile.objects.order_by('-points')[:5]
-	cuser=[]
-	for pro in pro_all:
-		if pro.username == request.user.username:
-			cuser.append(pro)
 	showuser = User.objects.get(id = user_id)
 	# print(showuser)
 
@@ -658,15 +653,15 @@ def viewprofile(request, user_id):
 		for ans in answers:
 			answer_all.append(ans)
 
-	u_questions_all = Question.objects.filter(author=showuser)
+	u_questions_all = Question.objects.filter(author=showuser).order_by('-created_date')
 	pro=Profile.objects.all()
-	u_answers_all = Answer.objects.filter(author=showuser)
+	u_answers_all = Answer.objects.filter(author=showuser).order_by('-created_date')
 	u_answers_all_q=[]
 	for u in u_answers_all:
 		ques=Question.objects.get(id=u.question.id)
 		u_answers_all_q.append(ques)
 	u_answers_all_q=set(u_answers_all_q)
-	u_comments_all = Comment.objects.filter(author=showuser)
+	u_comments_all = Comment.objects.filter(author=showuser).order_by('-created_date')
 	u_comments_all_a = []
 	u_comments_all_q =[]
 	for u in u_comments_all:
