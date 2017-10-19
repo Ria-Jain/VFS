@@ -48,13 +48,11 @@
 										<i class="icon-question-sign"></i>Question
 								</div>
 								<div class="question-author">
-									{% for user in users_rq %}
-										{% for u in user %}
+										{% for u in all_profile %}
 											{% if u.user == q.author %}
 												<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/images/demo/{{ u.profilePic }}"></a>
 											{% endif %}
 										{% endfor %}
-									{% endfor %}
 								</div>
 								<div class="question-inner">
 									<div class="clearfix"></div>

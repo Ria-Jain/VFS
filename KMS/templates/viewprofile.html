@@ -11,8 +11,13 @@
 									<h2>
 										About {{ showuser.firstName }} {{ showuser.lastName }}
 										{% if request.user.username == showuser.username %}
+											<a href="/edit/">
+												<div class="question-type-main" style="background-color: #ff7361;top: 20px; right: 4.1%; font-size: 13px;">
+													<i class="icon-pencil"></i>Edit
+												</div>
+											</a>
 											<!-- <span style="margin-left: 90%;"> -->
-												<a href="/edit/" style="margin-left: 65%">Edit 	<i class="icon-pencil"></i></a>
+												<!-- <a href="/edit/" style="margin-left: 65%">Edit 	<i class="icon-pencil"></i></a> -->
 											<!-- </span> -->
 										{% endif %}
 									</h2>

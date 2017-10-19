@@ -63,6 +63,7 @@ def index(request):
 
 	pro_all = Profile.objects.order_by('-points')[:3]
 	cuser=[]
+	profiles = Profile.objects.all()
 	context ={
 				'users' : pro_all,
 				'questions_all' : questions_all,
@@ -79,6 +80,7 @@ def index(request):
 				'users_ra' : users_ra,
 				'users_ma' : users_ma,
 				'users_na' : users_na,
+				'all_profile' : profiles
 			}
 	if(request.user.username):
 		print('hi')
@@ -106,6 +108,7 @@ def index(request):
 				'users_ra' : users_ra,
 				'users_ma' : users_ma,
 				'users_na' : users_na,
+				'all_profile' : profiles
 			}
 	print(context)
 	return render(request,'index.html', context)
@@ -403,23 +406,23 @@ def edit(request):
 				pro.twitter=twitter
 				pro.linkedin=linkedin
 				break
-		# if flag !=1:
-		# 	pro=Profile.objects.create(
-		# 			user=user,
-		# 			firstName=fname,
-		# 			lastName=lname,
-		# 			username=username,
-		# 			country=country,
-		# 			website=website,
-		# 			aboutYourself=about,
-		# 			phone=phone,
-		# 			regDate=timezone.now(),
-		# 			profilePic=proPic,
-		# 			facebook=facebook,
-		# 			github=github,
-		# 			twitter=twitter,
-		# 			linkedin=linkedin,
-		# 		)
+		if flag !=1:
+			pro=Profile.objects.create(
+					user=user,
+					firstName=fname,
+					lastName=lname,
+					username=username,
+					country=country,
+					website=website,
+					aboutYourself=about,
+					phone=phone,
+					regDate=timezone.now(),
+					profilePic=proPic,
+					facebook=facebook,
+					github=github,
+					twitter=twitter,
+					linkedin=linkedin,
+				)
 		pro.save()
 		user.first_name=fname
 		user.last_name=lname
