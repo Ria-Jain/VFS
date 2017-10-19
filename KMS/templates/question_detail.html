@@ -287,16 +287,16 @@
 					</form>
 				</div>
 				<br>
+				{% if related|length != 0 %}
 				<div id="related-posts">
 					<h2>Related questions</h2>
 					<ul class="related-posts">
-						<li class="related-item"><h3><a href="#"><i class="icon-double-angle-right"></i>This Is My Second Poll Question</a></h3></li>
-						<li class="related-item"><h3><a href="#"><i class="icon-double-angle-right"></i>This is my third Question</a></h3></li>
-						<li class="related-item"><h3><a href="#"><i class="icon-double-angle-right"></i>This is my fourth Question</a></h3></li>
-						<li class="related-item"><h3><a href="#"><i class="icon-double-angle-right"></i>This is my fifth Question</a></h3></li>
+						{% for q in related %}
+						<li class="related-item"><h3><a href="/question_detail/{{ q.id }}"><i class="icon-double-angle-right"></i>{{ q.question_title }}</a></h3></li>
+						{% endfor %}
 					</ul>
 				</div><!-- End related-posts -->
-
+				{% endif %}
 			</div><!-- End main -->
 
 			{% endblock %}
