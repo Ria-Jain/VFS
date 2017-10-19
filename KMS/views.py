@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
-from .models import Question,Answer, Comment, Profile, Vote
+from .models import Question,Answer, Comment, Profile, Vote, Tag
 from django.utils import timezone
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
@@ -11,6 +11,7 @@ import datetime
 from django.db.models import Q
 import json
 import urllib
+from django.core.exceptions import ObjectDoesNotExist
 # Create your views here.
 
 def index(request):
@@ -81,7 +82,7 @@ def index(request):
 				'users_na' : users_na,
 			}
 	if(request.user.username):
-		print('hi')
+		# print('hi')
 		for pro in pro_all:
 			if pro.username == request.user.username:
 				cuser.append(pro)
@@ -107,7 +108,7 @@ def index(request):
 				'users_ma' : users_ma,
 				'users_na' : users_na,
 			}
-	print(context)
+	# print(context)
 	return render(request,'index.html', context)
 
 def base(request):
@@ -129,7 +130,7 @@ def base(request):
 		'questions_all' : questions_all,
 		'answers_all' : answer_all
 	}
-	print(context)
+	# print(context)
 	return render(request,'base.html', context)
 
 def login_site(request):
@@ -138,7 +139,7 @@ def login_site(request):
 		password = request.POST['password']
 		user = authenticate(username=username, password=password)
 		if user:
-			print(username)
+			# print(username)
 			login(request, user)
 			return redirect('/index/')
 		else:
@@ -183,7 +184,7 @@ def register(request):
 
 def ask_question(request):
 	if request.user.is_authenticated():
-		print('Authenticated')
+		# print('Authenticated')
 		questions_all = Question.objects.all()
 		answer_all = []
 		for ques in questions_all:
@@ -199,17 +200,27 @@ def ask_question(request):
 					pro.numQues+=1
 					break;
 			pro.save()
-			print('POST request')
+			# print('POST request')
 			author = request.user
 			question_title = request.POST['question_title']
 			question_text = request.POST['question_text']
-			question = Question.objects.create(
+			tags = request.POST['tags[]']
+			tags = tags.split(',');
+			# print(tags)
+			ques = Question.objects.create(
 					author=author,
 					question_title=question_title,
 					question_text=question_text,
 				)
-			question.save()
-			print('Saved')
+			for tag in tags:
+				try:
+					t = Tag.objects.get(name=tag)
+					t.question = Question.objects.get(question=ques)
+					t.save()
+				except ObjectDoesNotExist:
+					t = Tag.objects.create(name=tag,
+						question=ques)
+			ques.save()
 			return redirect('/index/')
 		else:
 			pro_all = Profile.objects.order_by('-points')[:3]
@@ -226,10 +237,10 @@ def ask_question(request):
 				'questions_all' : questions_all,
 				'answers_all' : answer_all
 			}
-			print('GET request')
+			# print('GET request')
 			return render(request, 'ask_question.html', context)
 	else:
-		print('Not Authenticated')
+		# print('Not Authenticated')
 		return redirect('/login/')
 
 def question_detail(request, question_id):
@@ -263,8 +274,8 @@ def question_detail(request, question_id):
 				question.save()
 				ans.save()
 			else:
-				for key in request.POST:
-					print(key)
+				# for key in request.POST:
+					# print(key)
 				author=request.user
 				answer=Answer.objects.get(id=key)
 				text=request.POST['comment']
@@ -297,7 +308,7 @@ def question_detail(request, question_id):
 		for ans in answers:
 			pro=Profile.objects.get(user=ans.author)
 			pa.append(pro)
-		print(pa)
+		# print(pa)
 		c =[]
 		pc=[]
 		for ans in answers:
@@ -314,15 +325,15 @@ def question_detail(request, question_id):
 			showuser = User.objects.get(id = request.user.id)
 			showprofile= Profile.objects.get(user=showuser)
 			for ans in answers:
-				print(ans)
+				# print(ans)
 				if(ans.author.username != request.user.username):
 					existingVotes=Vote.objects.filter(answer=ans)
-					print(existingVotes)
+					# print(existingVotes)
 					for vote in existingVotes:
 						if vote.voter==request.user:
 							flag=1
 							break
-					print(flag)
+					# print(flag)
 					if flag!=1: 
 						answer=ans
 						voter=request.user
@@ -364,7 +375,7 @@ def question_detail(request, question_id):
 			}
 
 		ques.save()
-		print(context)
+		# print(context)
 		return render(request, 'question_detail.html', context)
 
 
@@ -386,7 +397,7 @@ def edit(request):
 		linkedin=request.POST['link']
 		github=request.POST['github']
 
-		print(request.POST)
+		# print(request.POST)
 		pro_all=Profile.objects.all()
 		for pro in pro_all:
 			if pro.username == username:
@@ -425,7 +436,7 @@ def edit(request):
 		user.last_name=lname
 		user.username=username
 		user.save()
-		print('Hi')
+		# print('Hi')
 		return redirect('/profile/')
 	else:
 		questions_all = Question.objects.all()
@@ -456,7 +467,7 @@ def edit(request):
 				'answers_all' : answer_all,
 				'cuser' : cuser
 				}
-		print(context)
+		# print(context)
 		return render(request, 'edit_profile.html', context)
 
 def search(request):
@@ -479,7 +490,7 @@ def search(request):
 		# for word in querywords:
 		# 	if word.lower() not in stopwords:
 		# 		result.append(word)
-		print(result)
+		# print(result)
 		query_title = Q()
 		query_text = Q()
 		# query_tt = Q()
@@ -496,9 +507,9 @@ def search(request):
 			# )
 		questions_tt = list(set().union(questions_title,questions_text))
 		pc=Profile.objects.all()
-		print(pc)
+		# print(pc)
 		if(request.user.username):
-			print('hi')
+			# print('hi')
 			for pro in pro_all:
 				if pro.username == request.user.username:
 					cuser.append(pro)
@@ -535,7 +546,7 @@ def viewprofile(request, user_id):
 		if pro.username == request.user.username:
 			cuser.append(pro)
 	showuser = User.objects.get(id = user_id)
-	print(showuser)
+	# print(showuser)
 
 	currentUser=User.objects.get(id=request.user.id)
 	currentUserProfile=Profile.objects.get(user=currentUser)
@@ -581,7 +592,7 @@ def viewprofile(request, user_id):
 		'answers_all' : answer_all,
 		'allprofile': pro
 	}
-	print(context)
+	# print(context)
 
 	return render(request, 'viewprofile.html', context)
 
@@ -599,9 +610,9 @@ def countUp(request, answer_id):
 		elif voted.isVoted== -1:
 			ans.avotes+=2
 			voted.isVoted=1
-		print('isVoted='+ str(voted.isVoted))
+		# print('isVoted='+ str(voted.isVoted))
 		voted.save()
-		print(ans.avotes)
+		# print(ans.avotes)
 		pro_all = Profile.objects.all()
 		for pro in pro_all:
 			if(ans.author.username == pro.username):
@@ -630,7 +641,7 @@ def countDown(request, answer_id):
 		elif voted.isVoted== -1:
 			ans.avotes+=1
 			voted.isVoted=0
-		print('isVoted='+ str(voted.isVoted))
+		# print('isVoted='+ str(voted.isVoted))
 		voted.save()
 		pro_all = Profile.objects.all()
 		for pro in pro_all:
@@ -649,7 +660,7 @@ def countDown(request, answer_id):
 
 def bestanswer(request, answer_id):
 	a = json.dumps(request.body.decode('utf-8'))
-	print (a)
+	# print (a)
 	a = a.split('&csrfmiddlewaretoken')[0]
 	question_id = a.split('ques_id=')[1]	
 	q = Question.objects.get(id=question_id)
@@ -671,7 +682,7 @@ def bestanswer(request, answer_id):
 def reply_ajax(request, question_id):
 	if request.user.is_authenticated():
 		a = json.dumps(request.body.decode('utf-8'))
-		print (a)
+		# print (a)
 		a = a.split('&csrfmiddlewaretoken')[0]
 		a = a.split('value=')[1]
 		text = a.split('&')[0]

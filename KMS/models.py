@@ -19,6 +19,12 @@ class Question(models.Model):
 	def __str__(self):
 		return str(self.id) + " - " + self.author.username
 
+class Tag(models.Model):
+	name = models.CharField(max_length=1000, null=True)
+	question = models.ForeignKey(Question)
+	def __str__(self):
+		return str(self.name) + " - " + str(self.question.id)
+
 
 class Answer(models.Model):
 	author = models.ForeignKey(User)
