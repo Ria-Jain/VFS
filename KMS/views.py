@@ -292,7 +292,7 @@ def question_detail(request, question_id):
 		ques = Question.objects.get(id=question_id)
 		ques.numViews+=1
 		pq=Profile.objects.get(user=ques.author)
-		answers = Answer.objects.filter(question=ques)
+		answers = Answer.objects.filter(question=ques).order_by('-bestAnswer').order_by('-avotes')
 		pa = []
 		for ans in answers:
 			pro=Profile.objects.get(user=ans.author)
