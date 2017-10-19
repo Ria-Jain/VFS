@@ -44,7 +44,7 @@ def index(request):
 		for ans in answers:
 			answer_ma.append(ans)
 
-	questions_ra = Question.objects.filter(numAns__gt=0).order_by('-recentAnswer')
+	questions_ra = Question.objects.filter(is_solved=0).order_by('-created_date')
 	answer_ra = []
 	users_ra=[]
 	for ques in questions_ra:
@@ -138,7 +138,7 @@ def base(request):
 		for ans in answers:
 			answer_all.append(ans)
 
-	pro_all = Profile.objects.order_by('-points')[:3]
+	pro_all = Profile.objects.order_by('-points')[:5]
 	cuser=[]
 	for pro in pro_all:
 		if pro.username == request.user.username:
@@ -212,7 +212,7 @@ def ask_question(request):
 				answer_all.append(ans)
 
 		if request.method == 'POST':
-			pro_all = Profile.objects.order_by('-points')[:3]
+			pro_all = Profile.objects.order_by('-points')[:5]
 			cuser= []
 			for pro in pro_all:
 				if pro.username == request.user.username:
@@ -242,19 +242,32 @@ def ask_question(request):
 			ques.save()
 			return redirect('/index/')
 		else:
-			pro_all = Profile.objects.order_by('-points')[:3]
+			pro_all = Profile.objects.order_by('-points')[:5]
 			cuser=[]
 			for pro in pro_all:
 				if pro.username == request.user.username:
 					cuser.append(pro)
 			showuser = User.objects.get(id = request.user.id)
 			showprofile = Profile.objects.get(user=showuser)
+			questions_rq = Question.objects.order_by('-created_date')[:5]
+			answer_rq = []
+			users_rq=[]
+			for ques in questions_rq:
+				user=Profile.objects.filter(user=ques.author)
+				users_rq.append(user)
+				answers = Answer.objects.filter(question=ques)
+				for ans in answers:
+					answer_rq.append(ans)
+			
 			context = {
 				'users' : pro_all,
 				'cuser': cuser,
 				'showUser' : showprofile,
 				'questions_all' : questions_all,
-				'answers_all' : answer_all
+				'answers_all' : answer_all,
+				'questions_rq5': questions_rq,
+				'answer_rq5' : answer_rq,
+				'users_rq5' : users_rq,
 			}
 			# print('GET request')
 			return render(request, 'ask_question.html', context)
@@ -283,7 +296,7 @@ def question_detail(request, question_id):
 						answer_text=text,
 						question=question
 					)
-				pro_all = Profile.objects.order_by('-points')[:3]
+				pro_all = Profile.objects.order_by('-points')[:5]
 				for pro in pro_all:
 					if pro.username == request.user.username:
 						pro.numAns+=1
@@ -314,17 +327,22 @@ def question_detail(request, question_id):
 
 		return redirect('/question_detail/' + str(question_id) + '/')
 	else :
-		pro_all = Profile.objects.order_by('-points')[:3]
+		
+		pro_all = Profile.objects.order_by('-points')[:5]
 		cuser=[]
 		for pro in pro_all:
 			if pro.username == request.user.username:
 				cuser.append(pro)
 		ques = Question.objects.get(id=question_id)
+		
 		ques.numViews+=1
 		pq=Profile.objects.get(user=ques.author)
-		answers = Answer.objects.filter(question=ques).order_by('-bestAnswer').order_by('-avotes')
+		
+		answers = Answer.objects.filter(question=ques).order_by('-avotes').order_by('-bestAnswer')
 		pa = []
 		for ans in answers:
+			print(ans.bestAnswer)
+			print(ans)
 			pro=Profile.objects.get(user=ans.author)
 			pa.append(pro)
 		# print(pa)
@@ -334,6 +352,16 @@ def question_detail(request, question_id):
 			com=Comment.objects.filter(answer=ans)
 			c.append(com)
 		pc=Profile.objects.all()
+
+		questions_rq = Question.objects.order_by('-created_date')[:5]
+		answer_rq = []
+		users_rq=[]
+		for quest in questions_rq:
+			user=Profile.objects.filter(user=quest.author)
+			users_rq.append(user)
+			answers2 = Answer.objects.filter(question=ques)
+			for ans in answers2:
+				answer_rq.append(ans)
 		if(request.user.username):
 			currProfile=Profile.objects.get(user=request.user)
 			currProfile=str(currProfile)
@@ -377,7 +405,10 @@ def question_detail(request, question_id):
 				'comments' : c,
 				'questions_all' : questions_all,
 				'answers_all' : answer_all,
-				'currProfile' : currProfile
+				'currProfile' : currProfile,
+				'questions_rq5': questions_rq,
+				'answer_rq5' : answer_rq,
+				'users_rq5' : users_rq,
 			}
 		else:
 			context = {
@@ -390,7 +421,10 @@ def question_detail(request, question_id):
 				'user' : request.user,
 				'comments' : c,
 				'questions_all' : questions_all,
-				'answers_all' : answer_all
+				'answers_all' : answer_all,
+				'questions_rq5': questions_rq,
+				'answer_rq5' : answer_rq,
+				'users_rq5' : users_rq,
 			}
 
 		ques.save()
@@ -428,9 +462,9 @@ def edit(request):
 				pro.phone=phone
 				if request.FILES['myfile']:
 					myfile = request.FILES['myfile']
-			        fs = FileSystemStorage()
-			        filename = fs.save(myfile.name, myfile)
-			        pro.profilePic=filename
+					fs = FileSystemStorage()
+					filename = fs.save(myfile.name, myfile)
+					pro.profilePic=filename
 				pro.facebook=facebook
 				pro.github=github
 				pro.twitter=twitter
@@ -466,8 +500,17 @@ def edit(request):
 			answers = Answer.objects.filter(question=ques)
 			for ans in answers:
 				answer_all.append(ans)
-		pro_all = Profile.objects.order_by('-points')[:3]
+		pro_all = Profile.objects.order_by('-points')[:5]
 		cuser= []
+		questions_rq = Question.objects.order_by('-created_date')[:5]
+		answer_rq = []
+		users_rq=[]
+		for ques in questions_rq:
+			user=Profile.objects.filter(user=ques.author)
+			users_rq.append(user)
+			answers = Answer.objects.filter(question=ques)
+			for ans in answers:
+				answer_rq.append(ans)
 		if (request.user.username):
 			pro=Profile.objects.get(user=request.user)
 			showuser = User.objects.get(id=request.user.id)
@@ -479,20 +522,26 @@ def edit(request):
 				'showUser':showprofile,
 				'questions_all' : questions_all,
 				'answers_all' : answer_all,
-				'cuser' : cuser
+				'cuser' : cuser,
+				'questions_rq5': questions_rq,
+				'answer_rq5' : answer_rq,
+				'users_rq5' : users_rq,
 				}
 			else:
 				context = {
 				'users' : pro_all,
 				'questions_all' : questions_all,
 				'answers_all' : answer_all,
-				'cuser' : cuser
+				'cuser' : cuser,
+				'questions_rq5': questions_rq,
+				'answer_rq5' : answer_rq,
+				'users_rq5' : users_rq,
 				}
 	return render(request, 'edit_profile.html', context)
 	
 def search(request):
 	if request.method == 'POST':
-		pro_all = Profile.objects.order_by('-points')[:3]
+		pro_all = Profile.objects.order_by('-points')[:5]
 		cuser=[]
 		for pro in pro_all:
 			if pro.username == request.user.username:
@@ -528,6 +577,15 @@ def search(request):
 		questions_tt = list(set().union(questions_title,questions_text))
 		pc=Profile.objects.all()
 		# print(pc)
+		questions_rq = Question.objects.order_by('-created_date')[:5]
+		answer_rq = []
+		users_rq=[]
+		for ques in questions_rq:
+			user=Profile.objects.filter(user=ques.author)
+			users_rq.append(user)
+			answers = Answer.objects.filter(question=ques)
+			for ans in answers:
+				answer_rq.append(ans)
 		if(request.user.username):
 			# print('hi')
 			for pro in pro_all:
@@ -545,6 +603,9 @@ def search(request):
 					'questions_all' : questions_all,
 					'answers_all' : answer_all,
 					'allprofile' : pc,
+					'questions_rq5': questions_rq,
+					'answer_rq5' : answer_rq,
+					'users_rq5' : users_rq,
 				}
 			else:
 				context = {
@@ -554,13 +615,16 @@ def search(request):
 					'cuser': cuser,
 					'questions_all' : questions_all,
 					'allprofile' : pc,
-					'answers_all' : answer_all
+					'answers_all' : answer_all,
+					'questions_rq5': questions_rq,
+					'answer_rq5' : answer_rq,
+					'users_rq5' : users_rq,
 				}
 		return render(request, 'search.html', context)
 	else:
 		return HttpResponse('What?')
 def viewprofile(request, user_id):
-	pro_all = Profile.objects.order_by('-points')[:3]
+	pro_all = Profile.objects.order_by('-points')[:5]
 	cuser=[]
 	for pro in pro_all:
 		if pro.username == request.user.username:
@@ -597,7 +661,15 @@ def viewprofile(request, user_id):
 		u_comments_all_a.append(ans)
 	u_comments_all_q=set(u_comments_all_q)
 	u_comments_all_a=set(u_comments_all_a)
-
+	questions_rq = Question.objects.order_by('-created_date')[:5]
+	answer_rq = []
+	users_rq=[]
+	for ques in questions_rq:
+		user=Profile.objects.filter(user=ques.author)
+		users_rq.append(user)
+		answers = Answer.objects.filter(question=ques)
+		for ans in answers:
+			answer_rq.append(ans)
 	context = {
 		'users': pro_all,
 		'showuser' : showprofile,
@@ -610,7 +682,10 @@ def viewprofile(request, user_id):
 		'u_comments_all_a' : u_comments_all_a,
 		'questions_all' : questions_all,
 		'answers_all' : answer_all,
-		'allprofile': pro
+		'allprofile': pro,
+		'questions_rq5': questions_rq,
+		'answer_rq5' : answer_rq,
+		'users_rq5' : users_rq,
 	}
 	# print(context)
 
