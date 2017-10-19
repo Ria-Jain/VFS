@@ -7,22 +7,27 @@
 			<div class="boxedtitle page-title"><h2>Edit Profile</h2></div>
 
 			<div class="form-style form-style-4">
-				<form method='post' action='#'>
+				<form method='post' action='#' enctype="multipart/form-data">
 					{% csrf_token %}
 					<div class="form-style form-style-2">
-						<div class="user-profile-img"><img src="../static/images/demo/{{ u_profile.profilePic }}"></div>
-						<p class="user-profile-p">
+						<div class= "row">
+							<div class="col-md-4">
+								<img alt="" style="max-width: 100%" width="100%" src="../../static/images/demo/{{ u_profile.profilePic }}">
+							</div>
+						</div>
+						<!-- <p class="user-profile-p">
 							<label>	Profile Picture</label>
 							<div class="fileinputs">
-								<input type="file" class="file" name="proPic">
+								<input type="submit" class="file" name="proPic" value="Upload">
 								<div class="fakefile">
 									<button type="button" class="button small margin_0">Select file</button>
 									<span><i class="icon-arrow-up"></i>Browse</span>
 								</div>
 							</div>
-						<p></p>
+						<p></p> -->
 						<div class="clearfix"></div>
 					</div>
+					<br>
 						<div class="form-inputs clearfix">
 							<p>
 								<label>First Name</label>

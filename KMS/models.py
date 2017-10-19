@@ -54,7 +54,7 @@ class Profile(models.Model):
 	aboutYourself = models.CharField(max_length=500, default=' ')
 	phone=models.CharField(max_length=10, default=' ')
 	regDate=models.DateTimeField(auto_now_add=True)
-	profilePic=models.ImageField(upload_to='picz/', default='avatar.png', max_length=1000)
+	profilePic=models.ImageField(upload_to='', default='avatar.png', max_length=1000)
 	numAns=models.IntegerField(default=0)
 	numQues=models.IntegerField(default=0)
 	points=models.IntegerField(default=0)

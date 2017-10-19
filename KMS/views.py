@@ -62,14 +62,27 @@ def index(request):
 		for ans in answers:
 			answer_na.append(ans)
 
-	pro_all = Profile.objects.order_by('-points')[:3]
+	questions_rq5= questions_rq[:5]
+	answer_rq5 = answer_rq[:5]
+	users_rq5 =users_rq[:5]
+	# for ques in questions_rq:
+	# 	user=Profile.objects.filter(user=ques.author)
+	# 	users_rq.append(user)
+	# 	answers = Answer.objects.filter(question=ques)
+	# 	for ans in answers:
+	# 		answer_rq.append(ans)
+
+	pro_all = Profile.objects.order_by('-points')[:5]
 	cuser=[]
+	profiles = Profile.objects.all()
 	context ={
 				'users' : pro_all,
 				'questions_all' : questions_all,
 				'answers_all' : answer_all,
 				'questions_rq' : questions_rq,
 				'answers_rq' : answer_rq,
+				'questions_rq5' : questions_rq5,
+				'answers_rq5' : answer_rq5,
 				'questions_ma' : questions_ma,
 				'answers_ma' : answer_ma,
 				'questions_ra' : questions_ra,
@@ -80,6 +93,7 @@ def index(request):
 				'users_ra' : users_ra,
 				'users_ma' : users_ma,
 				'users_na' : users_na,
+				'all_profile' : profiles
 			}
 	if(request.user.username):
 		# print('hi')
@@ -97,6 +111,8 @@ def index(request):
 				'answers_all' : answer_all,
 				'questions_rq' : questions_rq,
 				'answers_rq' : answer_rq,
+				'questions_rq5' : questions_rq5,
+				'answers_rq5' : answer_rq5,
 				'questions_ma' : questions_ma,
 				'answers_ma' : answer_ma,
 				'questions_ra' : questions_ra,
@@ -107,6 +123,7 @@ def index(request):
 				'users_ra' : users_ra,
 				'users_ma' : users_ma,
 				'users_na' : users_na,
+				'all_profile' : profiles
 			}
 	# print(context)
 	return render(request,'index.html', context)
@@ -414,23 +431,23 @@ def edit(request):
 				pro.twitter=twitter
 				pro.linkedin=linkedin
 				break
-		# if flag !=1:
-		# 	pro=Profile.objects.create(
-		# 			user=user,
-		# 			firstName=fname,
-		# 			lastName=lname,
-		# 			username=username,
-		# 			country=country,
-		# 			website=website,
-		# 			aboutYourself=about,
-		# 			phone=phone,
-		# 			regDate=timezone.now(),
-		# 			profilePic=proPic,
-		# 			facebook=facebook,
-		# 			github=github,
-		# 			twitter=twitter,
-		# 			linkedin=linkedin,
-		# 		)
+		if flag !=1:
+			pro=Profile.objects.create(
+					user=user,
+					firstName=fname,
+					lastName=lname,
+					username=username,
+					country=country,
+					website=website,
+					aboutYourself=about,
+					phone=phone,
+					regDate=timezone.now(),
+					profilePic=proPic,
+					facebook=facebook,
+					github=github,
+					twitter=twitter,
+					linkedin=linkedin,
+				)
 		pro.save()
 		user.first_name=fname
 		user.last_name=lname
