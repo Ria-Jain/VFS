@@ -7,11 +7,7 @@ To Do:
 		5. comment submit button displacement 
 
 	Ria:
-		1  uploading pictures
 		2. date fix (how much time ago) of 
-		3. pic without login
-		4. without login testing 
 		5. {{ static }}
-		6. best answer sort
 		7. media folder
 
