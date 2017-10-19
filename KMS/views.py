@@ -14,6 +14,8 @@ import urllib
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
+from collections import Counter
+
 # Create your views here.
 
 def index(request):
@@ -331,6 +333,37 @@ def question_detail(request, question_id):
 		ques = Question.objects.get(id=question_id)
 		
 		ques.numViews+=1
+		
+
+
+		ctags = []
+		tags_all = Tag.objects.all()
+		for tag in tags_all:
+			if tag.question.id == ques.id:
+				ctags.append(tag)
+		l=len(ctags)
+		related = []
+		for i in range(0,l):
+			related.append([])
+		i=0
+		for tag in ctags:
+			for allt in tags_all:
+				if tag.name == allt.name:
+					if tag.question != allt.question:
+						related[i].append(allt.question.id)
+			i += 1
+		print(ctags)
+		print(related)
+
+		# Found the [[...],[....],[....],[.....]] - to find number of times a question appears in all
+		close_q = Counter(x for sublist in related for x in sublist)
+		print(close_q)
+		related = []
+		for i in close_q:
+			q = Question.objects.get(id=i)
+			related.append(q)
+			related = related[0:5]
+		print(related)
 		pq=Profile.objects.get(user=ques.author)
 		
 		answers = Answer.objects.filter(question=ques).order_by('-avotes').order_by('-bestAnswer')
@@ -340,7 +373,6 @@ def question_detail(request, question_id):
 			print(ans)
 			pro=Profile.objects.get(user=ans.author)
 			pa.append(pro)
-		# print(pa)
 		c =[]
 		pc=[]
 		for ans in answers:
@@ -382,6 +414,7 @@ def question_detail(request, question_id):
 					flag=0
 
 			context = {
+				'related':related,
 				'users' : pro_all,
 				'showUser' : showprofile,
 				'profile_q' : pq,

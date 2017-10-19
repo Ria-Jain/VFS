@@ -1,7 +1,6 @@
 
 To Do:
 	Gaurav:
-		2. Related Question/Tags
 		3. search button fix
 		4. Fix current nav bar buttons
 		5. comment submit button displacement 
