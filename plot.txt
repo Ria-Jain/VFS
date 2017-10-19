@@ -1,12 +1,13 @@
 
 To Do:
-	//1. AJAX - best answer
-	2. uploading pictures
-	3. Related Question
-	4. Tags
-	5. sort answers based on upvotes
-	6. search button fix
-	7. Fix current nav bar buttons
-	8. Highest Points user last name
-	9. Add comment, profile picture
-	10. Highlight answer/comment of user
+	Gaurav:
+		//1. AJAX - best answer
+		2. Related Question/Tags
+		3. search button fix
+		4. Fix current nav bar buttons
+
+	Ria:
+		1 uploading pictures
+		2. sort answers based on upvotes
+		3. Highest Points user last name
+		4. Highlight answer/comment of user

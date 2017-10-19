@@ -300,12 +300,14 @@ def question_detail(request, question_id):
 		print(pa)
 		c =[]
 		pc=[]
-
 		for ans in answers:
 			com=Comment.objects.filter(answer=ans)
 			c.append(com)
 		pc=Profile.objects.all()
 		if(request.user.username):
+			currProfile=Profile.objects.get(user=request.user)
+			currProfile=str(currProfile)
+			currProfile=currProfile[1:]
 			for pro in pro_all:
 				if pro.username == request.user.username:
 					cuser.append(pro)
@@ -344,7 +346,8 @@ def question_detail(request, question_id):
 				'user' : request.user,
 				'comments' : c,
 				'questions_all' : questions_all,
-				'answers_all' : answer_all
+				'answers_all' : answer_all,
+				'currProfile' : currProfile
 			}
 		else:
 			context = {
@@ -688,12 +691,15 @@ def reply_ajax(request, question_id):
 				question=question
 			)
 		com.save()
+		profile=Profile.objects.get(user=request.user)
+		pic=profile.profilePic
 		return JsonResponse({
 			"success":"true",
 			"text":text,
 			"a_id":a_id,
 			"name":request.user.username,
-			"created_date":com.created_date
+			"created_date":com.created_date,
+			"pic":pic.path
 			})
 	else:
 		context={}
