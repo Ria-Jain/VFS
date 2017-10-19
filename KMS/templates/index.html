@@ -33,8 +33,8 @@
 				<div class="tabs-warp question-tab">
 		            <ul class="tabs">
 		                <li class="tab"><a href="#" class="current">Recent Questions</a></li>
-		                <li class="tab"><a href="#">Most Responses</a></li>
-		                <li class="tab"><a href="#">Recently Answered</a></li>
+		                <li class="tab"><a href="#">Popular Questions</a></li>
+		                <li class="tab"><a href="#">Unsolved Questions</a></li>
 		                <li class="tab"><a href="#">Unanswered</a></li>
 		            </ul>
 		            <div class="tab-inner-warp">
@@ -58,7 +58,19 @@
 									<div class="clearfix"></div>
 									<p class="question-desc">{{ q.question_text }}</p>
 									<div class="question-details">
-										<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
+										<span class="question-answered ">
+										{% if q.is_solved = 1 %}
+											<span class="question-answered-done">
+												<i class="icon-ok"></i>
+												solved	
+											</span>
+										{% else %}
+											<span style=" color:#FF0000">
+												unsolved
+											</span>
+										{% endif%}
+										</span>
+
 									</div>
 									<span class="question-date"><i class="icon-time"></i>{{ q.created_date }}</span>
 									<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
@@ -92,7 +104,18 @@
 									<div class="clearfix"></div>
 									<p class="question-desc">{{ q.question_text }}</p>
 									<div class="question-details">
-										<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
+										<span class="question-answered ">
+										{% if q.is_solved = 1 %}
+											<span class="question-answered-done">
+												<i class="icon-ok"></i>
+												solved	
+											</span>
+										{% else %}
+											<span style=" color:#FF0000">
+												unsolved
+											</span>
+										{% endif%}
+										</span>
 									</div>
 									<span class="question-date"><i class="icon-time"></i>{{ q.created_date }}</span>
 									<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
@@ -126,7 +149,18 @@
 									<div class="clearfix"></div>
 									<p class="question-desc">{{ q.question_text }}</p>
 									<div class="question-details">
-										<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
+										<span class="question-answered ">
+										{% if q.is_solved = 1 %}
+											<span class="question-answered-done">
+												<i class="icon-ok"></i>
+												solved	
+											</span>
+										{% else %}
+											<span style=" color:#FF0000">
+												unsolved
+											</span>
+										{% endif%}
+										</span>
 									</div>
 									<span class="question-date"><i class="icon-time"></i>{{ q.created_date }}</span>
 									<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
@@ -160,7 +194,18 @@
 									<div class="clearfix"></div>
 									<p class="question-desc">{{ q.question_text }}</p>
 									<div class="question-details">
-										<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
+										<span class="question-answered ">
+										{% if q.is_solved = 1 %}
+											<span class="question-answered-done">
+												<i class="icon-ok"></i>
+												solved	
+											</span>
+										{% else %}
+											<span style=" color:#FF0000">
+												unsolved
+											</span>
+										{% endif%}
+										</span>
 									</div>
 									<span class="question-date"><i class="icon-time"></i>{{ q.created_date }}</span>
 									<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
