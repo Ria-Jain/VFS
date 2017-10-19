@@ -3,8 +3,6 @@ To Do:
 	Gaurav:
 		//1. AJAX - best answer
 		2. Related Question/Tags
-
-
 		3. search button fix
 		4. Fix current nav bar buttons
 		5. comment submit button displacement 
@@ -17,6 +15,4 @@ To Do:
 		5. {{ static }}
 		6. best answer sort
 		7. media folder
-		8. recent questions sidebar 5
-		9. Highest Points 5
-		
+
