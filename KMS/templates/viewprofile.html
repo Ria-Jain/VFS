@@ -31,7 +31,11 @@
 											</ul>
 										</div>
 									</div>
-								<p>{{showuser.aboutYourself}}</p>
+									<br>
+									<div>
+										<h4>About Me:</h4>
+										<p>{{showuser.aboutYourself}}</p>
+									</div>
 								<div class="clearfix"></div>
 								<span class="user-follow-me">Follow Me On</span>
 								{% ifnotequal showuser.facebook '#' %}
@@ -92,10 +96,13 @@
 							            <div class="tab-inner-warp">
 											<div class="tab-inner">
 												{% for q in u_questions_all %}
-												<article class="question question-type-normal">
+												<article class="question question-type-normal" style="background-color: #fff8dc;" >
 													<h2>
 														<a href="/question_detail/{{ q.id }}">{{ q.question_title }}</a>
 													</h2>
+													<div class="question-type-main">
+														<i class="icon-question-sign"></i>Question
+													</div>
 													<div class="question-author">
 
 														{% for proques in allprofile %}
@@ -127,6 +134,9 @@
 																<h2>
 																	<a href="/question_detail/{{ question.id }}">{{ question.question_title }}</a>
 																</h2>
+																<div class="question-type-main">
+																	<i class="icon-question-sign"></i>Question
+																</div>
 																<div class="question-author">
 																	{% for proques in allprofile %}
 																		{% if proques.username = question.author.username %}
@@ -151,7 +161,7 @@
 														<ol class="commentlist clearfix">
 															{% for ans in u_answers_all %}
 															{% if ans.question.id == question.id %}
-														    <li class="comment">
+														    <li class="comment" style="background-color: #fff8dc;">
 														        <div class="comment-body comment-body-answered clearfix">
 														            <div class="avatar">
 														            	{% for proans in allprofile %}
@@ -173,6 +183,9 @@
 														                	<div class="comment-meta">
 														                        <div class="date"><i class="icon-time"></i>{{ ans.created_date   }} - {{  question.created_date|timesince:ans.created_date   }}</div>
 														                    </div>
+														                    <div class="question-type-main" style="background-color: #008066;top: 20px; right: 0.2%;">
+																				<i class="icon-pencil"></i>Answer
+																			</div>
 														                </div>
 														                <div class="text"><p>{{ ans.answer_text }}</p>
 														                </div>
@@ -193,6 +206,9 @@
 														<h2>
 															<a href="/question_detail/{{ c.id }}">{{ c.question_title }}</a>
 														</h2>
+														<div class="question-type-main">
+															<i class="icon-question-sign"></i>Question
+														</div>
 														<div class="question-author">
 															{% for proques in allprofile %}
 																{% if proques.username = c.author.username %}
@@ -217,8 +233,8 @@
 													<ol class="commentlist clearfix">
 													    {% for ans in u_comments_all_a %}
 														    {% if ans.question.id = c.id %}
-															    <li class="comment">
-															        <div class="comment-body comment-body-answered clearfix">
+															    <li class="comment" >
+															        <div class="comment-body comment-body-answered clearfix" >
 															            <div class="avatar">
 															            	{% for proans in allprofile %}
 																            		{% if proans.username = ans.author.username %}
@@ -227,7 +243,7 @@
 																            	{% endfor %}
 
 															            </div>
-															            <div class="comment-text">
+															            <div class="comment-text" >
 															                <div class="author clearfix">
 															                	<div class="comment-author"><a href="#">{{ ans.author.username }}</a></div>
 															                	<div class="comment-vote">
@@ -240,6 +256,9 @@
 															                	<div class="comment-meta">
 															                        <div class="date"><i class="icon-time"></i>{{ ans.created_date   }} - {{  question.created_date|timesince:ans.created_date   }}</div>
 															                    </div>
+															                     <div class="question-type-main" style="background-color: #008066;top: 20px; right: 0.2%;">
+																					<i class="icon-pencil"></i>Answer
+																				</div>
 															                </div>
 															                <div class="text"><p>{{ ans.answer_text }}</p>
 															                </div>
@@ -249,7 +268,7 @@
 															        {% for comment in u_comments_all %}
 														        		{% if comment.answer.id == ans.id %}
 																	        <ul class="children">
-																	            <li class="comment">
+																	            <li class="comment" style="background-color: #fff8dc;">
 																	                <div class="comment-body clearfix">
 																	                	<div class="avatar">
 																	                		{% for procom in allprofile %}
@@ -265,6 +284,9 @@
 																	                        	<div class="comment-meta">
 																	                                <div class="date"><i class="icon-time"></i>{{ comment.created_date }}</div>
 																	                            </div>
+																	                            <div class="question-type-main" style="background-color: #004d99; top: 20px; right: 0.2%;">
+																									<i class="icon-comments-alt"></i>Comment
+																								</div>
 																	                        </div>
 																	                        <div class="text"><p>{{ comment.comment_text }}</p>
 																	                        </div>

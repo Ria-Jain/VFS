@@ -135,7 +135,9 @@
 		<div class="author-bio">
 			<br>
 			<h3 >Question asked by </h3>
-			<h4 style="color: #c2c2d6;">{{ question.author.username }} - {{ question.author.first_name }} {{ question.author.last_name }}</h4>
+			<a href="/viewprofile/{{ question.author.id }}">
+				<h4 style="color: #c2c2d6;">{{ question.author.username }} - {{ question.author.first_name }} {{ question.author.last_name }}</h4>
+			</a>
 		</div>
 	</div><!-- End about-author -->
 	<article class="question question-type-normal">
@@ -242,7 +244,7 @@
 					</div>
 					<div class="col-md-3">
 						<p class="form-submit">
-							<button class="button small color" style="margin-top:-4%; margin-bottom: -4%;" onclick="c( {{ ans.id }} )">Submit</button>
+							<button class="button small color" style="height: 39.8px;" onclick="c( {{ ans.id }} )">Submit</button>
 						</p>
 
 					</div>

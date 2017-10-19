@@ -8,4 +8,4 @@ To Do:
 
 	Ria:
 		1  uploading pictures
-		4. Highlight answer/comment of user
+		5. date fix (how much time ago) of answer
