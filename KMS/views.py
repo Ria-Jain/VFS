@@ -12,6 +12,8 @@ from django.db.models import Q
 import json
 import urllib
 from django.core.exceptions import ObjectDoesNotExist
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
 # Create your views here.
 
 def index(request):
@@ -408,7 +410,6 @@ def edit(request):
 		website=request.POST['website']
 		about=request.POST['about']
 		phone=request.POST['phone']
-		# proPic=request.POST['proPic']
 		facebook=request.POST['fb']
 		twitter=request.POST['twit']
 		linkedin=request.POST['link']
@@ -425,36 +426,39 @@ def edit(request):
 				pro.website=website
 				pro.aboutYourself=about
 				pro.phone=phone
-				# pro.profilePic=proPic
+				if request.FILES['myfile']:
+					myfile = request.FILES['myfile']
+			        fs = FileSystemStorage()
+			        filename = fs.save(myfile.name, myfile)
+			        pro.profilePic=filename
 				pro.facebook=facebook
 				pro.github=github
 				pro.twitter=twitter
 				pro.linkedin=linkedin
 				break
-		if flag !=1:
-			pro=Profile.objects.create(
-					user=user,
-					firstName=fname,
-					lastName=lname,
-					username=username,
-					country=country,
-					website=website,
-					aboutYourself=about,
-					phone=phone,
-					regDate=timezone.now(),
-					profilePic=proPic,
-					facebook=facebook,
-					github=github,
-					twitter=twitter,
-					linkedin=linkedin,
-				)
+		# if flag !=1:
+		# 	pro=Profile.objects.create(
+		# 			user=user,
+		# 			firstName=fname,
+		# 			lastName=lname,
+		# 			username=username,
+		# 			country=country,
+		# 			website=website,
+		# 			aboutYourself=about,
+		# 			phone=phone,
+		# 			regDate=timezone.now(),
+		# 			profilePic=proPic,
+		# 			facebook=facebook,
+		# 			github=github,
+		# 			twitter=twitter,
+		# 			linkedin=linkedin,
+		# 		)
 		pro.save()
 		user.first_name=fname
 		user.last_name=lname
 		user.username=username
 		user.save()
-		# print('Hi')
-		return redirect('/profile/')
+		return redirect('/edit/')
 	else:
 		questions_all = Question.objects.all()
 		answer_all = []
@@ -484,9 +488,8 @@ def edit(request):
 				'answers_all' : answer_all,
 				'cuser' : cuser
 				}
-		# print(context)
-		return render(request, 'edit_profile.html', context)
-
+	return render(request, 'edit_profile.html', context)
+	
 def search(request):
 	if request.method == 'POST':
 		pro_all = Profile.objects.order_by('-points')[:3]
