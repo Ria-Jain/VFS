@@ -86,6 +86,7 @@
 				}
 
 			});
+		$('#the-button').hide();
 	}
 	function vote(action,a_id)
 	{
@@ -195,7 +196,17 @@
 							</div>
 								{% if question.author.username == request.user.username %}
 									{% if question.is_solved == 0 %}
-									<button href="#" onclick="solve( {{ans.id}},{{question.id}} )" style=";margin-left: 86.9%; background-color: #ff7361">Best Answer</button>
+									<button id="the-button" href="#" onclick="solve( {{ans.id}},{{question.id}} )" style=";margin-left: 86.9%; background-color: #ff7361">Best Answer</button>
+									{% endif %}
+								{% endif %}
+								{% if question.is_solved == 1 %}
+									{% if ans.bestAnswer == 1 %}
+									
+										<p style="font-size: 30px;margin-top: 5%;margin-left: 92%;color: #ff7361;"><i class="icon-star"></i></p>
+									{% else %}
+										<p style="font-size: 30px;margin-top: 5%;margin-left: 92%;color: #ff7361;">
+											<br>
+										</p>	
 									{% endif %}
 								{% endif %}
 						</div>
