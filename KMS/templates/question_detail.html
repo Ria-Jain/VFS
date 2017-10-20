@@ -58,37 +58,7 @@
  	});
  	document.getElementById('reply-'+a_id).value = null;
  }
-</script>
-{% else %}
-<script type="text/javascript">
-
-	function c(a_id) {
-	locationtion.href="/login/"
-}
-</script>
-{% endif %}
-
-<script type="text/javascript">
-	var flag=0;
-	function solve(a_id,q_id)
-	{
-		$.ajax({
-				url: '/bestanswer/'+a_id,
-				type: 'POST',
-				data: {
-					"ques_id" : q_id,
-		 			"csrfmiddlewaretoken" : '{{csrf_token}}'
-				},
-				success: function (data) {
-					console.log(data);
-					document.getElementById('status').innerHTML = "solved";
-					document.getElementById('status').css = "color : 'green'";
-				}
-
-			});
-		$('#the-button').hide();
-	}
-	function vote(action,a_id)
+ function vote(action,a_id)
 	{
 		if(action=="up")
 		{
@@ -123,6 +93,39 @@
 		}
 	}
 </script>
+{% else %}
+<script type="text/javascript">
+
+	function c(a_id) {
+	locationtion.href="/login/"
+}
+	function vote(action, a_id) {
+	locationtion.href="/login/"
+}
+</script>
+
+<script type="text/javascript">
+	var flag=0;
+	function solve(a_id,q_id)
+	{
+		$.ajax({
+				url: '/bestanswer/'+a_id,
+				type: 'POST',
+				data: {
+					"ques_id" : q_id,
+		 			"csrfmiddlewaretoken" : '{{csrf_token}}'
+				},
+				success: function (data) {
+					console.log(data);
+					document.getElementById('status').innerHTML = "solved";
+					document.getElementById('status').css = "color : 'green'";
+				}
+
+			});
+		$('#the-button').hide();
+	}
+</script>
+{% endif %}
 
 <div class="col-md-9">
 	<div class="about-author clearfix">
@@ -152,12 +155,18 @@
 			<div class="clearfix"></div>
 			<p class="question-desc">{{ question.question_text|linebreaksbr }}</p>
 			<div class="question-details">
-				<span class="question-answered question-answered-done" id="status">
-					{% if question.is_solved == 0 %}
+				<span class="question-answered ">
+				{% if question.is_solved = 1 %}
+					<span class="question-answered-done">
+						<i class="icon-ok"></i>
+						solved	
+					</span>
+				{% else %}
+					<span style=" color:#FF0000">
+						<i class="icon-remove"></i>
 						unsolved
-					{% else %}
-						solved
-					{% endif %}
+					</span>
+				{% endif%}
 				</span>
 			</div>
 			<span class="question-date"><i class="icon-time"></i>{{ question.created_date }}</span>

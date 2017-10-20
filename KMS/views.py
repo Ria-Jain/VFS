@@ -100,35 +100,30 @@ def index(request):
 				'all_profile' : profiles
 			}
 	if(request.user.username):
-		# print('hi')
-		for pro in pro_all:
-			if pro.username == request.user.username:
-				cuser.append(pro)
 		showuser = User.objects.get(id = request.user.id)
-		if Profile.objects.get(user=showuser):
-			showprofile= Profile.objects.get(user=showuser)
-			context ={
-				# 'cuser': cuser,
-				'users' : pro_all,
-				'showUser' : showprofile,
-				'questions_all' : questions_all,
-				'answers_all' : answer_all,
-				'questions_rq' : questions_rq,
-				'answers_rq' : answer_rq,
-				'questions_rq5' : questions_rq5,
-				'answers_rq5' : answer_rq5,
-				'questions_ma' : questions_ma,
-				'answers_ma' : answer_ma,
-				'questions_ra' : questions_ra,
-				'answers_ra' : answer_ra,
-				'questions_na' : questions_na,
-				'answers_na' : answer_na,
-				'users_rq' : users_rq,
-				'users_ra' : users_ra,
-				'users_ma' : users_ma,
-				'users_na' : users_na,
-				'all_profile' : profiles
-			}
+		showprofile= Profile.objects.get(user=showuser)
+		context ={
+			# 'cuser': cuser,
+			'users' : pro_all,
+			'showUser' : showprofile,
+			'questions_all' : questions_all,
+			'answers_all' : answer_all,
+			'questions_rq' : questions_rq,
+			'answers_rq' : answer_rq,
+			'questions_rq5' : questions_rq5,
+			'answers_rq5' : answer_rq5,
+			'questions_ma' : questions_ma,
+			'answers_ma' : answer_ma,
+			'questions_ra' : questions_ra,
+			'answers_ra' : answer_ra,
+			'questions_na' : questions_na,
+			'answers_na' : answer_na,
+			'users_rq' : users_rq,
+			'users_ra' : users_ra,
+			'users_ma' : users_ma,
+			'users_na' : users_na,
+			'all_profile' : profiles
+		}
 	# print(context)
 	return render(request,'index.html', context)
 
@@ -162,7 +157,14 @@ def login_site(request):
 		if user:
 			# print(username)
 			login(request, user)
-			return redirect('/index/')
+			pre = (request.META.get('HTTP_REFERER','/'))
+			pre = pre.split('/')
+			prev = pre[-2]
+			if prev == "login":
+				return redirect('/index/')
+			else:
+				return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
+			# return redirect('/index/')
 		else:
 			context = {}
 			context['error'] = "Wrong Credentials"
@@ -172,9 +174,17 @@ def login_site(request):
 		context['error'] = ''
 		return render(request,'login.html', context)
 
+
 def logout_site(request):
 	logout(request)
-	return redirect('/index/')
+	pre = (request.META.get('HTTP_REFERER','/'))
+	pre = pre.split('/')
+	prev = pre[-2]
+	if prev == "logout":
+		return redirect('/index/')
+	else:
+		return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
+	
 
 def register(request):
 	if request.method == 'POST':
@@ -395,12 +405,6 @@ def question_detail(request, question_id):
 			for ans in answers2:
 				answer_rq.append(ans)
 		if(request.user.username):
-			currProfile=Profile.objects.get(user=request.user)
-			currProfile=str(currProfile)
-			currProfile=currProfile[1:]
-			for pro in pro_all:
-				if pro.username == request.user.username:
-					cuser.append(pro)
 			showuser = User.objects.get(id = request.user.id)
 			showprofile= Profile.objects.get(user=showuser)
 			for ans in answers:
@@ -427,7 +431,6 @@ def question_detail(request, question_id):
 			context = {
 				'related':related,
 				'users' : pro_all,
-				'cuser': cuser,
 				'showUser' : showprofile,
 				'profile_q' : pq,
 				'profile_a' : pa,
@@ -438,7 +441,6 @@ def question_detail(request, question_id):
 				'comments' : c,
 				'questions_all' : questions_all,
 				'answers_all' : answer_all,
-				'currProfile' : currProfile,
 				'questions_rq5': questions_rq,
 				'answer_rq5' : answer_rq,
 				'users_rq5' : users_rq,
@@ -448,7 +450,7 @@ def question_detail(request, question_id):
 				'users' : pro_all,
 				'profile_q' : pq,
 				'profile_a' : pa,
-				'profile_c' : pc,
+				'all_profile' : pc,
 				'question' : ques,
 				'answers' : answers,
 				'user' : request.user,
@@ -469,6 +471,7 @@ def question_detail(request, question_id):
 
 def edit(request):
 	if request.method == 'POST':
+		print(request.FILES)
 		user=User.objects.get(id=request.user.id)
 		fname=request.POST['fname']
 		lname=request.POST['lname']
@@ -493,7 +496,7 @@ def edit(request):
 				pro.website=website
 				pro.aboutYourself=about
 				pro.phone=phone
-				if request.FILES['myfile']:
+				if request.FILES:
 					myfile = request.FILES['myfile']
 					fs = FileSystemStorage()
 					filename = fs.save(myfile.name, myfile)
@@ -503,23 +506,6 @@ def edit(request):
 				pro.twitter=twitter
 				pro.linkedin=linkedin
 				break
-		# if flag !=1:
-		# 	pro=Profile.objects.create(
-		# 			user=user,
-		# 			firstName=fname,
-		# 			lastName=lname,
-		# 			username=username,
-		# 			country=country,
-		# 			website=website,
-		# 			aboutYourself=about,
-		# 			phone=phone,
-		# 			regDate=timezone.now(),
-		# 			profilePic=proPic,
-		# 			facebook=facebook,
-		# 			github=github,
-		# 			twitter=twitter,
-		# 			linkedin=linkedin,
-		# 		)
 		pro.save()
 		user.first_name=fname
 		user.last_name=lname
@@ -620,53 +606,43 @@ def search(request):
 			for ans in answers:
 				answer_rq.append(ans)
 		if(request.user.username):
-			# print('hi')
-			for pro in pro_all:
-				if pro.username == request.user.username:
-					cuser.append(pro)
 			showuser = User.objects.get(id = request.user.id)
-			if Profile.objects.get(user=showuser):
-				showprofile= Profile.objects.get(user=showuser)
-				context = {
-					's' : t,
-					'questions_tt' : questions_tt,
-					'users' : pro_all,
-					'cuser': cuser,
-					'showUser':showprofile,
-					'questions_all' : questions_all,
-					'answers_all' : answer_all,
-					'allprofile' : pc,
-					'questions_rq5': questions_rq,
-					'answer_rq5' : answer_rq,
-					'users_rq5' : users_rq,
-				}
-			else:
-				context = {
-					's' : t,
-					'questions_tt' : questions_tt,
-					'users' : pro_all,
-					'cuser': cuser,
-					'questions_all' : questions_all,
-					'allprofile' : pc,
-					'answers_all' : answer_all,
-					'questions_rq5': questions_rq,
-					'answer_rq5' : answer_rq,
-					'users_rq5' : users_rq,
-				}
+			showprofile= Profile.objects.get(user=showuser)
+			context = {
+				's' : t,
+				'questions_tt' : questions_tt,
+				'users' : pro_all,
+				'cuser': cuser,
+				'showUser':showprofile,
+				'questions_all' : questions_all,
+				'answers_all' : answer_all,
+				'allprofile' : pc,
+				'questions_rq5': questions_rq,
+				'answer_rq5' : answer_rq,
+				'users_rq5' : users_rq,
+			}
+		else:
+			context = {
+				's' : t,
+				'questions_tt' : questions_tt,
+				'users' : pro_all,
+				'cuser': cuser,
+				'questions_all' : questions_all,
+				'allprofile' : pc,
+				'answers_all' : answer_all,
+				'questions_rq5': questions_rq,
+				'answer_rq5' : answer_rq,
+				'users_rq5' : users_rq,
+			}
 		return render(request, 'search.html', context)
 	else:
 		return HttpResponse('What?')
 def viewprofile(request, user_id):
 	pro_all = Profile.objects.order_by('-points')[:5]
-	cuser=[]
-	for pro in pro_all:
-		if pro.username == request.user.username:
-			cuser.append(pro)
 	showuser = User.objects.get(id = user_id)
 	# print(showuser)
 
-	currentUser=User.objects.get(id=request.user.id)
-	currentUserProfile=Profile.objects.get(user=currentUser)
+	
 
 	showprofile = Profile.objects.get(user=showuser)
 	questions_all = Question.objects.all()
@@ -676,15 +652,15 @@ def viewprofile(request, user_id):
 		for ans in answers:
 			answer_all.append(ans)
 
-	u_questions_all = Question.objects.filter(author=showuser)
+	u_questions_all = Question.objects.filter(author=showuser).order_by('-created_date')
 	pro=Profile.objects.all()
-	u_answers_all = Answer.objects.filter(author=showuser)
+	u_answers_all = Answer.objects.filter(author=showuser).order_by('-created_date')
 	u_answers_all_q=[]
 	for u in u_answers_all:
 		ques=Question.objects.get(id=u.question.id)
 		u_answers_all_q.append(ques)
 	u_answers_all_q=set(u_answers_all_q)
-	u_comments_all = Comment.objects.filter(author=showuser)
+	u_comments_all = Comment.objects.filter(author=showuser).order_by('-created_date')
 	u_comments_all_a = []
 	u_comments_all_q =[]
 	for u in u_comments_all:
@@ -703,23 +679,43 @@ def viewprofile(request, user_id):
 		answers = Answer.objects.filter(question=ques)
 		for ans in answers:
 			answer_rq.append(ans)
-	context = {
-		'users': pro_all,
-		'showuser' : showprofile,
-		'showUser' : currentUserProfile,
-		'u_questions_all' : u_questions_all,
-		'u_answers_all' : u_answers_all,
-		'u_answers_all_q' : u_answers_all_q,
-		'u_comments_all' : u_comments_all,
-		'u_comments_all_q' : u_comments_all_q,
-		'u_comments_all_a' : u_comments_all_a,
-		'questions_all' : questions_all,
-		'answers_all' : answer_all,
-		'allprofile': pro,
-		'questions_rq5': questions_rq,
-		'answer_rq5' : answer_rq,
-		'users_rq5' : users_rq,
-	}
+
+	if(request.user.username):
+		currentUserProfile=Profile.objects.get(user=request.user)
+		context = {
+			'users': pro_all,
+			'showuser' : showprofile,
+			'showUser' : currentUserProfile,
+			'u_questions_all' : u_questions_all,
+			'u_answers_all' : u_answers_all,
+			'u_answers_all_q' : u_answers_all_q,
+			'u_comments_all' : u_comments_all,
+			'u_comments_all_q' : u_comments_all_q,
+			'u_comments_all_a' : u_comments_all_a,
+			'questions_all' : questions_all,
+			'answers_all' : answer_all,
+			'allprofile': pro,
+			'questions_rq5': questions_rq,
+			'answer_rq5' : answer_rq,
+			'users_rq5' : users_rq,
+		}
+	else: 
+		context = {
+			'users': pro_all,
+			'showuser' : showprofile,
+			'u_questions_all' : u_questions_all,
+			'u_answers_all' : u_answers_all,
+			'u_answers_all_q' : u_answers_all_q,
+			'u_comments_all' : u_comments_all,
+			'u_comments_all_q' : u_comments_all_q,
+			'u_comments_all_a' : u_comments_all_a,
+			'questions_all' : questions_all,
+			'answers_all' : answer_all,
+			'allprofile': pro,
+			'questions_rq5': questions_rq,
+			'answer_rq5' : answer_rq,
+			'users_rq5' : users_rq,
+		}
 	# print(context)
 
 	return render(request, 'viewprofile.html', context)

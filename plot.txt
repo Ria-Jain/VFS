@@ -1,16 +1,15 @@
 
 To Do:
 	Gaurav:
-		1. search based on tags
 		2. strip ? when searching
 		4. Fix current nav bar buttons
+		4. without login, upvote
+		5. voting functionality on viewprofile
 
 	Ria:
-		1  uploading pictures
-		2. date fix (how much time ago) of 
-		3. pic without login
-		4. without login testing 
-		5. {{ static }}
-		6. best answer sort
-		7. media folder
+		1. date fix (how much time ago) of 
+		2. {{ static }}
+		3. media folder
+		4. Clean up code
+		
 

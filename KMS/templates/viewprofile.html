@@ -31,8 +31,8 @@
 											<ul>
 												<li><i class="icon-plus"></i>Registered : <span>{{ showuser.regDate }}</span></li>
 												<li><i class="icon-map-marker"></i>Country : <span>{{ showuser.country }}</span></li>
-												<li><i class="icon-globe"></i>Website : <a target="_blank" href="https://2code.info/">{{ showuser.website }}</a></li>
-												<li><i class="icon-trophy"></i>Points : <a target="_blank" href="https://2code.info/">{{ showuser.points }}</a></li>
+												<li><i class="icon-globe"></i>Website : <a target="_blank" href="https://{{ showuser.website}}">{{ showuser.website }}</a></li>
+												<li><i class="icon-trophy"></i>Points: {{ showuser.points }}</li>
 											</ul>
 										</div>
 									</div>
@@ -121,7 +121,18 @@
 														<div class="clearfix"></div>
 														<p class="question-desc">{{ q.question_text }}</p>
 														<div class="question-details">
-															<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
+															<span class="question-answered ">
+															{% if q.is_solved = 1 %}
+																<span class="question-answered-done">
+																	<i class="icon-ok"></i>
+																	solved	
+																</span>
+															{% else %}
+																<span style=" color:#FF0000">
+																	unsolved
+																</span>
+															{% endif%}
+															</span>
 														</div>
 														<span class="question-date"><i class="icon-time"></i>{{ q.created_date }}</span>
 														<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
@@ -154,7 +165,18 @@
 																	<div class="clearfix"></div>
 																	<p class="question-desc">{{ question.question_text }}</p>
 																	<div class="question-details">
-																		<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
+																		<span class="question-answered ">
+																		{% if question.is_solved = 1 %}
+																			<span class="question-answered-done">
+																				<i class="icon-ok"></i>
+																				solved	
+																			</span>
+																		{% else %}
+																			<span style=" color:#FF0000">
+																				unsolved
+																			</span>
+																		{% endif%}
+																		</span>
 																	</div>
 																	<span class="question-date"><i class="icon-time"></i>{{ question.created_date }}</span>
 																	<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ question.numAns }} Answers</a></span>
@@ -191,6 +213,16 @@
 														                    <div class="question-type-main" style="background-color: #008066;top: 20px; right: 0.2%;">
 																				<i class="icon-pencil"></i>Answer
 																			</div>
+																			{% if question.is_solved == 1 %}
+																				{% if ans.bestAnswer == 1 %}
+																				
+																					<p style="font-size: 30px;margin-top: 5%;margin-left: 92%;color: #ff7361;"><i class="icon-star"></i></p>
+																				{% else %}
+																					<p style="font-size: 30px;margin-top: 5%;margin-left: 92%;color: #ff7361;">
+																						<br>
+																					</p>	
+																				{% endif %}
+																			{% endif %}
 														                </div>
 														                <div class="text"><p>{{ ans.answer_text }}</p>
 														                </div>
@@ -226,7 +258,18 @@
 															<div class="clearfix"></div>
 															<p class="question-desc">{{ c.question_text }}</p>
 															<div class="question-details">
-																<span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
+																<span class="question-answered ">
+																{% if c.is_solved = 1 %}
+																	<span class="question-answered-done">
+																		<i class="icon-ok"></i>
+																		solved	
+																	</span>
+																{% else %}
+																	<span style=" color:#FF0000">
+																		unsolved
+																	</span>
+																{% endif%}
+																</span>
 															</div>
 															<span class="question-date"><i class="icon-time"></i>{{ c.created_date }}</span>
 															<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ c.numAns }} Answers</a></span>
