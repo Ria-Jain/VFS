@@ -456,6 +456,7 @@ def question_detail(request, question_id):
 
 def edit(request):
 	if request.method == 'POST':
+		print(request.FILES)
 		user=User.objects.get(id=request.user.id)
 		fname=request.POST['fname']
 		lname=request.POST['lname']
@@ -480,7 +481,7 @@ def edit(request):
 				pro.website=website
 				pro.aboutYourself=about
 				pro.phone=phone
-				if request.FILES['myfile']:
+				if request.FILES:
 					myfile = request.FILES['myfile']
 					fs = FileSystemStorage()
 					filename = fs.save(myfile.name, myfile)
@@ -490,23 +491,6 @@ def edit(request):
 				pro.twitter=twitter
 				pro.linkedin=linkedin
 				break
-		# if flag !=1:
-		# 	pro=Profile.objects.create(
-		# 			user=user,
-		# 			firstName=fname,
-		# 			lastName=lname,
-		# 			username=username,
-		# 			country=country,
-		# 			website=website,
-		# 			aboutYourself=about,
-		# 			phone=phone,
-		# 			regDate=timezone.now(),
-		# 			profilePic=proPic,
-		# 			facebook=facebook,
-		# 			github=github,
-		# 			twitter=twitter,
-		# 			linkedin=linkedin,
-		# 		)
 		pro.save()
 		user.first_name=fname
 		user.last_name=lname
