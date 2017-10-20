@@ -150,7 +150,7 @@
 		</div>
 		<div class="question-inner" style="margin-left: 2%;">
 			<div class="clearfix"></div>
-			<p class="question-desc">{{ question.question_text }}</p>
+			<p class="question-desc">{{ question.question_text|linebreaksbr }}</p>
 			<div class="question-details">
 				<span class="question-answered question-answered-done" id="status">
 					{% if question.is_solved == 0 %}
@@ -210,7 +210,7 @@
 									{% endif %}
 								{% endif %}
 						</div>
-						<div class="text"><p>{{ ans.answer_text }}</p>
+						<div class="text"><p>{{ ans.answer_text|linebreaks }}</p>
 						</div>
 					</div>
 				</div>
