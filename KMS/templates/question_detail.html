@@ -66,7 +66,6 @@
 	locationtion.href="/login/"
 }
 </script>
-{% endif %}
 
 <script type="text/javascript">
 	var flag=0;
@@ -123,6 +122,7 @@
 		}
 	}
 </script>
+{% endif %}
 
 <div class="col-md-9">
 	<div class="about-author clearfix">
@@ -153,7 +153,7 @@
 			<p class="question-desc">{{ question.question_text }}</p>
 			<div class="question-details">
 				<span class="question-answered ">
-				{% if q.is_solved = 1 %}
+				{% if question.is_solved = 1 %}
 					<span class="question-answered-done">
 						<i class="icon-ok"></i>
 						solved	
