@@ -496,7 +496,7 @@ def edit(request):
 		user.last_name=lname
 		user.username=username
 		user.save()
-		return redirect('/edit/')
+		return redirect('/viewprofile/'+ str(request.user.id) + '/')
 	else:
 		questions_all = Question.objects.all()
 		answer_all = []
