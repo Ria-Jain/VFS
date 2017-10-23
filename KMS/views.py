@@ -427,7 +427,7 @@ def question_detail(request, question_id):
 		# print(related)
 		pq=Profile.objects.get(user=ques.author)
 		
-		answers = Answer.objects.filter(question=ques).order_by('-avotes').order_by('-bestAnswer')
+		answers = Answer.objects.filter(question=ques).order_by('-bestAnswer','-avotes')
 		pa = []
 		for ans in answers:
 			# print(ans.bestAnswer)
