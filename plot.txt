@@ -1,5 +1,1 @@
 
-To Do:
-		1. testing
-		2. cleanup
-		3. new database

@@ -7,47 +7,52 @@
             location.href = '/ask_question/'
         }
     </script>
-
-    <div class="col-md-9">
-        <h2> Search results for "{{ s }}"</h2>
-        <h4 style="color:gray;font-size: 14px;">{{ questions_tt|length }} matches</h4>
-        <div class="tabs-warp question-tab">
-            <div class="tab-inner-warp">
-                <div class="tab-inner">
-                    <h2></h2>
-                    {% for q in questions_tt %}
-                    <article class="question question-type-normal">
-                        <h2>
-                            <a href="/question_detail/{{ q.id }}">{{ q.question_title }}</a>
-                        </h2>
-                        <div class="question-type-main">
-                                <i class="icon-question-sign"></i>Question
-                        </div>
-                        <div class="question-author">
-                            {% for prosearch in allprofile %}
-                                {% if q.author.username = prosearch.username %}
-                                    <!-- <h1>hi</h1> -->
-                                    <a href="/viewprofile/{{q.author.id}}" original-title="{{q.author.first_name}}" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/media/{{ prosearch.profilePic }}"></a>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                        <div class="question-inner">
-                            <div class="clearfix"></div>
-                            <p class="question-desc">{{ q.question_text }}</p>
-                            <div class="question-details">
-                                <span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
+    {% ifnotequal s  "" %}
+        <div class="col-md-9">
+            <h2> Search results for "{{ s }}"</h2>
+            <h4 style="color:gray;font-size: 14px;">{{ questions_tt|length }} matches</h4>
+            <div class="tabs-warp question-tab">
+                <div class="tab-inner-warp">
+                    <div class="tab-inner">
+                        <h2></h2>
+                        {% for q in questions_tt %}
+                        <article class="question question-type-normal">
+                            <h2>
+                                <a href="/question_detail/{{ q.id }}">{{ q.question_title }}</a>
+                            </h2>
+                            <div class="question-type-main">
+                                    <i class="icon-question-sign"></i>Question
                             </div>
-                            <span class="question-date"><i class="icon-time"></i>{{ q.timeSince }}</span>
-                            <span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
-                            <span class="question-view"><i class="icon-user"></i>{{ q.numViews }} views</span>
-                            <div class="clearfix"></div>
-                        </div>
-                    </article>
-                    {% endfor %}
+                            <div class="question-author">
+                                {% for prosearch in allprofile %}
+                                    {% if q.author.username = prosearch.username %}
+                                        <!-- <h1>hi</h1> -->
+                                        <a href="/viewprofile/{{q.author.id}}" original-title="{{q.author.first_name}}" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/media/{{ prosearch.profilePic }}"></a>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="question-inner">
+                                <div class="clearfix"></div>
+                                <p class="question-desc">{{ q.question_text }}</p>
+                                <div class="question-details">
+                                    <span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
+                                </div>
+                                <span class="question-date"><i class="icon-time"></i>{{ q.timeSince }}</span>
+                                <span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
+                                <span class="question-view"><i class="icon-user"></i>{{ q.numViews }} views</span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </article>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
+            <h3> Not what you looking for? <a href="/ask_question/"><u>Ask this as a question</u></a>
+            <!-- <button class="button small color" style="margin-left: 5%;" onclick="a()">Submit</button> </h3> -->
         </div>
-        <h3> Not what you looking for? <a href="/ask_question/"><u>Ask this as a question</u></a>
-        <!-- <button class="button small color" style="margin-left: 5%;" onclick="a()">Submit</button> </h3> -->
-    </div>
+    {% else %}
+        <script type="text/javascript">
+            location.href = '/index/';
+        </script>
+    {% endifnotequal %}
 {% endblock %}
