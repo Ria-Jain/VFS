@@ -26,8 +26,8 @@ SECRET_KEY = '%9d!u76=a9p^epwkwn1(9pzk+(&$*886c!q)e@s8xytbb-&=sm'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-MEDIA_URL = '/KMS/static/images/demo/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'KMS/static/images/demo')
+MEDIA_URL = '/KMS/static/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'KMS/static/media')
 
 
 # Application definition

@@ -1,12 +1,10 @@
 
 To Do:
 	Gaurav:
-		2. without login, upvote
-		3. voting functionality on viewprofile
+		1. without login, upvote
+		2. Popular tags sidebar
 
 	Ria:
-		1. {{ static }}
-		2. media folder
-		3. Clean up code
-		4. Order by upvotes
+		1. Order by upvotes
+		2. propic hover change direct to profile
 

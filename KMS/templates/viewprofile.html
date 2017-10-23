@@ -25,25 +25,31 @@
 								</div>
 								<div class="row">
 										<div class="col-md-4">
-											<img alt="" style="max-width: 100%" width="100%" src="../../static/images/demo/{{ showuser.profilePic }}">
+											<img alt="" style="max-width: 100%" width="100%" src="../../static/media/{{ showuser.profilePic }}">
 										</div>
 										<div class="ul_list ul_list-icon-ok about-user col-md-8" >
 											<ul>
 												<li><i class="icon-plus"></i>Registered : <span>{{ showuser.regDate }}</span></li>
-												<li><i class="icon-map-marker"></i>Country : <span>{{ showuser.country }}</span></li>
-												<li><i class="icon-globe"></i>Website : <a target="_blank" href="https://{{ showuser.website}}">{{ showuser.website }}</a></li>
+												{% ifnotequal showuser.country '' %}
+													<li><i class="icon-map-marker"></i>Country : <span>{{ showuser.country }}</span></li>
+												{% endifnotequal %}
+												{% ifnotequal showuser.website '' %}
+													<li><i class="icon-globe"></i>Website : <a target="_blank" href="https://{{ showuser.website}}">{{ showuser.website }}</a></li>
+												{% endifnotequal %}
 												<li><i class="icon-trophy"></i>Points: {{ showuser.points }}</li>
 											</ul>
 										</div>
 									</div>
 									<br>
-									<div>
-										<h4>About Me:</h4>
-										<p>{{showuser.aboutYourself}}</p>
-									</div>
+									{% ifnotequal showuser.aboutYourself '' %}
+										<div>
+											<h4>About Me:</h4>
+											<p>{{showuser.aboutYourself}}</p>
+										</div>
+									{% endifnotequal %}
 								<div class="clearfix"></div>
 								<span class="user-follow-me">Follow Me On</span>
-								{% ifnotequal showuser.facebook '#' %}
+								{% ifnotequal showuser.facebook '' %}
 								<a target="_blank" href="https://{{showuser.facebook}}" original-title="Facebook" class="tooltip-n">
 									<span class="icon_i">
 										<span class="icon_square" icon_size="30" span_bg="#3b5997" span_hover="#2f3239">
@@ -52,7 +58,7 @@
 									</span>
 								</a>
 								{% endifnotequal %}
-								{% ifnotequal showuser.twitter '#' %}
+								{% ifnotequal showuser.twitter '' %}
 								<a target="_blank" href="https://{{showuser.twitter}}" original-title="Twitter" class="tooltip-n">
 									<span class="icon_i">
 										<span class="icon_square" icon_size="30" span_bg="#00baf0" span_hover="#2f3239">
@@ -61,7 +67,7 @@
 									</span>
 								</a>
 								{% endifnotequal %}
-								{% ifnotequal showuser.linkedin '#' %}
+								{% ifnotequal showuser.linkedin '' %}
 								<a target="_blank" href="https://{{showUser.linkedin}}" original-title="Linkedin" class="tooltip-n">
 									<span class="icon_i">
 										<span class="icon_square" icon_size="30" span_bg="#006599" span_hover="#2f3239">
@@ -70,7 +76,7 @@
 									</span>
 								</a>
 								{% endifnotequal %}
-								{% ifnotequal showuser.github '#' %}
+								{% ifnotequal showuser.github '' %}
 								<a target="_blank" href="https://{{showuser.github}}" original-title="Github" class="tooltip-n">
 									<span class="icon_i">
 										<span class="icon_square" icon_size="30" span_bg="#000000" span_hover="#2f3239">
@@ -112,7 +118,7 @@
 
 														{% for proques in allprofile %}
 															{% if q.author.username = proques.username %}
-																<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/images/demo/{{ proques.profilePic }}"></a>
+																<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/media/{{ proques.profilePic }}"></a>
 															{% endif %}
 														{% endfor %}
 
@@ -156,7 +162,7 @@
 																<div class="question-author">
 																	{% for proques in allprofile %}
 																		{% if proques.username = question.author.username %}
-																			<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/images/demo/{{proques.profilePic}}"></a>
+																			<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/media/{{proques.profilePic}}"></a>
 																		{% endif %}
 																	{% endfor %}
 
@@ -193,7 +199,7 @@
 														            <div class="avatar">
 														            	{% for proans in allprofile %}
 														            		{% if ans.author.username = proans.username %}
-														            			<img alt="" src="../../static/images/demo/{{proans.profilePic}}">
+														            			<img alt="" src="../../static/media/{{proans.profilePic}}">
 												            				{% endif %}
 												            			{% endfor %}
 														            </div>
@@ -232,7 +238,7 @@
 														<div class="question-author">
 															{% for proques in allprofile %}
 																{% if proques.username = c.author.username %}
-																	<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/images/demo/{{ proques.profilePic }}"></a>
+																	<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/media/{{ proques.profilePic }}"></a>
 																{% endif %}
 															{% endfor %}
 
@@ -269,7 +275,7 @@
 															            <div class="avatar">
 															            	{% for proans in allprofile %}
 																            		{% if proans.username = ans.author.username %}
-																            			<img alt="" src="../../static/images/demo/{{ proans.profilePic }}">
+																            			<img alt="" src="../../static/media/{{ proans.profilePic }}">
 																            		{% endif %}
 																            	{% endfor %}
 
@@ -297,7 +303,7 @@
 																	                	<div class="avatar">
 																	                		{% for procom in allprofile %}
 																		                			{% if procom.username = comment.author.username %}
-																			                			<img alt="" src="../../static/images/demo/{{ procom.profilePic }}">
+																			                			<img alt="" src="../../static/media/{{ procom.profilePic }}">
 																			                		{% endif %}
 																		                		{% endfor %}
 

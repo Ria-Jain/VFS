@@ -724,37 +724,49 @@ def viewprofile(request, user_id):
 	questions_all = Question.objects.all()
 	answer_all = []
 	for ques in questions_all:
-		date=ques.created_date
-		ques.timeSince = timeSince(date)
-		ques.save()
 		answers = Answer.objects.filter(question=ques)
 		for ans in answers:
 			answer_all.append(ans)
-			date=ans.created_date
-			ans.timeSince = timeSince(date)
-			ans.save()
-	comments=Comment.objects.all()
-	for com in comments:
-		date=com.created_date
-		com.timeSince = timeSince(date)
-		com.save()
 
 	u_questions_all = Question.objects.filter(author=showuser).order_by('-created_date')
+	for u in u_questions_all:
+		date=u.created_date
+		u.timeSince = timeSince(date)
+		u.save()
 	pro=Profile.objects.all()
 	u_answers_all = Answer.objects.filter(author=showuser).order_by('-created_date')
 	u_answers_all_q=[]
 	for u in u_answers_all:
 		ques=Question.objects.get(id=u.question.id)
 		u_answers_all_q.append(ques)
+		date=ques.created_date
+		ques.timeSince = timeSince(date)
+		ques.save()
+
+		date=u.created_date
+		u.timeSince = timeSince(date)
+		u.save()
 	u_answers_all_q=set(u_answers_all_q)
 	u_comments_all = Comment.objects.filter(author=showuser).order_by('-created_date')
 	u_comments_all_a = []
 	u_comments_all_q =[]
 	for u in u_comments_all:
+		date=u.created_date
+		u.timeSince = timeSince(date)
+		u.save()
+
 		ques=Question.objects.get(id=u.question.id)
 		u_comments_all_q.append(ques)
+		date=ques.created_date
+		ques.timeSince = timeSince(date)
+		ques.save()
+
 		ans=Answer.objects.get(id=u.answer.id)
 		u_comments_all_a.append(ans)
+		date=ans.created_date
+		ans.timeSince = timeSince(date)
+		ans.save()
+
 	u_comments_all_q=set(u_comments_all_q)
 	u_comments_all_a=set(u_comments_all_a)
 	questions_rq = Question.objects.order_by('-created_date')[:5]
