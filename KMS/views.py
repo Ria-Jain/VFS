@@ -18,14 +18,63 @@ from collections import Counter
 
 # Create your views here.
 
+def timeSince(date):
+	dt=timezone.now()-date
+	offset=dt.seconds + (dt.days *24*60*60)
+	
+	delta_s = offset % 60
+	delta_s = int(delta_s)
+
+	offset /= 60
+	delta_m = offset % 60
+	delta_m =int(delta_m)
+	
+	offset /= 60
+	delta_h = offset % 24
+	delta_h = int(delta_h)
+	
+	offset /= 24
+	delta_d = offset % 7 
+	delta_d =int(delta_d)
+	
+	offset /= 7
+	delta_w = offset 
+	delta_w =int(delta_w)
+
+	if delta_w > 1:
+		st = str(delta_w) + ' weeks ago'
+	elif delta_w == 1:
+		st = '1 week ago'
+	elif delta_d > 1:
+		st = str(delta_d) + ' days ago'
+	elif delta_d == 1:
+		st = 'Yesterday'
+	elif delta_h > 1:
+		st = str(delta_h) + ' hours ago'
+	elif delta_h == 1:
+		st = 'An hour ago'
+	elif delta_m > 1:
+		st = str(delta_m) + ' minutes ago'
+	elif delta_m == 1:
+		st = 'A minute ago'
+	elif delta_s >= 5:
+		st = str(delta_s) + ' seconds ago'
+	else: 
+		st = 'now'
+
+	return st
+
+
 def index(request):
 	questions_all = Question.objects.all()
 	answer_all = []
 	for ques in questions_all:
+		date=ques.created_date
+		ques.timeSince = timeSince(date)
+		ques.save()
 		answers = Answer.objects.filter(question=ques)
 		for ans in answers:
 			answer_all.append(ans)
-
 	questions_rq = Question.objects.order_by('-created_date')
 	answer_rq = []
 	users_rq=[]
@@ -157,7 +206,14 @@ def login_site(request):
 		if user:
 			# print(username)
 			login(request, user)
-			return redirect('/index/')
+			pre = (request.META.get('HTTP_REFERER','/'))
+			pre = pre.split('/')
+			prev = pre[-2]
+			if prev == "login":
+				return redirect('/index/')
+			else:
+				return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
+			# return redirect('/index/')
 		else:
 			context = {}
 			context['error'] = "Wrong Credentials"
@@ -167,9 +223,17 @@ def login_site(request):
 		context['error'] = ''
 		return render(request,'login.html', context)
 
+
 def logout_site(request):
 	logout(request)
-	return redirect('/index/')
+	pre = (request.META.get('HTTP_REFERER','/'))
+	pre = pre.split('/')
+	prev = pre[-2]
+	if prev == "logout":
+		return redirect('/index/')
+	else:
+		return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
+	
 
 def register(request):
 	if request.method == 'POST':
@@ -326,16 +390,12 @@ def question_detail(request, question_id):
 	else :
 		
 		pro_all = Profile.objects.order_by('-points')[:5]
-		cuser=[]
-		for pro in pro_all:
-			if pro.username == request.user.username:
-				cuser.append(pro)
 		ques = Question.objects.get(id=question_id)
-		
+		date=ques.created_date
+		ques.timeSince = timeSince(date)
+		ques.save()
 		ques.numViews+=1
 		
-
-
 		ctags = []
 		tags_all = Tag.objects.all()
 		for tag in tags_all:
@@ -352,25 +412,25 @@ def question_detail(request, question_id):
 					if tag.question != allt.question:
 						related[i].append(allt.question.id)
 			i += 1
-		print(ctags)
-		print(related)
+		# print(ctags)
+		# print(related)
 
 		# Found the [[...],[....],[....],[.....]] - to find number of times a question appears in all
 		close_q = Counter(x for sublist in related for x in sublist)
-		print(close_q)
+		# print(close_q)
 		related = []
 		for i in close_q:
 			q = Question.objects.get(id=i)
 			related.append(q)
 			related = related[0:5]
-		print(related)
+		# print(related)
 		pq=Profile.objects.get(user=ques.author)
 		
 		answers = Answer.objects.filter(question=ques).order_by('-avotes').order_by('-bestAnswer')
 		pa = []
 		for ans in answers:
-			print(ans.bestAnswer)
-			print(ans)
+			# print(ans.bestAnswer)
+			# print(ans)
 			pro=Profile.objects.get(user=ans.author)
 			pa.append(pro)
 		c =[]
@@ -378,6 +438,15 @@ def question_detail(request, question_id):
 		for ans in answers:
 			com=Comment.objects.filter(answer=ans)
 			c.append(com)
+			for coms in com:
+				date=coms.created_date
+				coms.timeSince = timeSince(date)
+				coms.save()
+			
+			date=ans.created_date
+			ans.timeSince = timeSince(date)
+			ans.save()
+
 		pc=Profile.objects.all()
 
 		questions_rq = Question.objects.order_by('-created_date')[:5]
@@ -389,6 +458,9 @@ def question_detail(request, question_id):
 			answers2 = Answer.objects.filter(question=ques)
 			for ans in answers2:
 				answer_rq.append(ans)
+				date=ans.created_date
+				ans.timeSince = timeSince(date)
+				ans.save()
 		if(request.user.username):
 			showuser = User.objects.get(id = request.user.id)
 			showprofile= Profile.objects.get(user=showuser)
@@ -633,9 +705,20 @@ def viewprofile(request, user_id):
 	questions_all = Question.objects.all()
 	answer_all = []
 	for ques in questions_all:
+		date=ques.created_date
+		ques.timeSince = timeSince(date)
+		ques.save()
 		answers = Answer.objects.filter(question=ques)
 		for ans in answers:
 			answer_all.append(ans)
+			date=ans.created_date
+			ans.timeSince = timeSince(date)
+			ans.save()
+	comments=Comment.objects.all()
+	for com in comments:
+		date=com.created_date
+		com.timeSince = timeSince(date)
+		com.save()
 
 	u_questions_all = Question.objects.filter(author=showuser).order_by('-created_date')
 	pro=Profile.objects.all()

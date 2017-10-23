@@ -134,7 +134,7 @@
 															{% endif%}
 															</span>
 														</div>
-														<span class="question-date"><i class="icon-time"></i>{{ q.created_date }}</span>
+														<span class="question-date"><i class="icon-time"></i>{{ q.timeSince }}</span>
 														<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
 														<span class="question-view"><i class="icon-user"></i>{{q.numViews}} views</span>
 														<div class="clearfix"></div>
@@ -178,7 +178,7 @@
 																		{% endif%}
 																		</span>
 																	</div>
-																	<span class="question-date"><i class="icon-time"></i>{{ question.created_date }}</span>
+																	<span class="question-date"><i class="icon-time"></i>{{ question.timeSince }}</span>
 																	<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ question.numAns }} Answers</a></span>
 																	<span class="question-view"><i class="icon-user"></i>{{question.numViews}} views</span>
 																	<div class="clearfix"></div>
@@ -200,29 +200,12 @@
 														            <div class="comment-text">
 														                <div class="author clearfix">
 														                	<div class="comment-author"><a href="#">{{ ans.author.username }}</a></div>
-														                	<div class="comment-vote">
-															                	<ul class="question-vote">
-															                		<li><a href="/countUp/{{ question.id }}/{{ ans.id }}" class="question-vote-up" title="Like"></a></li>
-															                		<li><a href="/countDown/{{ question.id }}/{{ ans.id }}" class="question-vote-down" title="Dislike"></a></li>
-															                	</ul>
-														                	</div>
-														                	<span class="question-vote-result">{{ ans.avotes }}</span>
 														                	<div class="comment-meta">
-														                        <div class="date"><i class="icon-time"></i>{{ ans.created_date   }} - {{  question.created_date|timesince:ans.created_date   }}</div>
+														                        <div class="date"><i class="icon-time"></i>{{ ans.timeSince }}</div>
 														                    </div>
 														                    <div class="question-type-main" style="background-color: #008066;top: 20px; right: 0.2%;">
 																				<i class="icon-pencil"></i>Answer
 																			</div>
-																			{% if question.is_solved == 1 %}
-																				{% if ans.bestAnswer == 1 %}
-																				
-																					<p style="font-size: 30px;margin-top: 5%;margin-left: 92%;color: #ff7361;"><i class="icon-star"></i></p>
-																				{% else %}
-																					<p style="font-size: 30px;margin-top: 5%;margin-left: 92%;color: #ff7361;">
-																						<br>
-																					</p>	
-																				{% endif %}
-																			{% endif %}
 														                </div>
 														                <div class="text"><p>{{ ans.answer_text }}</p>
 														                </div>
@@ -271,7 +254,7 @@
 																{% endif%}
 																</span>
 															</div>
-															<span class="question-date"><i class="icon-time"></i>{{ c.created_date }}</span>
+															<span class="question-date"><i class="icon-time"></i>{{ c.timeSince }}</span>
 															<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ c.numAns }} Answers</a></span>
 															<span class="question-view"><i class="icon-user"></i>{{c.numViews}} views</span>
 															<div class="clearfix"></div>
@@ -294,15 +277,8 @@
 															            <div class="comment-text" >
 															                <div class="author clearfix">
 															                	<div class="comment-author"><a href="#">{{ ans.author.username }}</a></div>
-															                	<div class="comment-vote">
-																                	<ul class="question-vote">
-																                		<li><a href="/countUp/{{ question.id }}/{{ ans.id }}" class="question-vote-up" title="Like"></a></li>
-																                		<li><a href="/countDown/{{ question.id }}/{{ ans.id }}" class="question-vote-down" title="Dislike"></a></li>
-																                	</ul>
-															                	</div>
-															                	<span class="question-vote-result">{{ ans.avotes }}</span>
 															                	<div class="comment-meta">
-															                        <div class="date"><i class="icon-time"></i>{{ ans.created_date   }} - {{  question.created_date|timesince:ans.created_date   }}</div>
+															                        <div class="date"><i class="icon-time"></i>{{ ans.timeSince }}</div>
 															                    </div>
 															                     <div class="question-type-main" style="background-color: #008066;top: 20px; right: 0.2%;">
 																					<i class="icon-pencil"></i>Answer
@@ -330,7 +306,7 @@
 																	                        <div class="author clearfix">
 																	                        	<div class="comment-author"><a href="#">{{ comment.author.username }}</a></div>
 																	                        	<div class="comment-meta">
-																	                                <div class="date"><i class="icon-time"></i>{{ comment.created_date }}</div>
+																	                                <div class="date"><i class="icon-time"></i>{{ comment.timeSince }}</div>
 																	                            </div>
 																	                            <div class="question-type-main" style="background-color: #004d99; top: 20px; right: 0.2%;">
 																									<i class="icon-comments-alt"></i>Comment

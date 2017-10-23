@@ -16,6 +16,7 @@ class Question(models.Model):
 	# bestAnswer = models.ForeignKey(Answer)
 	is_solved = models.IntegerField(default=0)
 	recentAnswer=models.DateTimeField(auto_now_add=True)
+	timeSince = models.CharField(max_length=1000, default='now')
 	def __str__(self):
 		return str(self.id) + " - " + self.author.username
 
@@ -33,6 +34,7 @@ class Answer(models.Model):
 	answer_text = models.TextField()
 	created_date = models.DateTimeField(auto_now_add=True)
 	avotes = models.IntegerField(default=0)
+	timeSince = models.CharField(max_length=1000, default='now')
 	def __str__(self):
 		return str(self.id) + " - " + self.author.username + " answered"
 class Comment(models.Model):
@@ -41,6 +43,7 @@ class Comment(models.Model):
 	answer = models.ForeignKey(Answer)
 	comment_text = models.TextField()
 	created_date = models.DateTimeField(auto_now_add=True)
+	timeSince = models.CharField(max_length=1000, default='now')
 	def __str__(self):
 		return self.author.username + " commented"
 
@@ -53,7 +56,7 @@ class Profile(models.Model):
 	website = models.CharField(max_length=100, default=' ')
 	aboutYourself = models.CharField(max_length=500, default=' ')
 	phone=models.CharField(max_length=10, default=' ')
-	regDate=models.DateTimeField(auto_now_add=True)
+	regDate=models.DateTimeField()
 	profilePic=models.ImageField(upload_to='', default='avatar.png', max_length=1000)
 	numAns=models.IntegerField(default=0)
 	numQues=models.IntegerField(default=0)

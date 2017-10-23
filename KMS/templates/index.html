@@ -66,13 +66,14 @@
 											</span>
 										{% else %}
 											<span style=" color:#FF0000">
+												<i class="icon-remove"></i>
 												unsolved
 											</span>
 										{% endif%}
 										</span>
 
 									</div>
-									<span class="question-date"><i class="icon-time"></i>{{ q.created_date }}</span>
+									<span class="question-date"><i class="icon-time"></i>{{ q.timeSince }}</span>
 									<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
 									<span class="question-view"><i class="icon-user"></i>{{q.numViews}} views</span>
 									<div class="clearfix"></div>
@@ -117,7 +118,7 @@
 										{% endif%}
 										</span>
 									</div>
-									<span class="question-date"><i class="icon-time"></i>{{ q.created_date }}</span>
+									<span class="question-date"><i class="icon-time"></i>{{ q.timeSince }}</span>
 									<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
 									<span class="question-view"><i class="icon-user"></i>{{q.numViews}} views</span>
 									<div class="clearfix"></div>
@@ -162,7 +163,7 @@
 										{% endif%}
 										</span>
 									</div>
-									<span class="question-date"><i class="icon-time"></i>{{ q.created_date }}</span>
+									<span class="question-date"><i class="icon-time"></i>{{ q.timeSince }}</span>
 									<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
 									<span class="question-view"><i class="icon-user"></i>{{q.numViews}} views</span>
 									<div class="clearfix"></div>
@@ -207,7 +208,7 @@
 										{% endif%}
 										</span>
 									</div>
-									<span class="question-date"><i class="icon-time"></i>{{ q.created_date }}</span>
+									<span class="question-date"><i class="icon-time"></i>{{ q.timeSince }}</span>
 									<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
 									<span class="question-view"><i class="icon-user"></i>{{q.numViews}} views</span>
 									<div class="clearfix"></div>

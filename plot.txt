@@ -1,16 +1,13 @@
 
 To Do:
 	Gaurav:
-		1. search button fix
-		2. Fix current nav bar buttons
-		3. comment submit button displacement 
-		4. without login, upvote
-		5. voting functionality on viewprofile
+		1. Fix current nav bar buttons
+		2. without login, upvote
+		3. voting functionality on viewprofile
 
 	Ria:
-		1. date fix (how much time ago) of 
-		2. {{ static }}
-		3. media folder
-		4. Clean up code
-		
+		1. {{ static }}
+		2. media folder
+		3. Clean up code
+		4. Order by upvotes
 

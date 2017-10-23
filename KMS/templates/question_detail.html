@@ -58,17 +58,7 @@
  	});
  	document.getElementById('reply-'+a_id).value = null;
  }
-</script>
-{% else %}
-<script type="text/javascript">
-
-	function c(a_id) {
-	locationtion.href="/login/"
-}
-</script>
-
-<script type="text/javascript">
-	var flag=0;
+ var flag=0;
 	function solve(a_id,q_id)
 	{
 		$.ajax({
@@ -80,14 +70,14 @@
 				},
 				success: function (data) {
 					console.log(data);
-					document.getElementById('status').innerHTML = "solved";
-					document.getElementById('status').css = "color : 'green'";
+					document.getElementById('status').innerHTML = '<span class="question-answered-done"><i class="icon-ok"></i>solved</span>';
+					// document.getElementById('status').css = "color : 'green'";
 				}
 
 			});
 		$('#the-button').hide();
 	}
-	function vote(action,a_id)
+ function vote(action,a_id)
 	{
 		if(action=="up")
 		{
@@ -122,6 +112,20 @@
 		}
 	}
 </script>
+{% else %}
+<script type="text/javascript">
+
+	function c(a_id) {
+	locationtion.href="/login/"
+}
+	function vote(action, a_id) {
+	locationtion.href="/login/"
+}
+</script>
+
+<script type="text/javascript">
+	
+</script>
 {% endif %}
 
 <div class="col-md-9">
@@ -150,7 +154,7 @@
 		</div>
 		<div class="question-inner" style="margin-left: 2%;">
 			<div class="clearfix"></div>
-			<p class="question-desc">{{ question.question_text }}</p>
+			<p class="question-desc">{{ question.question_text|linebreaksbr }}</p>
 			<div class="question-details">
 				<span class="question-answered ">
 				{% if question.is_solved = 1 %}
@@ -159,13 +163,14 @@
 						solved	
 					</span>
 				{% else %}
-					<span style=" color:#FF0000">
+					<span id="status" style=" color:#FF0000">
+						<i class="icon-remove"></i>
 						unsolved
 					</span>
 				{% endif%}
 				</span>
 			</div>
-			<span class="question-date"><i class="icon-time"></i>{{ question.created_date }}</span>
+			<span class="question-date"><i class="icon-time"></i>{{ question.timeSince }}</span>
 			<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ question.numAns }} Answers</a></span>
 			<span class="question-view"><i class="icon-user"></i>{{question.numViews}} views</span>
 			<div class="clearfix"></div>
@@ -194,7 +199,7 @@
 							</div>
 							<span class="question-vote-result" id="votes-{{ans.id}}">{{ ans.avotes }}</span>
 							<div class="comment-meta">
-								<div class="date"><i class="icon-time"></i>{{ ans.created_date   }} - {{  question.created_date|timesince:ans.created_date   }}</div>
+								<div class="date"><i class="icon-time"></i>{{ ans.timeSince }}</div>
 							</div>
 							<div class="question-type-main" style="background-color: #008066;top: 20px; right: 0.2%;">
 									<i class="icon-pencil"></i>Answer
@@ -215,7 +220,7 @@
 									{% endif %}
 								{% endif %}
 						</div>
-						<div class="text"><p>{{ ans.answer_text }}</p>
+						<div class="text"><p>{{ ans.answer_text|linebreaks }}</p>
 						</div>
 					</div>
 				</div>
@@ -235,7 +240,7 @@
 								<div class="author clearfix">
 									<div class="comment-author"><a href="#">{{ c.author.username }}</a></div>
 									<div class="comment-meta">
-										<div class="date"><i class="icon-time"></i>{{ c.created_date }}</div>
+										<div class="date"><i class="icon-time"></i>{{ c.timeSince }}</div>
 									</div>
 									<div class="question-type-main" style="background-color: #004d99; top: 20px; right: 0.2%;">
 											<i class="icon-comments-alt"></i>Comment
