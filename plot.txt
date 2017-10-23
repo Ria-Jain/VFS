@@ -1,10 +1,5 @@
 
 To Do:
-	Gaurav:
-		1. without login, upvote
-		2. Popular tags sidebar
-
-	Ria:
-		1. Order by upvotes
-		2. propic hover change direct to profile
-
+		1. testing
+		2. cleanup
+		3. new database

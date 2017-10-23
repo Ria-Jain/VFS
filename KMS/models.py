@@ -61,10 +61,10 @@ class Profile(models.Model):
 	numAns=models.IntegerField(default=0)
 	numQues=models.IntegerField(default=0)
 	points=models.IntegerField(default=0)
-	facebook=models.CharField(default='#', max_length=100)
-	github=models.CharField(default='#', max_length=100)
-	linkedin=models.CharField(default='#', max_length=100)
-	twitter=models.CharField(default='#', max_length=100)
+	facebook=models.CharField(default='', max_length=100)
+	github=models.CharField(default='', max_length=100)
+	linkedin=models.CharField(default='', max_length=100)
+	twitter=models.CharField(default='', max_length=100)
 	def __str__(self):
 		return str(self.id) + '-' + self.user.username + ' Profile'
 

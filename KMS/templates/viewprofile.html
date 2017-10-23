@@ -118,7 +118,7 @@
 
 														{% for proques in allprofile %}
 															{% if q.author.username = proques.username %}
-																<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/media/{{ proques.profilePic }}"></a>
+																<a href="/viewprofile/{{q.author.id}}" original-title="{{ q.author.first_name}}" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/media/{{ proques.profilePic }}"></a>
 															{% endif %}
 														{% endfor %}
 
@@ -162,7 +162,7 @@
 																<div class="question-author">
 																	{% for proques in allprofile %}
 																		{% if proques.username = question.author.username %}
-																			<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/media/{{proques.profilePic}}"></a>
+																			<a href="/viewprofile/{{question.author.id}}" original-title="{{question.author.first_name}}" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/media/{{proques.profilePic}}"></a>
 																		{% endif %}
 																	{% endfor %}
 
@@ -199,7 +199,9 @@
 														            <div class="avatar">
 														            	{% for proans in allprofile %}
 														            		{% if ans.author.username = proans.username %}
-														            			<img alt="" src="../../static/media/{{proans.profilePic}}">
+														            			<a href="/viewprofile/{{ans.author.id}}" original-title="{{ans.author.first_name}}" class="question-author-img tooltip-n">
+														            				<img alt="" src="../../static/media/{{proans.profilePic}}">
+												            					</a>
 												            				{% endif %}
 												            			{% endfor %}
 														            </div>
@@ -238,7 +240,7 @@
 														<div class="question-author">
 															{% for proques in allprofile %}
 																{% if proques.username = c.author.username %}
-																	<a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/media/{{ proques.profilePic }}"></a>
+																	<a href="/viewprofile/{{c.author.id}}" original-title="{{c.author.first_name}}" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/media/{{ proques.profilePic }}"></a>
 																{% endif %}
 															{% endfor %}
 
@@ -275,7 +277,9 @@
 															            <div class="avatar">
 															            	{% for proans in allprofile %}
 																            		{% if proans.username = ans.author.username %}
+																            			<a href="/viewprofile/{{ans.author.id}}" original-title="{{ans.author.first_name}}" class="question-author-img tooltip-n">
 																            			<img alt="" src="../../static/media/{{ proans.profilePic }}">
+																            			</a>	
 																            		{% endif %}
 																            	{% endfor %}
 
@@ -303,7 +307,9 @@
 																	                	<div class="avatar">
 																	                		{% for procom in allprofile %}
 																		                			{% if procom.username = comment.author.username %}
+																		                				<a href="/viewprofile/{{comment.author.id}}" original-title="{{comment.author.first_name}}" class="question-author-img tooltip-n">
 																			                			<img alt="" src="../../static/media/{{ procom.profilePic }}">
+																			                		</a>
 																			                		{% endif %}
 																		                		{% endfor %}
 

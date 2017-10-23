@@ -211,7 +211,6 @@
                             <h3 class="widget_title">My Profile</h3>
 
                             <div class="form-style form-style-2">
-                                <h1>{{ showUser.profile }}</h1>
                                 <img alt="" src="../../static/media/{{ showUser.profilePic }}">
                                 <br>
                                 <br>
@@ -308,15 +307,17 @@
                     <h3 class="widget_title">Highest points</h3>
                     <ul>
                     {% for user in users %}
-                        <li>
-                            <div class="author-img">
-                                <a href="#"><img width="60" height="60" src="../../static/media/{{ user.profilePic }}" alt=""></a>
-                            </div>
-                            <h6><a href="/viewprofile/{{ user.user.id }}">{{ user.firstName }} {{ user.lastName }}</a></h6>
-                            <span class="comment">{{ user.points }} points</span>
-                            <br>
-                            <br>
-                        </li>
+                        <a href="/viewprofile/{{ user.user.id }}">
+                            <li>
+                                <div class="author-img">
+                                    <img width="60" height="60" src="../../static/media/{{ user.profilePic }}" alt="">
+                                </div>
+                                <h6>{{ user.firstName }} {{ user.lastName }}</h6>
+                                <span class="comment">{{ user.points }} points</span>
+                                <br>
+                                <br>
+                            </li>
+                        </a>
                     {% endfor %}
                     </ul>
                 </div>
