@@ -110,10 +110,10 @@
 <script type="text/javascript">
 
 	function c(a_id) {
-	locationtion.href="/login/"
+	location.href="/login/"
 }
 	function vote(action, a_id) {
-	locationtion.href="/login/"
+	location.href="/login/"
 }
 
 </script>
@@ -185,7 +185,7 @@
 		            {% endfor %}
 					<div class="comment-text">
 						<div class="author clearfix">
-							<div class="comment-author"><a href="#">{{ ans.author.username }}</a></div>
+							<div class="comment-author"><a href="/viewprofile/{{ans.author.id}}">{{ ans.author.username }}</a></div>
 							
 								{% if request.user.username %}
 								<div class="comment-vote">
@@ -194,7 +194,7 @@
 										<li class="question-vote-down" title="Dislike" onclick="vote('down',{{ ans.id }})"></li>
 									</ul>
 								</div>
-								<span class="question-vote-result" id="votes-{{ans.id}}">{{ ans.avotes }}</span>
+								<span class="question-vote-result" id="votes-{{ans.id}}">{{ ans.avotes }} votes</span>
 								{% else %}
 									{% if ans.avotes > 0 %}
 										<span class="question-vote-result" id="votes-{{ans.id}}" style="color:green;">+{{ ans.avotes }} Votes </span>
@@ -216,7 +216,7 @@
 								{% if question.is_solved == 1 %}
 									{% if ans.bestAnswer == 1 %}
 									
-										<p style="font-size: 30px;margin-top: 5%;margin-left: 92%;color: #ff7361;"><i class="icon-star"></i></p>
+										<p style="font-size: 30px;margin-top: 5%;margin-left: 92%;color: #ff7361;"><i title="Best Answer" class="icon-star"></i></p>
 									{% else %}
 										<p style="font-size: 30px;margin-top: 5%;margin-left: 92%;color: #ff7361;">
 											<br>
@@ -245,7 +245,7 @@
 		                    {% endfor %}
 							<div class="comment-text">
 								<div class="author clearfix">
-									<div class="comment-author"><a href="#">{{ c.author.username }}</a></div>
+									<div class="comment-author"><a href="/viewprofile/{{ans.author.id}}">{{ c.author.username }}</a></div>
 									<div class="comment-meta">
 										<div class="date"><i class="icon-time"></i>{{ c.timeSince }}</div>
 									</div>
