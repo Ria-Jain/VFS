@@ -1,7 +1,6 @@
 
 To Do:
 	Gaurav:
-		1. Fix current nav bar buttons
 		2. without login, upvote
 		3. voting functionality on viewprofile
 

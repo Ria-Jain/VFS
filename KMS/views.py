@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from nltk.corpus import stopwords
 import datetime
+import re
 from django.db.models import Q
 import json
 import urllib
@@ -629,28 +630,46 @@ def search(request):
 			for ans in answers:
 				answer_all.append(ans)
 		t = request.POST['question_title']
+		x = t
+		t = re.sub('[^a-zA-Z0-9-_*.]', ' ', t) #strip off special characters
 		# querywords = s.split()	#Who is Foo-Bar
-		s=set(stopwords.words('english'))
+		s = set(stopwords.words('english'))
 		result = filter(lambda w: not w in s,t.split())
 		# for word in querywords:
 		# 	if word.lower() not in stopwords:
 		# 		result.append(word)
-		# print(result)
+		print(result)
 		query_title = Q()
 		query_text = Q()
-		# query_tt = Q()
+		# query_tags = Q()
+		tags_all = Tag.objects.all()
+		questions_tags = []
 		for word in result:
 			query_title = query_title | Q(question_title__contains=word)
 			query_text = query_text | Q(question_text__contains=word)
-			# query_tt = query_text | Q(question_text__contains=word) | Q(question_title__contains=word)
+			# query_tags = query_tags | Q(name__contains=word)
 			questions_title = Question.objects.filter(query_title)
 			questions_text = Question.objects.filter(query_text)
+			for tag in tags_all:
+				if tag.name in word:
+					questions_tags.append(
+							Question.objects.get(id=tag.question.id)
+						)
 			# questions_tt = Question.objects.filter(query_tt)
 			# questions.append(Question.objects.filter(
 			# 		question__Question_title__contains=word
 			# 	)
 			# )
-		questions_tt = list(set().union(questions_title,questions_text))
+		# questions_tt = list(set().union(questions_title,questions_text,questions_tags))
+		questions_tt = []
+		for i in questions_title:
+			questions_tt.append(i)
+		for i in questions_tags:
+			if i not in questions_tt:
+				questions_tt.append(i)
+		for i in questions_text:
+			if i not in questions_tt:
+				questions_tt.append(i)
 		pc=Profile.objects.all()
 		# print(pc)
 		questions_rq = Question.objects.order_by('-created_date')[:5]
@@ -666,7 +685,7 @@ def search(request):
 			showuser = User.objects.get(id = request.user.id)
 			showprofile= Profile.objects.get(user=showuser)
 			context = {
-				's' : t,
+				's' : x,
 				'questions_tt' : questions_tt,
 				'users' : pro_all,
 				'cuser': cuser,
