@@ -12,70 +12,59 @@
 					<div class="form-style form-style-2">
 						<div class= "row">
 							<div class="col-md-4">
-								<img alt="" style="max-width: 100%" width="100%" src="../../static/media/{{ u_profile.profilePic }}">
+								<img alt="" style="max-width: 100%" width="100%" src="../../static/media/{{ showUser.profilePic }}">
 							</div>
 							<div>
 								<input type="file" name="myfile">
-							    <!-- <button type="submit">Upload</button> -->
 							</div>
 						</div>
-						<!-- <p class="user-profile-p">
-							<label>	Profile Picture</label>
-							<div class="fileinputs">
-								<input type="submit" class="file" name="proPic" value="Upload">
-								<div class="fakefile">
-									<button type="button" class="button small margin_0">Select file</button>
-									<span><i class="icon-arrow-up"></i>Browse</span>
-								</div>
-							</div>
-						<p></p> -->
 						<div class="clearfix"></div>
 					</div>
 					<br>
 						<div class="form-inputs clearfix">
 							<p>
 								<label>First Name</label>
-								<input type="text" name ="fname" value={{ u_profile.firstName }}>
+								<input type="text" name ="fname" value={{ showUser.firstName }}>
 							</p>
 							<p>
 								<label>Last Name</label>
-								<input type="text" name ="lname" value={{ u_profile.lastName }}>
+								<input type="text" name ="lname" value={{ showUser.lastName }}>
 							</p>
 							<p>
 								<label>Phone Number</label>
-								<input type="text" name ="phone" value={{ u_profile.phone }}>
+								<input type="text" name ="phone" value={{ showUser.phone }}>
 							</p>
 							<p>
 								<label>Website</label>
-								<input type="text" name ="website" value={{ u_profile.website }}>
+								<input type="text" name ="website" value={{ showUser.website }}>
 							</p>
 							<p>
 								<label>Country</label>
-								<input type="text" name ="country" value={{ u_profile.country }}>
+								<input type="text" name ="country" value={{ showUser.country }}>
 							</p>
 						</div>
 						<div class="form-style form-style-2">
 							<p>
 								<label>About Yourself</label>
-								<textarea cols="58" rows="8" name ="about">{{ u_profile.aboutYourself }}</textarea>
+								<textarea cols="58" rows="8" name ="about">{{ showUser.aboutYourself }}</textarea>
 							</p>
 						</div>
 						<div class="form-inputs clearfix">
 							<p>
 								<label>Facebook</label>
-								<input type="text" placeholder="www.facebook.com/example" name ="fb" {% ifnotequal u_profile.facebook '#' %} value={{ u_profile.facebook }} {% endifnotequal %}>
+								<input type="text" placeholder="www.facebook.com/example" name ="fb" {% ifnotequal showUser.facebook '#' %} value={{ showUser.facebook }} {% endifnotequal %}>
 							</p>
 							<p>
 								<label>Twitter</label>
-								<input type="text" placeholder="www.twitter.com/example" name ="twit" {% ifnotequal u_profile.twitter '#' %} value={{ u_profile.twitter }} {% endifnotequal %}>
+								<input type="text" placeholder="www.twitter.com/example" name ="twit" {% ifnotequal showUser.twitter '#' %} value={{ showUser.twitter }} {% endifnotequal %}>
 							</p>
 							<p>
 								<label>Linkedin</label>
-								<input type="text" placeholder="www.linkedin.com/example" name ="link" {% ifnotequal u_profile.linkedin '#' %} value={{ u_profile.linkedin }} {% endifnotequal %}>
+								<input type="text" placeholder="www.linkedin.com/example" name ="link" {% ifnotequal showUser.linkedin '#' %} value={{ showUser.linkedin }} {% endifnotequal %}>
 							</p>
 							<p>
 								<label>Github</label>
-								<input type="text" placeholder="www.github.com/example" name ="github" {% ifnotequal u_profile.github '#' %} value={{ u_profile.github }} {% endifnotequal %}>
+								<input type="text" placeholder="www.github.com/example" name ="github" {% ifnotequal showUser.github '#' %} value={{ showUser.github }} {% endifnotequal %}>
 							</p>
 						</div>
 					<p class="form-submit">
@@ -83,6 +72,6 @@
 					</p>
 				</form>
 			</div>
-		</div><!-- End page-content -->
-	</div><!-- End main -->
+		</div>
+	</div>
 {% endblock %}

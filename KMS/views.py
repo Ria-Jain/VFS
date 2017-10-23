@@ -17,18 +17,30 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from collections import Counter
 
-# Create your views here.
+
 tags_all = Tag.objects.all()
 tags = []
 for tag in tags_all:
 	tags.append(tag.name)
-# tags_set = set(tags)
+
 tags = Counter(tags)
 toptags = []
 for i in tags:
 	toptags.append(i)
 toptags = toptags[:10]
 
+questions_all = Question.objects.all()
+answer_all = []
+for ques in questions_all:
+	answers = Answer.objects.filter(question=ques)
+	for ans in answers:
+		answer_all.append(ans)
+
+profiles = Profile.objects.all()
+topThree = Profile.objects.order_by('-points')[:5]
+
+
+questions_rq5 = Question.objects.order_by('-created_date')[:5]
 
 def timeSince(date):
 	dt=timezone.now()-date
@@ -78,153 +90,70 @@ def timeSince(date):
 
 
 def index(request):
-	questions_all = Question.objects.all()
-	answer_all = []
-	for ques in questions_all:
+
+	questions_rq = Question.objects.order_by('-created_date')
+	answer_rq = []
+	for ques in questions_rq:
 		date=ques.created_date
 		ques.timeSince = timeSince(date)
 		ques.save()
-		answers = Answer.objects.filter(question=ques)
-		for ans in answers:
-			answer_all.append(ans)
-	questions_rq = Question.objects.order_by('-created_date')
-	answer_rq = []
-	users_rq=[]
-	for ques in questions_rq:
-		user=Profile.objects.filter(user=ques.author)
-		users_rq.append(user)
 		answers = Answer.objects.filter(question=ques)
 		for ans in answers:
 			answer_rq.append(ans)
 
 	questions_ma = Question.objects.order_by('-numAns')
 	answer_ma = []
-	users_ma=[]
 	for ques in questions_ma:
-		user = Profile.objects.filter(user=ques.author)
-		users_ma.append(user)
+		date=ques.created_date
+		ques.timeSince = timeSince(date)
+		ques.save()
 		answers = Answer.objects.filter(question=ques)
 		for ans in answers:
 			answer_ma.append(ans)
 
 	questions_ra = Question.objects.filter(is_solved=0).order_by('-created_date')
 	answer_ra = []
-	users_ra=[]
 	for ques in questions_ra:
-		user=Profile.objects.filter(user=ques.author)
-		users_ra.append(user)
+		date=ques.created_date
+		ques.timeSince = timeSince(date)
+		ques.save()
 		answers = Answer.objects.filter(question=ques)
 		for ans in answers:
 			answer_ra.append(ans)
 
 	questions_na = Question.objects.filter(numAns=0).order_by('-created_date')
 	answer_na = []
-	users_na=[]
 	for ques in questions_na:
-		user=Profile.objects.filter(user=ques.author)
-		users_na.append(user)
+		date=ques.created_date
+		ques.timeSince = timeSince(date)
+		ques.save()
 		answers = Answer.objects.filter(question=ques)
 		for ans in answers:
 			answer_na.append(ans)
 
-	questions_rq5= questions_rq[:5]
-	answer_rq5 = answer_rq[:5]
-	users_rq5 =users_rq[:5]
-	# for ques in questions_rq:
-	# 	user=Profile.objects.filter(user=ques.author)
-	# 	users_rq.append(user)
-	# 	answers = Answer.objects.filter(question=ques)
-	# 	for ans in answers:
-	# 		answer_rq.append(ans)
 
-	pro_all = Profile.objects.order_by('-points')[:5]
-	cuser=[]
-	profiles = Profile.objects.all()
+
 	context ={
-				'users' : pro_all,
+				'users' : topThree,
 				'tags' : toptags,
 				'questions_all' : questions_all,
 				'answers_all' : answer_all,
 				'questions_rq' : questions_rq,
 				'answers_rq' : answer_rq,
 				'questions_rq5' : questions_rq5,
-				'answers_rq5' : answer_rq5,
 				'questions_ma' : questions_ma,
 				'answers_ma' : answer_ma,
 				'questions_ra' : questions_ra,
 				'answers_ra' : answer_ra,
 				'questions_na' : questions_na,
 				'answers_na' : answer_na,
-				'users_rq' : users_rq,
-				'users_ra' : users_ra,
-				'users_ma' : users_ma,
-				'users_na' : users_na,
 				'all_profile' : profiles
 			}
 	if(request.user.username):
-		showuser = User.objects.get(id = request.user.id)
-		showprofile= Profile.objects.get(user=showuser)
-		context ={
-			# 'cuser': cuser,
-			'tags' : toptags,
-			'users' : pro_all,
-			'showUser' : showprofile,
-			'questions_all' : questions_all,
-			'answers_all' : answer_all,
-			'questions_rq' : questions_rq,
-			'answers_rq' : answer_rq,
-			'questions_rq5' : questions_rq5,
-			'answers_rq5' : answer_rq5,
-			'questions_ma' : questions_ma,
-			'answers_ma' : answer_ma,
-			'questions_ra' : questions_ra,
-			'answers_ra' : answer_ra,
-			'questions_na' : questions_na,
-			'answers_na' : answer_na,
-			'users_rq' : users_rq,
-			'users_ra' : users_ra,
-			'users_ma' : users_ma,
-			'users_na' : users_na,
-			'all_profile' : profiles
-		}
-	# print(context)
+		showprofile= Profile.objects.get(user=request.user)
+		context['showUser']=showprofile
+
 	return render(request,'index.html', context)
-
-def base(request):
-	
-
-	tags_all = Tag.objects.all()
-	tags = []
-	for tag in tags_all:
-		tags.append(tag.name)
-	# tags_set = set(tags)
-	tags = Counter(tags)
-	toptags = []
-	for i in tags:
-		toptags.append(i)
-	toptags = toptags[:10]
-
-	questions_all = Question.objects.all()
-	answer_all = []
-	for ques in questions_all:
-		answers = Answer.objects.filter(question=ques)
-		for ans in answers:
-			answer_all.append(ans)
-
-	pro_all = Profile.objects.order_by('-points')[:5]
-	cuser=[]
-	for pro in pro_all:
-		if pro.username == request.user.username:
-			cuser.append(pro)
-
-	context = {
-		'cuser': cuser,
-		'questions_all' : questions_all,
-		'answers_all' : answer_all,
-		'tags' : toptags
-	}
-	# print(context)
-	return render(request,'base.html', context)
 
 def login_site(request):
 	if request.method == 'POST':
@@ -232,7 +161,6 @@ def login_site(request):
 		password = request.POST['password']
 		user = authenticate(username=username, password=password)
 		if user:
-			# print(username)
 			login(request, user)
 			pre = (request.META.get('HTTP_REFERER','/'))
 			pre = pre.split('/')
@@ -241,7 +169,6 @@ def login_site(request):
 				return redirect('/index/')
 			else:
 				return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
-			# return redirect('/index/')
 		else:
 			context = {}
 			context['error'] = "Wrong Credentials"
@@ -292,87 +219,45 @@ def register(request):
 
 def ask_question(request):
 	if request.user.is_authenticated():
-		# print('Authenticated')
-		questions_all = Question.objects.all()
-		answer_all = []
-		for ques in questions_all:
-			answers = Answer.objects.filter(question=ques)
-			for ans in answers:
-				answer_all.append(ans)
 
 		if request.method == 'POST':
-			pro_all = Profile.objects.order_by('-points')[:5]
-			cuser= []
-			for pro in pro_all:
+			for pro in profiles:
 				if pro.username == request.user.username:
 					pro.numQues+=1
 					break;
 			pro.save()
-			# print('POST request')
 			author = request.user
 			question_title = request.POST['question_title']
 			question_text = request.POST['question_text']
 			tags = request.POST['tags[]']
 			tags = tags.split(',');
-			# print(tags)
 			ques = Question.objects.create(
 					author=author,
 					question_title=question_title,
 					question_text=question_text,
 				)
 			for tag in tags:
-				try:
-					t = Tag.objects.get(name=tag)
-					t.question = Question.objects.get(question=ques)
-					t.save()
-				except ObjectDoesNotExist:
-					t = Tag.objects.create(name=tag,
+				t = Tag.objects.create(name=tag,
 						question=ques)
 			ques.save()
 			return redirect('/index/')
 		else:
-			pro_all = Profile.objects.order_by('-points')[:5]
-			cuser=[]
-			for pro in pro_all:
-				if pro.username == request.user.username:
-					cuser.append(pro)
-			showuser = User.objects.get(id = request.user.id)
-			showprofile = Profile.objects.get(user=showuser)
-			questions_rq = Question.objects.order_by('-created_date')[:5]
-			answer_rq = []
-			users_rq=[]
-			for ques in questions_rq:
-				user=Profile.objects.filter(user=ques.author)
-				users_rq.append(user)
-				answers = Answer.objects.filter(question=ques)
-				for ans in answers:
-					answer_rq.append(ans)
+			showprofile = Profile.objects.get(user=request.user)
 			
 			context = {
-				'users' : pro_all,
-				'cuser': cuser,
+				'users' : topThree,
 				'tags' : toptags,
 				'showUser' : showprofile,
 				'questions_all' : questions_all,
 				'answers_all' : answer_all,
-				'questions_rq5': questions_rq,
-				'answer_rq5' : answer_rq,
-				'users_rq5' : users_rq,
+				'questions_rq5': questions_rq5,
 			}
-			# print('GET request')
 			return render(request, 'ask_question.html', context)
 	else:
-		# print('Not Authenticated')
 		return redirect('/login/')
 
 def question_detail(request, question_id):
 	flag=0
-	questions_all = Question.objects.all()
-	answer_all = []
-	for ques in questions_all:
-		answers = Answer.objects.filter(question=ques)
-		for ans in answers:
-			answer_all.append(ans)
 	if request.method == 'POST':
 		if request.user.is_authenticated():
 			if 'answer-submit' in request.POST:
@@ -386,8 +271,7 @@ def question_detail(request, question_id):
 						answer_text=text,
 						question=question
 					)
-				pro_all = Profile.objects.order_by('-points')[:5]
-				for pro in pro_all:
+				for pro in profiles:
 					if pro.username == request.user.username:
 						pro.numAns+=1
 						pro.points+=2
@@ -396,8 +280,6 @@ def question_detail(request, question_id):
 				question.save()
 				ans.save()
 			else:
-				# for key in request.POST:
-					# print(key)
 				author=request.user
 				answer=Answer.objects.get(id=key)
 				text=request.POST['comment']
@@ -417,13 +299,11 @@ def question_detail(request, question_id):
 
 		return redirect('/question_detail/' + str(question_id) + '/')
 	else :
-		
-		pro_all = Profile.objects.order_by('-points')[:5]
 		ques = Question.objects.get(id=question_id)
+		ques.numViews+=1
 		date=ques.created_date
 		ques.timeSince = timeSince(date)
 		ques.save()
-		ques.numViews+=1
 		
 		ctags = []
 		tags_all = Tag.objects.all()
@@ -441,29 +321,16 @@ def question_detail(request, question_id):
 					if tag.question != allt.question:
 						related[i].append(allt.question.id)
 			i += 1
-		# print(ctags)
-		# print(related)
-
-		# Found the [[...],[....],[....],[.....]] - to find number of times a question appears in all
+		
 		close_q = Counter(x for sublist in related for x in sublist)
-		# print(close_q)
 		related = []
 		for i in close_q:
 			q = Question.objects.get(id=i)
 			related.append(q)
 			related = related[0:5]
-		# print(related)
-		pq=Profile.objects.get(user=ques.author)
 		
 		answers = Answer.objects.filter(question=ques).order_by('-bestAnswer','-avotes')
-		pa = []
-		for ans in answers:
-			# print(ans.bestAnswer)
-			# print(ans)
-			pro=Profile.objects.get(user=ans.author)
-			pa.append(pro)
-		c =[]
-		pc=[]
+		c=[]
 		for ans in answers:
 			com=Comment.objects.filter(answer=ans)
 			c.append(com)
@@ -476,33 +343,27 @@ def question_detail(request, question_id):
 			ans.timeSince = timeSince(date)
 			ans.save()
 
-		pc=Profile.objects.all()
-
-		questions_rq = Question.objects.order_by('-created_date')[:5]
-		answer_rq = []
-		users_rq=[]
-		for quest in questions_rq:
-			user=Profile.objects.filter(user=quest.author)
-			users_rq.append(user)
-			answers2 = Answer.objects.filter(question=ques)
-			for ans in answers2:
-				answer_rq.append(ans)
-				date=ans.created_date
-				ans.timeSince = timeSince(date)
-				ans.save()
+		context = {
+			'related':related,
+			'users' : topThree,
+			'all_profile' : profiles,
+			'question' : ques,
+			'answers' : answers,
+			'tags' : toptags,
+			'comments' : c,
+			'questions_all' : questions_all,
+			'answers_all' : answer_all,
+			'questions_rq5': questions_rq5,
+		}
 		if(request.user.username):
-			showuser = User.objects.get(id = request.user.id)
-			showprofile= Profile.objects.get(user=showuser)
+			showprofile= Profile.objects.get(user=request.user)
 			for ans in answers:
-				# print(ans)
 				if(ans.author.username != request.user.username):
 					existingVotes=Vote.objects.filter(answer=ans)
-					# print(existingVotes)
 					for vote in existingVotes:
 						if vote.voter==request.user:
 							flag=1
 							break
-					# print(flag)
 					if flag!=1: 
 						answer=ans
 						voter=request.user
@@ -513,45 +374,7 @@ def question_detail(request, question_id):
 							)
 						votes.save()
 					flag=0
-
-			context = {
-				'related':related,
-				'users' : pro_all,
-				'showUser' : showprofile,
-				'profile_q' : pq,
-				'profile_a' : pa,
-				'all_profile' : pc,
-				'question' : ques,
-				'answers' : answers,
-				'tags' : toptags,
-				'user' : request.user,
-				'comments' : c,
-				'questions_all' : questions_all,
-				'answers_all' : answer_all,
-				'questions_rq5': questions_rq,
-				'answer_rq5' : answer_rq,
-				'users_rq5' : users_rq,
-			}
-		else:
-			context = {
-				'users' : pro_all,
-				'profile_q' : pq,
-				'profile_a' : pa,
-				'all_profile' : pc,
-				'question' : ques,
-				'tags' : toptags,
-				'answers' : answers,
-				'user' : request.user,
-				'comments' : c,
-				'questions_all' : questions_all,
-				'answers_all' : answer_all,
-				'questions_rq5': questions_rq,
-				'answer_rq5' : answer_rq,
-				'users_rq5' : users_rq,
-			}
-
-		ques.save()
-		# print(context)
+			context['showUser']=showprofile
 		return render(request, 'question_detail.html', context)
 
 
@@ -559,7 +382,6 @@ def question_detail(request, question_id):
 
 def edit(request):
 	if request.method == 'POST':
-		print(request.FILES)
 		user=User.objects.get(id=request.user.id)
 		fname=request.POST['fname']
 		lname=request.POST['lname']
@@ -573,9 +395,7 @@ def edit(request):
 		linkedin=request.POST['link']
 		github=request.POST['github']
 
-		# print(request.POST)
-		pro_all=Profile.objects.all()
-		for pro in pro_all:
+		for pro in profiles:
 			if pro.username == username:
 				flag=1
 				pro.firstName=fname
@@ -601,69 +421,25 @@ def edit(request):
 		user.save()
 		return redirect('/viewprofile/'+ str(request.user.id) + '/')
 	else:
-		questions_all = Question.objects.all()
-		answer_all = []
-		for ques in questions_all:
-			answers = Answer.objects.filter(question=ques)
-			for ans in answers:
-				answer_all.append(ans)
-		pro_all = Profile.objects.order_by('-points')[:5]
-		cuser= []
-		questions_rq = Question.objects.order_by('-created_date')[:5]
-		answer_rq = []
-		users_rq=[]
-		for ques in questions_rq:
-			user=Profile.objects.filter(user=ques.author)
-			users_rq.append(user)
-			answers = Answer.objects.filter(question=ques)
-			for ans in answers:
-				answer_rq.append(ans)
+		context = {
+				'users' : topThree,
+				'u_profile': profiles,
+				'questions_all' : questions_all,
+				'answers_all' : answer_all,
+				'tags' : toptags,
+				'questions_rq5': questions_rq5,
+				}
 		if (request.user.username):
-			pro=Profile.objects.get(user=request.user)
-			showuser = User.objects.get(id=request.user.id)
-			if Profile.objects.get(user=showuser):
-				showprofile=Profile.objects.get(user=showuser)
-				context = {
-				'users' : pro_all,
-				'u_profile': pro,
-				'showUser':showprofile,
-				'questions_all' : questions_all,
-				'answers_all' : answer_all,
-				'tags' : toptags,
-				'cuser' : cuser,
-				'questions_rq5': questions_rq,
-				'answer_rq5' : answer_rq,
-				'users_rq5' : users_rq,
-				}
-			else:
-				context = {
-				'users' : pro_all,
-				'questions_all' : questions_all,
-				'answers_all' : answer_all,
-				'tags' : toptags,
-				'cuser' : cuser,
-				'questions_rq5': questions_rq,
-				'answer_rq5' : answer_rq,
-				'users_rq5' : users_rq,
-				}
+			showprofile=Profile.objects.get(user=request.user)
+			context['showUser']=showprofile
+
 	return render(request, 'edit_profile.html', context)
 	
 def search(request):
 	if request.method == 'POST':
-		pro_all = Profile.objects.order_by('-points')[:5]
-		cuser=[]
-		for pro in pro_all:
-			if pro.username == request.user.username:
-				cuser.append(pro)
-		questions_all = Question.objects.all()
-		answer_all = []
-		for ques in questions_all:
-			answers = Answer.objects.filter(question=ques)
-			for ans in answers:
-				answer_all.append(ans)
 		t = request.POST['question_title']
 		x = t
-		t = re.sub('[^a-zA-Z0-9-_*.]', ' ', t) #strip off special characters
+		t = re.sub('[^a-zA-Z0-9-_*.]', ' ', t)
 		s = set(stopwords.words('english'))
 		result = filter(lambda w: not w in s,t.split())
 		print(result)
@@ -695,72 +471,34 @@ def search(request):
 			for i in questions_text:
 				if i not in questions_tt:
 					questions_tt.append(i)
-		pc=Profile.objects.all()
-		questions_rq = Question.objects.order_by('-created_date')[:5]
-		answer_rq = []
-		users_rq=[]
-		for ques in questions_rq:
-			user=Profile.objects.filter(user=ques.author)
-			users_rq.append(user)
-			answers = Answer.objects.filter(question=ques)
-			for ans in answers:
-				answer_rq.append(ans)
+		context = {
+			's' : t,
+			'questions_tt' : questions_tt,
+			'tags' : toptags,
+			'users' : topThree,
+			'questions_all' : questions_all,
+			'allprofile' : profiles,
+			'answers_all' : answer_all,
+			'questions_rq5': questions_rq5,
+		}
 		if(request.user.username):
-			showuser = User.objects.get(id = request.user.id)
-			showprofile= Profile.objects.get(user=showuser)
-			context = {
-				's' : x,
-				'questions_tt' : questions_tt,
-				'users' : pro_all,
-				'cuser': cuser,
-				'showUser':showprofile,
-				'questions_all' : questions_all,
-				'answers_all' : answer_all,
-				'tags' : toptags,
-				'allprofile' : pc,
-				'questions_rq5': questions_rq,
-				'answer_rq5' : answer_rq,
-				'users_rq5' : users_rq,
-			}
-		else:
-			context = {
-				's' : t,
-				'questions_tt' : questions_tt,
-				'tags' : toptags,
-				'users' : pro_all,
-				'cuser': cuser,
-				'questions_all' : questions_all,
-				'allprofile' : pc,
-				'answers_all' : answer_all,
-				'questions_rq5': questions_rq,
-				'answer_rq5' : answer_rq,
-				'users_rq5' : users_rq,
-			}
+			showprofile= Profile.objects.get(user=request.user)
+			context['showUser']=showprofile
 		return render(request, 'search.html', context)
 	else:
 		return HttpResponse('What?')
+
 def viewprofile(request, user_id):
-	pro_all = Profile.objects.order_by('-points')[:5]
-	showuser = User.objects.get(id = user_id)
-	# print(showuser)
+	user = User.objects.get(id = user_id)
+	userProfile = Profile.objects.get(user=user)
 
-	
-
-	showprofile = Profile.objects.get(user=showuser)
-	questions_all = Question.objects.all()
-	answer_all = []
-	for ques in questions_all:
-		answers = Answer.objects.filter(question=ques)
-		for ans in answers:
-			answer_all.append(ans)
-
-	u_questions_all = Question.objects.filter(author=showuser).order_by('-created_date')
+	u_questions_all = Question.objects.filter(author=user).order_by('-created_date')
 	for u in u_questions_all:
 		date=u.created_date
 		u.timeSince = timeSince(date)
 		u.save()
-	pro=Profile.objects.all()
-	u_answers_all = Answer.objects.filter(author=showuser).order_by('-created_date')
+
+	u_answers_all = Answer.objects.filter(author=user).order_by('-created_date')
 	u_answers_all_q=[]
 	for u in u_answers_all:
 		ques=Question.objects.get(id=u.question.id)
@@ -773,7 +511,8 @@ def viewprofile(request, user_id):
 		u.timeSince = timeSince(date)
 		u.save()
 	u_answers_all_q=set(u_answers_all_q)
-	u_comments_all = Comment.objects.filter(author=showuser).order_by('-created_date')
+
+	u_comments_all = Comment.objects.filter(author=user).order_by('-created_date')
 	u_comments_all_a = []
 	u_comments_all_q =[]
 	for u in u_comments_all:
@@ -795,55 +534,25 @@ def viewprofile(request, user_id):
 
 	u_comments_all_q=set(u_comments_all_q)
 	u_comments_all_a=set(u_comments_all_a)
-	questions_rq = Question.objects.order_by('-created_date')[:5]
-	answer_rq = []
-	users_rq=[]
-	for ques in questions_rq:
-		user=Profile.objects.filter(user=ques.author)
-		users_rq.append(user)
-		answers = Answer.objects.filter(question=ques)
-		for ans in answers:
-			answer_rq.append(ans)
 
+	context = {
+		'users': topThree,
+		'showUser' : userProfile,
+		'u_questions_all' : u_questions_all,
+		'u_answers_all' : u_answers_all,
+		'u_answers_all_q' : u_answers_all_q,
+		'u_comments_all' : u_comments_all,
+		'u_comments_all_q' : u_comments_all_q,
+		'u_comments_all_a' : u_comments_all_a,
+		'tags' : toptags,
+		'questions_all' : questions_all,
+		'answers_all' : answer_all,
+		'allprofile': profiles,
+		'questions_rq5': questions_rq5,
+	}
 	if(request.user.username):
-		currentUserProfile=Profile.objects.get(user=request.user)
-		context = {
-			'users': pro_all,
-			'showuser' : showprofile,
-			'showUser' : currentUserProfile,
-			'u_questions_all' : u_questions_all,
-			'u_answers_all' : u_answers_all,
-			'u_answers_all_q' : u_answers_all_q,
-			'u_comments_all' : u_comments_all,
-			'u_comments_all_q' : u_comments_all_q,
-			'u_comments_all_a' : u_comments_all_a,
-			'tags' : toptags,
-			'questions_all' : questions_all,
-			'answers_all' : answer_all,
-			'allprofile': pro,
-			'questions_rq5': questions_rq,
-			'answer_rq5' : answer_rq,
-			'users_rq5' : users_rq,
-		}
-	else: 
-		context = {
-			'users': pro_all,
-			'showuser' : showprofile,
-			'u_questions_all' : u_questions_all,
-			'u_answers_all' : u_answers_all,
-			'u_answers_all_q' : u_answers_all_q,
-			'u_comments_all' : u_comments_all,
-			'tags' : toptags,
-			'u_comments_all_q' : u_comments_all_q,
-			'u_comments_all_a' : u_comments_all_a,
-			'questions_all' : questions_all,
-			'answers_all' : answer_all,
-			'allprofile': pro,
-			'questions_rq5': questions_rq,
-			'answer_rq5' : answer_rq,
-			'users_rq5' : users_rq,
-		}
-	# print(context)
+		showprofile=Profile.objects.get(user=request.user)
+		context['showuser']=showprofile
 
 	return render(request, 'viewprofile.html', context)
 
@@ -861,9 +570,7 @@ def countUp(request, answer_id):
 		elif voted.isVoted== -1:
 			ans.avotes+=2
 			voted.isVoted=1
-		# print('isVoted='+ str(voted.isVoted))
 		voted.save()
-		# print(ans.avotes)
 		pro_all = Profile.objects.all()
 		for pro in pro_all:
 			if(ans.author.username == pro.username):
@@ -892,7 +599,6 @@ def countDown(request, answer_id):
 		elif voted.isVoted== -1:
 			ans.avotes+=1
 			voted.isVoted=0
-		# print('isVoted='+ str(voted.isVoted))
 		voted.save()
 		pro_all = Profile.objects.all()
 		for pro in pro_all:
@@ -933,7 +639,6 @@ def bestanswer(request, answer_id):
 def reply_ajax(request, question_id):
 	if request.user.is_authenticated():
 		a = json.dumps(request.body.decode('utf-8'))
-		# print (a)
 		a = a.split('&csrfmiddlewaretoken')[0]
 		a = a.split('value=')[1]
 		text = a.split('&')[0]

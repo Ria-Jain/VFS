@@ -16,12 +16,8 @@
 													<i class="icon-pencil"></i>Edit
 												</div>
 											</a>
-											<!-- <span style="margin-left: 90%;"> -->
-												<!-- <a href="/edit/" style="margin-left: 65%">Edit 	<i class="icon-pencil"></i></a> -->
-											<!-- </span> -->
 										{% endif %}
 									</h2>
-
 								</div>
 								<div class="row">
 										<div class="col-md-4">
@@ -92,8 +88,8 @@
 										</span>
 									</span>
 								</a>
-							</div><!-- End page-content -->
-						</div><!-- End col-md-12 -->
+							</div>
+						</div>
 						<div class="col-md-12">
 							<div class="page-content page-content-user-profile">
 								<div class="user-profile-widget">
@@ -298,7 +294,6 @@
 															                </div>
 															            </div>
 															        </div>
-															        <!-- <h1>{{ comments|length }}</h1> -->
 															        {% for comment in u_comments_all %}
 														        		{% if comment.answer.id == ans.id %}
 																	        <ul class="children">
@@ -335,17 +330,17 @@
 															    </li>
 															{% endif %}
 														{% endfor %}
-													</ol><!-- End commentlist -->
-												</div><!-- End page-content -->
+													</ol>
+												</div>
 												{% endfor %}
 											</div>
 										</div>
 									</div>
-								</div><!-- End user-profile-widget -->
-							</div><!-- End page-content -->
-						</div><!-- End col-md-12 -->
-					</div><!-- End user-profile -->
-				</div><!-- End row -->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
-			</div><!-- End main -->
+			</div>
 {% endblock %}

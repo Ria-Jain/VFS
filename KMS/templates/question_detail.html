@@ -6,7 +6,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 
-{% if user.is_authenticated %}
+{% if request.user.is_authenticated %}
 <script type='text/javascript'>
  function c(a_id) {
  	var text = document.getElementById('reply-'+a_id).value;
@@ -65,7 +65,6 @@
 				success: function (data) {
 					console.log(data);
 					document.getElementById('status').innerHTML = '<span class="question-answered-done"><i class="icon-ok"></i>solved</span>';
-					// document.getElementById('status').css = "color : 'green'";
 				}
 
 			});
@@ -123,7 +122,7 @@
 <div class="col-md-9">
 	<div class="about-author clearfix">
 		<div class="author-image">
-			<a href="/viewprofile/{{profile_q.user.id}}" original-title="{{profile_q.firstName}}" class="question-author-img tooltip-n"><img alt="" src="../../static/media/{{ profile_q.profilePic }}"></a>
+			<a href="/viewprofile/{{profile_q.user.id}}" original-title="{{profile_q.firstName}}" class="question-author-img tooltip-n"><img alt="" src="../../static/media/{{ showUser.profilePic }}"></a>
 		</div>
 		<div class="author-bio">
 			<br>
