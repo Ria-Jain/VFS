@@ -18,6 +18,17 @@ from django.core.files.storage import FileSystemStorage
 from collections import Counter
 
 # Create your views here.
+tags_all = Tag.objects.all()
+tags = []
+for tag in tags_all:
+	tags.append(tag.name)
+# tags_set = set(tags)
+tags = Counter(tags)
+toptags = []
+for i in tags:
+	toptags.append(i)
+toptags = toptags[:10]
+
 
 def timeSince(date):
 	dt=timezone.now()-date
@@ -131,6 +142,7 @@ def index(request):
 	profiles = Profile.objects.all()
 	context ={
 				'users' : pro_all,
+				'tags' : toptags,
 				'questions_all' : questions_all,
 				'answers_all' : answer_all,
 				'questions_rq' : questions_rq,
@@ -154,6 +166,7 @@ def index(request):
 		showprofile= Profile.objects.get(user=showuser)
 		context ={
 			# 'cuser': cuser,
+			'tags' : toptags,
 			'users' : pro_all,
 			'showUser' : showprofile,
 			'questions_all' : questions_all,
@@ -178,6 +191,19 @@ def index(request):
 	return render(request,'index.html', context)
 
 def base(request):
+	
+
+	tags_all = Tag.objects.all()
+	tags = []
+	for tag in tags_all:
+		tags.append(tag.name)
+	# tags_set = set(tags)
+	tags = Counter(tags)
+	toptags = []
+	for i in tags:
+		toptags.append(i)
+	toptags = toptags[:10]
+
 	questions_all = Question.objects.all()
 	answer_all = []
 	for ques in questions_all:
@@ -194,7 +220,8 @@ def base(request):
 	context = {
 		'cuser': cuser,
 		'questions_all' : questions_all,
-		'answers_all' : answer_all
+		'answers_all' : answer_all,
+		'tags' : toptags
 	}
 	# print(context)
 	return render(request,'base.html', context)
@@ -324,6 +351,7 @@ def ask_question(request):
 			context = {
 				'users' : pro_all,
 				'cuser': cuser,
+				'tags' : toptags,
 				'showUser' : showprofile,
 				'questions_all' : questions_all,
 				'answers_all' : answer_all,
@@ -495,6 +523,7 @@ def question_detail(request, question_id):
 				'all_profile' : pc,
 				'question' : ques,
 				'answers' : answers,
+				'tags' : toptags,
 				'user' : request.user,
 				'comments' : c,
 				'questions_all' : questions_all,
@@ -510,6 +539,7 @@ def question_detail(request, question_id):
 				'profile_a' : pa,
 				'all_profile' : pc,
 				'question' : ques,
+				'tags' : toptags,
 				'answers' : answers,
 				'user' : request.user,
 				'comments' : c,
@@ -599,6 +629,7 @@ def edit(request):
 				'showUser':showprofile,
 				'questions_all' : questions_all,
 				'answers_all' : answer_all,
+				'tags' : toptags,
 				'cuser' : cuser,
 				'questions_rq5': questions_rq,
 				'answer_rq5' : answer_rq,
@@ -609,6 +640,7 @@ def edit(request):
 				'users' : pro_all,
 				'questions_all' : questions_all,
 				'answers_all' : answer_all,
+				'tags' : toptags,
 				'cuser' : cuser,
 				'questions_rq5': questions_rq,
 				'answer_rq5' : answer_rq,
@@ -632,22 +664,18 @@ def search(request):
 		t = request.POST['question_title']
 		x = t
 		t = re.sub('[^a-zA-Z0-9-_*.]', ' ', t) #strip off special characters
-		# querywords = s.split()	#Who is Foo-Bar
 		s = set(stopwords.words('english'))
 		result = filter(lambda w: not w in s,t.split())
-		# for word in querywords:
-		# 	if word.lower() not in stopwords:
-		# 		result.append(word)
 		print(result)
 		query_title = Q()
 		query_text = Q()
-		# query_tags = Q()
 		tags_all = Tag.objects.all()
 		questions_tags = []
+		questions_title = []
+		questions_text = []
 		for word in result:
 			query_title = query_title | Q(question_title__contains=word)
 			query_text = query_text | Q(question_text__contains=word)
-			# query_tags = query_tags | Q(name__contains=word)
 			questions_title = Question.objects.filter(query_title)
 			questions_text = Question.objects.filter(query_text)
 			for tag in tags_all:
@@ -655,23 +683,19 @@ def search(request):
 					questions_tags.append(
 							Question.objects.get(id=tag.question.id)
 						)
-			# questions_tt = Question.objects.filter(query_tt)
-			# questions.append(Question.objects.filter(
-			# 		question__Question_title__contains=word
-			# 	)
-			# )
-		# questions_tt = list(set().union(questions_title,questions_text,questions_tags))
 		questions_tt = []
-		for i in questions_title:
-			questions_tt.append(i)
-		for i in questions_tags:
-			if i not in questions_tt:
+		if len(questions_title) != 0:
+			for i in questions_title:
 				questions_tt.append(i)
-		for i in questions_text:
-			if i not in questions_tt:
-				questions_tt.append(i)
+		if len(questions_tags) != 0:
+			for i in questions_tags:
+				if i not in questions_tt:
+					questions_tt.append(i)
+		if len(questions_text) != 0:
+			for i in questions_text:
+				if i not in questions_tt:
+					questions_tt.append(i)
 		pc=Profile.objects.all()
-		# print(pc)
 		questions_rq = Question.objects.order_by('-created_date')[:5]
 		answer_rq = []
 		users_rq=[]
@@ -692,6 +716,7 @@ def search(request):
 				'showUser':showprofile,
 				'questions_all' : questions_all,
 				'answers_all' : answer_all,
+				'tags' : toptags,
 				'allprofile' : pc,
 				'questions_rq5': questions_rq,
 				'answer_rq5' : answer_rq,
@@ -701,6 +726,7 @@ def search(request):
 			context = {
 				's' : t,
 				'questions_tt' : questions_tt,
+				'tags' : toptags,
 				'users' : pro_all,
 				'cuser': cuser,
 				'questions_all' : questions_all,
@@ -791,6 +817,7 @@ def viewprofile(request, user_id):
 			'u_comments_all' : u_comments_all,
 			'u_comments_all_q' : u_comments_all_q,
 			'u_comments_all_a' : u_comments_all_a,
+			'tags' : toptags,
 			'questions_all' : questions_all,
 			'answers_all' : answer_all,
 			'allprofile': pro,
@@ -806,6 +833,7 @@ def viewprofile(request, user_id):
 			'u_answers_all' : u_answers_all,
 			'u_answers_all_q' : u_answers_all_q,
 			'u_comments_all' : u_comments_all,
+			'tags' : toptags,
 			'u_comments_all_q' : u_comments_all_q,
 			'u_comments_all_a' : u_comments_all_a,
 			'questions_all' : questions_all,
