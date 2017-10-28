@@ -4,7 +4,6 @@ cymem==1.31.2
 cytoolz==0.8.2
 dill==0.2.7.1
 Django==1.9
-en-core-web-sm==1.2.0
 ftfy==4.4.3
 html5lib==0.999999999
 idna==2.6
@@ -19,7 +18,6 @@ preshed==1.0.0
 regex==2017.9.23
 requests==2.18.4
 six==1.11.0
-spacy==1.9.0
 termcolor==1.1.0
 thinc==6.5.2
 toolz==0.8.2
