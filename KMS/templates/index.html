@@ -13,179 +13,211 @@
 		            </ul>
 		            <div class="tab-inner-warp">
 						<div class="tab-inner">
-							{% for q in questions_rq %}
-							<article class="question question-type-normal">
-								<h2>
-									<a href="/question_detail/{{ q.id }}">{{ q.question_title }}</a>
-								</h2>
-								<div class="question-type-main">
-										<i class="icon-question-sign"></i>Question
-								</div>
-								<div class="question-author">
-										{% for u in all_profile %}
-											{% if u.user == q.author %}
-												<a href="/viewprofile/{{q.author.id}}" original-title="{{q.author.first_name}}" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/media/{{ u.profilePic }}"></a>
-											{% endif %}
-										{% endfor %}
-								</div>
-								<div class="question-inner">
-									<div class="clearfix"></div>
-									<p class="question-desc">{{ q.question_text }}</p>
-									<div class="question-details">
-										<span class="question-answered ">
-										{% if q.is_solved = 1 %}
-											<span class="question-answered-done">
-												<i class="icon-ok"></i>
-												solved	
-											</span>
-										{% else %}
-											<span style=" color:#FF0000">
-												<i class="icon-remove"></i>
-												unsolved
-											</span>
-										{% endif%}
-										</span>
+							{% if questions_rq|length == 0 %}
+									<article class="question question-type-normal">
+										<h2>
+											No Questions Asked Yet
+										</h2>
+									</article>
+							{% else %}
+								{% for q in questions_rq %}
+									<article class="question question-type-normal">
+										<h2>
+											<a href="/question_detail/{{ q.id }}">{{ q.question_title }}</a>
+										</h2>
+										<div class="question-type-main">
+												<i class="icon-question-sign"></i>Question
+										</div>
+										<div class="question-author">
+												{% for u in all_profile %}
+													{% if u.user == q.author %}
+														<a href="/viewprofile/{{q.author.id}}" original-title="{{q.author.first_name}}" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/media/{{ u.profilePic }}"></a>
+													{% endif %}
+												{% endfor %}
+										</div>
+										<div class="question-inner">
+											<div class="clearfix"></div>
+											<p class="question-desc">{{ q.question_text }}</p>
+											<div class="question-details">
+												<span class="question-answered ">
+												{% if q.is_solved = 1 %}
+													<span class="question-answered-done">
+														<i class="icon-ok"></i>
+														solved	
+													</span>
+												{% else %}
+													<span style=" color:#FF0000">
+														<i class="icon-remove"></i>
+														unsolved
+													</span>
+												{% endif%}
+												</span>
 
-									</div>
-									<span class="question-date"><i class="icon-time"></i>{{ q.timeSince }}</span>
-									<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
-									<span class="question-view"><i class="icon-user"></i>{{q.numViews}} views</span>
-									<div class="clearfix"></div>
-								</div>
-							</article>
-							{% endfor %}
+											</div>
+											<span class="question-date"><i class="icon-time"></i>{{ q.timeSince }}</span>
+											<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
+											<span class="question-view"><i class="icon-user"></i>{{q.numViews}} views</span>
+											<div class="clearfix"></div>
+										</div>
+									</article>
+								{% endfor %}
+							{% endif %}
 					    </div>
 					</div>
 					<div class="tab-inner-warp">
 						<div class="tab-inner">
-							{% for q in questions_ma %}
-							<article class="question question-type-normal">
-								<h2>
-									<a href="/question_detail/{{ q.id }}">{{ q.question_title }}</a>
-								</h2>
-								<div class="question-type-main">
-										<i class="icon-question-sign"></i>Question
-								</div>
-								<div class="question-author">
-									{% for u in all_profile %}
-											{% if u.user == q.author %}
-												<a href="/viewprofile/{{q.author.id}}" original-title="{{q.author.first_name}}" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/media/{{ u.profilePic }}"></a>
-											{% endif %}
-									{% endfor %}
-								</div>
-								<div class="question-inner">
-									<div class="clearfix"></div>
-									<p class="question-desc">{{ q.question_text }}</p>
-									<div class="question-details">
-										<span class="question-answered ">
-										{% if q.is_solved = 1 %}
-											<span class="question-answered-done">
-												<i class="icon-ok"></i>
-												solved	
-											</span>
-										{% else %}
-											<span style=" color:#FF0000">
-												<i class="icon-remove"></i>
-												unsolved
-											</span>
-										{% endif%}
-										</span>
+						{% if questions_rq|length == 0 %}
+									<article class="question question-type-normal">
+										<h2>
+											No Questions Asked Yet
+										</h2>
+									</article>
+							{% else %}
+								{% for q in questions_ma %}
+								<article class="question question-type-normal">
+									<h2>
+										<a href="/question_detail/{{ q.id }}">{{ q.question_title }}</a>
+									</h2>
+									<div class="question-type-main">
+											<i class="icon-question-sign"></i>Question
 									</div>
-									<span class="question-date"><i class="icon-time"></i>{{ q.timeSince }}</span>
-									<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
-									<span class="question-view"><i class="icon-user"></i>{{q.numViews}} views</span>
-									<div class="clearfix"></div>
-								</div>
-							</article>
-							{% endfor %}
+									<div class="question-author">
+										{% for u in all_profile %}
+												{% if u.user == q.author %}
+													<a href="/viewprofile/{{q.author.id}}" original-title="{{q.author.first_name}}" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/media/{{ u.profilePic }}"></a>
+												{% endif %}
+										{% endfor %}
+									</div>
+									<div class="question-inner">
+										<div class="clearfix"></div>
+										<p class="question-desc">{{ q.question_text }}</p>
+										<div class="question-details">
+											<span class="question-answered ">
+											{% if q.is_solved = 1 %}
+												<span class="question-answered-done">
+													<i class="icon-ok"></i>
+													solved	
+												</span>
+											{% else %}
+												<span style=" color:#FF0000">
+													<i class="icon-remove"></i>
+													unsolved
+												</span>
+											{% endif%}
+											</span>
+										</div>
+										<span class="question-date"><i class="icon-time"></i>{{ q.timeSince }}</span>
+										<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
+										<span class="question-view"><i class="icon-user"></i>{{q.numViews}} views</span>
+										<div class="clearfix"></div>
+									</div>
+								</article>
+								{% endfor %}
+							{% endif %}
 					    </div>
 					</div>
 					<div class="tab-inner-warp">
 						<div class="tab-inner">
-							{% for q in questions_ra %}
-							<article class="question question-type-normal">
-								<h2>
-									<a href="/question_detail/{{ q.id }}">{{ q.question_title }}</a>
-								</h2>
-								<div class="question-type-main">
-										<i class="icon-question-sign"></i>Question
-								</div>
-								<div class="question-author">
-									{% for u in all_profile %}
-											{% if u.user == q.author %}
-												<a href="/viewprofile/{{q.author.id}}" original-title="{{q.author.first_name}}" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/media/{{ u.profilePic }}"></a>
-											{% endif %}
-									{% endfor %}
-								</div>
-								<div class="question-inner">
-									<div class="clearfix"></div>
-									<p class="question-desc">{{ q.question_text }}</p>
-									<div class="question-details">
-										<span class="question-answered ">
-										{% if q.is_solved = 1 %}
-											<span class="question-answered-done">
-												<i class="icon-ok"></i>
-												solved	
-											</span>
-										{% else %}
-											<span style=" color:#FF0000">
-												<i class="icon-remove"></i>
-												unsolved
-											</span>
-										{% endif%}
-										</span>
+							{% if questions_rq|length == 0 %}
+									<article class="question question-type-normal">
+										<h2>
+											No Questions Asked Yet
+										</h2>
+									</article>
+							{% else %}
+								{% for q in questions_ra %}
+								<article class="question question-type-normal">
+									<h2>
+										<a href="/question_detail/{{ q.id }}">{{ q.question_title }}</a>
+									</h2>
+									<div class="question-type-main">
+											<i class="icon-question-sign"></i>Question
 									</div>
-									<span class="question-date"><i class="icon-time"></i>{{ q.timeSince }}</span>
-									<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
-									<span class="question-view"><i class="icon-user"></i>{{q.numViews}} views</span>
-									<div class="clearfix"></div>
-								</div>
-							</article>
-							{% endfor %}
+									<div class="question-author">
+										{% for u in all_profile %}
+												{% if u.user == q.author %}
+													<a href="/viewprofile/{{q.author.id}}" original-title="{{q.author.first_name}}" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/media/{{ u.profilePic }}"></a>
+												{% endif %}
+										{% endfor %}
+									</div>
+									<div class="question-inner">
+										<div class="clearfix"></div>
+										<p class="question-desc">{{ q.question_text }}</p>
+										<div class="question-details">
+											<span class="question-answered ">
+											{% if q.is_solved = 1 %}
+												<span class="question-answered-done">
+													<i class="icon-ok"></i>
+													solved	
+												</span>
+											{% else %}
+												<span style=" color:#FF0000">
+													<i class="icon-remove"></i>
+													unsolved
+												</span>
+											{% endif%}
+											</span>
+										</div>
+										<span class="question-date"><i class="icon-time"></i>{{ q.timeSince }}</span>
+										<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
+										<span class="question-view"><i class="icon-user"></i>{{q.numViews}} views</span>
+										<div class="clearfix"></div>
+									</div>
+								</article>
+								{% endfor %}
+							{% endif %}
 					    </div>
 					</div>
 					<div class="tab-inner-warp">
 						<div class="tab-inner">
-							{% for q in questions_na %}
-							<article class="question question-type-normal">
-								<h2>
-									<a href="/question_detail/{{ q.id }}">{{ q.question_title }}</a>
-								</h2>
-								<div class="question-type-main">
-										<i class="icon-question-sign"></i>Question
-								</div>
-								<div class="question-author">
-									{% for u in all_profile %}
-											{% if u.user == q.author %}
-												<a href="/viewprofile/{{q.author.id}}" original-title="{{q.author.first_name}}" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/media/{{ u.profilePic }}"></a>
-											{% endif %}
-									{% endfor %}
-								</div>
-								<div class="question-inner">
-									<div class="clearfix"></div>
-									<p class="question-desc">{{ q.question_text }}</p>
-									<div class="question-details">
-										<span class="question-answered ">
-										{% if q.is_solved = 1 %}
-											<span class="question-answered-done">
-												<i class="icon-ok"></i>
-												solved	
-											</span>
-										{% else %}
-											<span style=" color:#FF0000">
-												<i class="icon-remove"></i>
-												unsolved
-											</span>
-										{% endif%}
-										</span>
+							{% if questions_rq|length == 0 %}
+									<article class="question question-type-normal">
+										<h2>
+											No Questions Asked Yet
+										</h2>
+									</article>
+							{% else %}
+								{% for q in questions_na %}
+								<article class="question question-type-normal">
+									<h2>
+										<a href="/question_detail/{{ q.id }}">{{ q.question_title }}</a>
+									</h2>
+									<div class="question-type-main">
+											<i class="icon-question-sign"></i>Question
 									</div>
-									<span class="question-date"><i class="icon-time"></i>{{ q.timeSince }}</span>
-									<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
-									<span class="question-view"><i class="icon-user"></i>{{q.numViews}} views</span>
-									<div class="clearfix"></div>
-								</div>
-							</article>
-							{% endfor %}
+									<div class="question-author">
+										{% for u in all_profile %}
+												{% if u.user == q.author %}
+													<a href="/viewprofile/{{q.author.id}}" original-title="{{q.author.first_name}}" class="question-author-img tooltip-n"><span></span><img alt="" src="../../static/media/{{ u.profilePic }}"></a>
+												{% endif %}
+										{% endfor %}
+									</div>
+									<div class="question-inner">
+										<div class="clearfix"></div>
+										<p class="question-desc">{{ q.question_text }}</p>
+										<div class="question-details">
+											<span class="question-answered ">
+											{% if q.is_solved = 1 %}
+												<span class="question-answered-done">
+													<i class="icon-ok"></i>
+													solved	
+												</span>
+											{% else %}
+												<span style=" color:#FF0000">
+													<i class="icon-remove"></i>
+													unsolved
+												</span>
+											{% endif%}
+											</span>
+										</div>
+										<span class="question-date"><i class="icon-time"></i>{{ q.timeSince }}</span>
+										<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
+										<span class="question-view"><i class="icon-user"></i>{{q.numViews}} views</span>
+										<div class="clearfix"></div>
+									</div>
+								</article>
+								{% endfor %}
+							{% endif %}
 					    </div>
 					</div>
 		        </div>
