@@ -10,6 +10,7 @@
 <script type='text/javascript'>
  function c(a_id) {
  	var text = document.getElementById('reply-'+a_id).value;
+	console.log(a_id)
  	$.ajax({
  		url: '/reply_ajax/{{ question.id }}/',
  		type: 'POST',
@@ -41,9 +42,7 @@
  			d = date[1] + '. ' + date[2] + ', ' + date[3] + ', ';
  			created_date=d+time
  			pic=data.pic.split('/');
- 			console.log(pic)
  			pic=pic[pic.length-1];
- 			console.log(pic)
  			var li = document.createElement(li)
  			li.innerHTML = '<li class="comment"><div class="comment-body clearfix"><div class="avatar"><img alt="" src="../../static/media/'+pic+'"></div><div class="comment-text"><div class="author clearfix"><div class="comment-author"><a href="#">'+data.name+'</a></div><div class="comment-meta"><div class="date"><i class="icon-time"></i>'+created_date+'</div></div></div><div class="text"><p>'+data.text+'</p></div></div></div></li>';
  			document.getElementById('comment-'+a_id).append(li)

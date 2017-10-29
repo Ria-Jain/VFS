@@ -28,12 +28,11 @@ urlpatterns = [
     url(r'^search/$', views.search),
     url(r'^ask_question/$', views.ask_question),
     url(r'^search/$', views.search),
+    # url(r'^tagged/(?P<tag_id>\d+)/$', views.tagged),
     url(r'^countDown/(?P<answer_id>\d+)$', views.countDown),
     url(r'^bestanswer/(?P<answer_id>\d+)$', views.bestanswer),
     url(r'^question_detail/(?P<question_id>\d+)/$', views.question_detail),
     url(r'^viewprofile/(?P<user_id>\d+)/$', views.viewprofile),
-
     url(r'^countUp/(?P<answer_id>\d+)$', views.countUp),
-    # url(r'^countUp2/(?P<answer_id>\d+)$', views.countUp2),
     url(r'^reply_ajax/(?P<question_id>\d+)/$', views.reply_ajax),
 ]
