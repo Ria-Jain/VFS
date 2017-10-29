@@ -26,10 +26,10 @@
 										<div class="ul_list ul_list-icon-ok about-user col-md-8" >
 											<ul>
 												<li><i class="icon-plus"></i>Registered : <span>{{ showuser.regDate }}</span></li>
-												{% ifnotequal showuser.country '' %}
+												{% ifnotequal showuser.country ' ' %}
 													<li><i class="icon-map-marker"></i>Country : <span>{{ showuser.country }}</span></li>
 												{% endifnotequal %}
-												{% ifnotequal showuser.website '' %}
+												{% ifnotequal showuser.website ' ' %}
 													<li><i class="icon-globe"></i>Website : <a target="_blank" href="https://{{ showuser.website}}">{{ showuser.website }}</a></li>
 												{% endifnotequal %}
 												<li><i class="icon-trophy"></i>Points: {{ showuser.points }}</li>
@@ -37,7 +37,7 @@
 										</div>
 									</div>
 									<br>
-									{% ifnotequal showuser.aboutYourself '' %}
+									{% ifnotequal showuser.aboutYourself ' ' %}
 										<div>
 											<h4>About Me:</h4>
 											<p>{{showuser.aboutYourself}}</p>
@@ -102,6 +102,9 @@
 							            </ul>
 							            <div class="tab-inner-warp">
 											<div class="tab-inner">
+												{% if u_questions_all|length == 0 %}
+													<h2>No Questions Asked By Users</h2>
+												{% endif %}
 												{% for q in u_questions_all %}
 												<article class="question question-type-normal" style="background-color: #fff8dc;" >
 													<h2>
@@ -148,6 +151,9 @@
 										</div>
 										<div class="tab-inner-warp">
 											<div class="tab-inner">
+												{% if u_questions_all|length == 0 %}
+													<h2>No Answers By Users</h2>
+												{% endif %}
 													{% for question in u_answers_all_q %}
 															<article class="question question-type-normal">
 																<h2>
@@ -227,6 +233,9 @@
 										</div>
 										<div class="tab-inner-warp">
 											<div class="tab-inner">
+												{% if u_questions_all|length == 0 %}
+													<h2>No Comments By Users</h2>
+												{% endif %}
 												{% for c in u_comments_all_q %}
 													<article class="question question-type-normal">
 														<h2>

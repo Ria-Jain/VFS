@@ -1,1 +1,12 @@
+Without Login
+1. Highest Points no profile pic
+2. No tags then there should not be a panel in side bar
+3. No recent questions then there should not be a panel in the side bar
+4. three users, only two shown
+5. Highest points only if above 0
+6. in the tabs, no questions are there...."No questions asked yet" should be centered
+7. The questions are not of uniform size, cut off at three lines with ellipsis
+8. I searched 'hi' still got an output, how do we fix this?	
+9. If i click on popular tag, it should show me questions with those tags in most popular format
+10. User profile needs work, if blank, dont show the field
 
