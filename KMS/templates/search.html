@@ -33,7 +33,7 @@
                             </div>
                             <div class="question-inner">
                                 <div class="clearfix"></div>
-                                <p class="question-desc">{{ q.question_text }}</p>
+                                <p class="question-desc">{{ q.question_text|linebreaksbr }}</p>
                                 <div class="question-details">
                                     <span class="question-answered">
                                         {% if q.is_solved = 1 %}

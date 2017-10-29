@@ -18,29 +18,6 @@ from django.core.files.storage import FileSystemStorage
 from collections import Counter
 
 
-tags_all = Tag.objects.all()
-tags = []
-for tag in tags_all:
-	tags.append(tag.name)
-
-tags = Counter(tags)
-toptags = []
-for i in tags:
-	toptags.append(i)
-toptags = toptags[:10]
-
-questions_all = Question.objects.all()
-answer_all = []
-for ques in questions_all:
-	answers = Answer.objects.filter(question=ques)
-	for ans in answers:
-		answer_all.append(ans)
-
-profiles = Profile.objects.all()
-topThree = Profile.objects.order_by('-points')[:5]
-
-
-questions_rq5 = Question.objects.order_by('-created_date')[:5]
 
 def timeSince(date):
 	dt=timezone.now()-date
@@ -90,6 +67,29 @@ def timeSince(date):
 
 
 def index(request):
+	tags_all = Tag.objects.all()
+	tags = []
+	for tag in tags_all:
+		tags.append(tag.name)
+
+	tags = Counter(tags)
+	toptags = []
+	for i in tags:
+		toptags.append(i)
+	toptags = toptags[:10]
+
+	questions_all = Question.objects.all()
+	answer_all = []
+	for ques in questions_all:
+		answers = Answer.objects.filter(question=ques)
+		for ans in answers:
+			answer_all.append(ans)
+
+	profiles = Profile.objects.all()
+	topThree = Profile.objects.order_by('-points')[:5]
+
+
+	questions_rq5 = Question.objects.order_by('-created_date')[:5]
 
 	questions_rq = Question.objects.order_by('-created_date')
 	answer_rq = []
@@ -219,6 +219,29 @@ def register(request):
 
 def ask_question(request):
 	if request.user.is_authenticated():
+		tags_all = Tag.objects.all()
+		tags = []
+		for tag in tags_all:
+			tags.append(tag.name)
+
+		tags = Counter(tags)
+		toptags = []
+		for i in tags:
+			toptags.append(i)
+		toptags = toptags[:10]
+
+		questions_all = Question.objects.all()
+		answer_all = []
+		for ques in questions_all:
+			answers = Answer.objects.filter(question=ques)
+			for ans in answers:
+				answer_all.append(ans)
+
+		profiles = Profile.objects.all()
+		topThree = Profile.objects.order_by('-points')[:5]
+
+
+		questions_rq5 = Question.objects.order_by('-created_date')[:5]
 
 		if request.method == 'POST':
 			for pro in profiles:
@@ -258,6 +281,29 @@ def ask_question(request):
 
 def question_detail(request, question_id):
 	flag=0
+	tags_all = Tag.objects.all()
+	tags = []
+	for tag in tags_all:
+		tags.append(tag.name)
+
+	tags = Counter(tags)
+	toptags = []
+	for i in tags:
+		toptags.append(i)
+	toptags = toptags[:10]
+
+	questions_all = Question.objects.all()
+	answer_all = []
+	for ques in questions_all:
+		answers = Answer.objects.filter(question=ques)
+		for ans in answers:
+			answer_all.append(ans)
+
+	profiles = Profile.objects.all()
+	topThree = Profile.objects.order_by('-points')[:5]
+
+
+	questions_rq5 = Question.objects.order_by('-created_date')[:5]
 	if request.method == 'POST':
 		if request.user.is_authenticated():
 			if 'answer-submit' in request.POST:
@@ -381,6 +427,30 @@ def question_detail(request, question_id):
 
 
 def edit(request):
+	tags_all = Tag.objects.all()
+	tags = []
+	for tag in tags_all:
+		tags.append(tag.name)
+
+	tags = Counter(tags)
+	toptags = []
+	for i in tags:
+		toptags.append(i)
+	toptags = toptags[:10]
+
+	questions_all = Question.objects.all()
+	answer_all = []
+	for ques in questions_all:
+		answers = Answer.objects.filter(question=ques)
+		for ans in answers:
+			answer_all.append(ans)
+
+	profiles = Profile.objects.all()
+	topThree = Profile.objects.order_by('-points')[:5]
+
+
+	questions_rq5 = Question.objects.order_by('-created_date')[:5]
+
 	if request.method == 'POST':
 		user=User.objects.get(id=request.user.id)
 		fname=request.POST['fname']
@@ -436,6 +506,29 @@ def edit(request):
 	return render(request, 'edit_profile.html', context)
 	
 def search(request):
+	tags_all = Tag.objects.all()
+	tags = []
+	for tag in tags_all:
+		tags.append(tag.name)
+
+	tags = Counter(tags)
+	toptags = []
+	for i in tags:
+		toptags.append(i)
+	toptags = toptags[:10]
+
+	questions_all = Question.objects.all()
+	answer_all = []
+	for ques in questions_all:
+		answers = Answer.objects.filter(question=ques)
+		for ans in answers:
+			answer_all.append(ans)
+
+	profiles = Profile.objects.all()
+	topThree = Profile.objects.order_by('-points')[:5]
+
+
+	questions_rq5 = Question.objects.order_by('-created_date')[:5]
 	if request.method == 'POST':
 		t = request.POST['question_title']
 		x = t
@@ -489,6 +582,30 @@ def search(request):
 		return HttpResponse('What?')
 
 def viewprofile(request, user_id):
+	tags_all = Tag.objects.all()
+	tags = []
+	for tag in tags_all:
+		tags.append(tag.name)
+
+	tags = Counter(tags)
+	toptags = []
+	for i in tags:
+		toptags.append(i)
+	toptags = toptags[:10]
+
+	questions_all = Question.objects.all()
+	answer_all = []
+	for ques in questions_all:
+		answers = Answer.objects.filter(question=ques)
+		for ans in answers:
+			answer_all.append(ans)
+
+	profiles = Profile.objects.all()
+	topThree = Profile.objects.order_by('-points')[:5]
+
+
+	questions_rq5 = Question.objects.order_by('-created_date')[:5]
+
 	user = User.objects.get(id = user_id)
 	userProfile = Profile.objects.get(user=user)
 
