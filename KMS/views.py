@@ -654,7 +654,7 @@ def viewprofile(request, user_id):
 
 	context = {
 		'users': topThree,
-		'showUser' : userProfile,
+		'showuser' : userProfile,
 		'u_questions_all' : u_questions_all,
 		'u_answers_all' : u_answers_all,
 		'u_answers_all_q' : u_answers_all_q,
@@ -667,9 +667,10 @@ def viewprofile(request, user_id):
 		'allprofile': profiles,
 		'questions_rq5': questions_rq5,
 	}
+	print(context)
 	if(request.user.username):
 		showprofile=Profile.objects.get(user=request.user)
-		context['showuser']=showprofile
+		context['showUser']=showprofile
 
 	return render(request, 'viewprofile.html', context)
 
