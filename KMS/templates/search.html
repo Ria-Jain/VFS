@@ -33,9 +33,20 @@
                             </div>
                             <div class="question-inner">
                                 <div class="clearfix"></div>
-                                <p class="question-desc">{{ q.question_text }}</p>
+                                <p class="question-desc">{{ q.question_text|linebreaksbr|slice:"200" }}</p>
                                 <div class="question-details">
-                                    <span class="question-answered question-answered-done"><i class="icon-ok"></i>solved</span>
+                                    <span class="question-answered">
+                                        {% if q.is_solved = 1 %}
+                                                <span class="question-answered-done">
+                                                    <i class="icon-ok"></i>
+                                                    solved  
+                                                </span>
+                                            {% else %}
+                                                <span style=" color:#FF0000">
+                                                    <i class="icon-remove"></i>
+                                                    unsolved
+                                                </span>
+                                            {% endif%}
                                 </div>
                                 <span class="question-date"><i class="icon-time"></i>{{ q.timeSince }}</span>
                                 <span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
