@@ -704,6 +704,10 @@ def countUp(request, answer_id):
 		context['error'] = 'You need to log in first.'
 		return render(request,'login.html',context)
 
+# def tagged(tag_id):
+# 	print(tag_id)
+# 	return HttpResponse(tag_id)
+
 def countDown(request, answer_id):
 	if request.user.is_authenticated():
 		ans = Answer.objects.get(id=answer_id)
