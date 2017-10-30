@@ -151,7 +151,7 @@
 										</div>
 										<div class="tab-inner-warp">
 											<div class="tab-inner">
-												{% if u_questions_all|length == 0 %}
+												{% if u_answers_all_q|length == 0 %}
 													<h2>No Answers By Users</h2>
 												{% endif %}
 													{% for question in u_answers_all_q %}
@@ -233,7 +233,7 @@
 										</div>
 										<div class="tab-inner-warp">
 											<div class="tab-inner">
-												{% if u_questions_all|length == 0 %}
+												{% if u_comments_all_q|length == 0 %}
 													<h2>No Comments By Users</h2>
 												{% endif %}
 												{% for c in u_comments_all_q %}

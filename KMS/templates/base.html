@@ -134,13 +134,14 @@
                     {% endfor %}
                     </ul>
                 </div>
-
+                {% if tags|length != 0 %}
                 <div class="widget widget_tag_cloud">
                     <h3 class="widget_title">Tags</h3>
                     {% for t in tags %}
-                        <a>{{ t }}</a>
+                        <a href="/tagged/{{ t }}">{{ t }}</a>
                     {% endfor %}                
                 </div>
+                {% endif %}
 
                 <div class="widget">
                     <h3 class="widget_title">Recent Questions</h3>

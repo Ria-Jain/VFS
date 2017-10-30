@@ -72,12 +72,12 @@ def index(request):
 	for tag in tags_all:
 		tags.append(tag.name)
 
-	tags = Counter(tags)
-	toptags = []
-	for i in tags:
-		toptags.append(i)
-	toptags = toptags[:10]
-
+	tagsnew = Counter(tags)
+	toptag = []
+	for i in tagsnew:
+		toptag.append(i)
+	toptags = toptag[:15]
+	print(tagsnew, toptags)
 	questions_all = Question.objects.all()
 	answer_all = []
 	for ques in questions_all:
@@ -228,7 +228,7 @@ def ask_question(request):
 		toptags = []
 		for i in tags:
 			toptags.append(i)
-		toptags = toptags[:10]
+		toptags = toptags[:15]
 
 		questions_all = Question.objects.all()
 		answer_all = []
@@ -290,7 +290,7 @@ def question_detail(request, question_id):
 	toptags = []
 	for i in tags:
 		toptags.append(i)
-	toptags = toptags[:10]
+	toptags = toptags[:15]
 
 	questions_all = Question.objects.all()
 	answer_all = []
@@ -436,7 +436,7 @@ def edit(request):
 	toptags = []
 	for i in tags:
 		toptags.append(i)
-	toptags = toptags[:10]
+	toptags = toptags[:15]
 
 	questions_all = Question.objects.all()
 	answer_all = []
@@ -515,7 +515,7 @@ def search(request):
 	toptags = []
 	for i in tags:
 		toptags.append(i)
-	toptags = toptags[:10]
+	toptags = toptags[:15]
 
 	questions_all = Question.objects.all()
 	answer_all = []
@@ -591,7 +591,7 @@ def viewprofile(request, user_id):
 	toptags = []
 	for i in tags:
 		toptags.append(i)
-	toptags = toptags[:10]
+	toptags = toptags[:15]
 
 	questions_all = Question.objects.all()
 	answer_all = []
@@ -704,9 +704,52 @@ def countUp(request, answer_id):
 		context['error'] = 'You need to log in first.'
 		return render(request,'login.html',context)
 
-# def tagged(tag_id):
-# 	print(tag_id)
-# 	return HttpResponse(tag_id)
+def tagged(request, name):
+	questions_all = Question.objects.all()
+	answer_all = []
+	for ques in questions_all:
+		answers = Answer.objects.filter(question=ques)
+		for ans in answers:
+			answer_all.append(ans)
+
+	profiles = Profile.objects.all()
+	topThree = Profile.objects.order_by('-points')[:5]
+
+
+	questions_rq5 = Question.objects.order_by('-created_date')[:5]
+	tags_all = Tag.objects.all()
+	questions = []
+	for tag in tags_all:
+		if tag.name == name:
+			questions.append(tag.question)
+	print(questions)
+
+	tags_all = Tag.objects.all()
+	tags = []
+	for tag in tags_all:
+		tags.append(tag.name)
+
+	tagsnew = Counter(tags)
+	toptag = []
+	for i in tagsnew:
+		toptag.append(i)
+	toptags = toptag[:15]
+
+
+	context = {
+		'questions' : questions,
+		'name' : name,
+		'users' : topThree,
+		'questions_all' : questions_all,
+		'all_profile' : profiles,
+		'answers_all' : answer_all,
+		'questions_rq5': questions_rq5,
+		'tags' : toptags
+	}
+	if(request.user.username):
+		showprofile=Profile.objects.get(user=request.user)
+		context['showUser']=showprofile
+	return render(request, 'tagged.html', context)
 
 def countDown(request, answer_id):
 	if request.user.is_authenticated():
