@@ -10,7 +10,7 @@
 <script type='text/javascript'>
  function c(a_id) {
  	var text = document.getElementById('reply-'+a_id).value;
-	console.log(a_id)
+	console.log()
  	$.ajax({
  		url: '/reply_ajax/{{ question.id }}/',
  		type: 'POST',
@@ -18,7 +18,6 @@
  		data: {
  			"value": decodeURIComponent(text),
  			"ans_id" : a_id,
- 			"csrfmiddlewaretoken" : '{{csrf_token}}'
  		},
  		success: function (data) {
  			var all = data.created_date.split('T');

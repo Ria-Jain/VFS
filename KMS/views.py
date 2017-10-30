@@ -17,6 +17,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from collections import Counter
+from django.views.decorators.csrf import csrf_exempt
 
 
 
@@ -812,16 +813,17 @@ def bestanswer(request, answer_id):
 		"status" : q.is_solved
 		})
 
+@csrf_exempt
 def reply_ajax(request, question_id):
 	if request.user.is_authenticated():
 		a = json.dumps(request.body.decode('utf-8'))
-		a = a.split('&csrfmiddlewaretoken')[0]
+		print(a)
 		a = a.split('value=')[1]
 		text = a.split('&')[0]
 		words = text.split('+')
 		text = " ".join(words)
 		text = urllib.unquote(text).decode('utf8')
-		a_id = a.split('&')[1].split('=')[1]
+		a_id = int(a.split('&')[1].split('=')[1].replace('"',''))
 
 		author=request.user
 		answer=Answer.objects.get(id=a_id)
