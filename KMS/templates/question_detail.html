@@ -10,15 +10,17 @@
 <script type='text/javascript'>
  function c(a_id) {
  	var text = document.getElementById('reply-'+a_id).value;
-	console.log()
+	console.log(text)
+	data = {
+		'ans_id' : a_id,
+		'value' : text
+	}
+	console.log(data);
  	$.ajax({
  		url: '/reply_ajax/{{ question.id }}/',
  		type: 'POST',
  		dataType: "json",
- 		data: {
- 			"value": decodeURIComponent(text),
- 			"ans_id" : a_id,
- 		},
+ 		data: JSON.stringify(data),
  		success: function (data) {
  			var all = data.created_date.split('T');
  			d = all[0];

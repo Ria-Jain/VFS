@@ -166,6 +166,7 @@ def login_site(request):
 		if user:
 			login(request, user)
 			pre = (request.META.get('HTTP_REFERER','/'))
+			print(prev)
 			pre = pre.split('/')
 			prev = pre[-2]
 			if prev == "login":
@@ -177,6 +178,8 @@ def login_site(request):
 			context['error'] = "Wrong Credentials"
 			return render(request, 'login.html',context)
 	else:
+		if request.user.is_authenticated():
+			return redirect
 		context = {}
 		context['error'] = ''
 		return render(request,'login.html', context)
@@ -816,15 +819,17 @@ def bestanswer(request, answer_id):
 @csrf_exempt
 def reply_ajax(request, question_id):
 	if request.user.is_authenticated():
-		a = json.dumps(request.body.decode('utf-8'))
+		a = json.loads(request.body.decode('utf-8'))
 		print(a)
-		a = a.split('value=')[1]
-		text = a.split('&')[0]
-		words = text.split('+')
-		text = " ".join(words)
-		text = urllib.unquote(text).decode('utf8')
-		a_id = int(a.split('&')[1].split('=')[1].replace('"',''))
-
+		# a = a.split('value=')[1]
+		# text = a.split('&')[0]
+		# words = text.split('+')
+		# text = " ".join(words)
+		# text = urllib.unquote(text).decode('utf8')
+		# a_id = int(a.split('&')[1].split('=')[1].replace('"',''))
+		a_id = a['ans_id']
+		text = a['value']
+		print(a_id, text)
 		author=request.user
 		answer=Answer.objects.get(id=a_id)
 		ctext=text
@@ -850,3 +855,41 @@ def reply_ajax(request, question_id):
 		context={}
 		context['error'] = 'You need to log in first.'
 		return render(request,'login.html',context)
+
+# @csrf_exempt
+# def reply_ajax(request, question_id):
+# 	if request.user.is_authenticated():
+# 		a = json.dumps(request.body.decode('utf-8'))
+# 		print(a)
+# 		a = a.split('value=')[1]
+# 		text = a.split('&')[0]
+# 		words = text.split('+')
+# 		text = " ".join(words)
+# 		text = urllib.unquote(text).decode('utf8')
+# 		a_id = int(a.split('&')[1].split('=')[1].replace('"',''))
+
+# 		author=request.user
+# 		answer=Answer.objects.get(id=a_id)
+# 		ctext=text
+# 		question=Question.objects.get(id=question_id)
+# 		com = Comment.objects.create(
+# 				author=author,
+# 				comment_text=ctext,
+# 				answer=answer,
+# 				question=question
+# 			)
+# 		com.save()
+# 		profile=Profile.objects.get(user=request.user)
+# 		pic=profile.profilePic
+# 		return JsonResponse({
+# 			"success":"true",
+# 			"text":text,
+# 			"a_id":a_id,
+# 			"name":request.user.username,
+# 			"created_date":com.created_date,
+# 			"pic":pic.path
+# 			})
+# 	else:
+# 		context={}
+# 		context['error'] = 'You need to log in first.'
+# 		return render(request,'login.html',context)
