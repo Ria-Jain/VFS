@@ -166,7 +166,7 @@ def login_site(request):
 		if user:
 			login(request, user)
 			pre = (request.META.get('HTTP_REFERER','/'))
-			print(prev)
+			print(pre)
 			pre = pre.split('/')
 			prev = pre[-2]
 			if prev == "login":
