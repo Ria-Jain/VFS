@@ -9,6 +9,7 @@ from django.contrib.auth import authenticate, login, logout
 from nltk.corpus import stopwords
 import datetime
 import re
+import operator
 from django.db.models import Q
 import json
 import urllib
@@ -71,13 +72,14 @@ def index(request):
 	tags = []
 	for tag in tags_all:
 		tags.append(tag.name)
-
-	tagsnew = Counter(tags)
-	toptag = []
+	tagset = set(tags)
+	ttttt = [[x,tags.count(x)] for x in set(tags)]
+	toptags = []
+	tagsnew = sorted(ttttt, key=operator.itemgetter(1), reverse=True)
 	for i in tagsnew:
-		toptag.append(i)
-	toptags = toptag[:15]
-	print(tagsnew, toptags)
+		# # print(i)
+		toptags.append(i[0])
+	toptags = toptags[:15]
 	questions_all = Question.objects.all()
 	answer_all = []
 	for ques in questions_all:
@@ -223,13 +225,14 @@ def ask_question(request):
 		tags = []
 		for tag in tags_all:
 			tags.append(tag.name)
-
-		tags = Counter(tags)
+		tagset = set(tags)
+		ttttt = [[x,tags.count(x)] for x in set(tags)]
 		toptags = []
-		for i in tags:
-			toptags.append(i)
+		tagsnew = sorted(ttttt, key=operator.itemgetter(1), reverse=True)
+		for i in tagsnew:
+			# # print(i)
+			toptags.append(i[0])
 		toptags = toptags[:15]
-
 		questions_all = Question.objects.all()
 		answer_all = []
 		for ques in questions_all:
@@ -285,11 +288,13 @@ def question_detail(request, question_id):
 	tags = []
 	for tag in tags_all:
 		tags.append(tag.name)
-
-	tags = Counter(tags)
+	tagset = set(tags)
+	ttttt = [[x,tags.count(x)] for x in set(tags)]
 	toptags = []
-	for i in tags:
-		toptags.append(i)
+	tagsnew = sorted(ttttt, key=operator.itemgetter(1), reverse=True)
+	for i in tagsnew:
+		# # print(i)
+		toptags.append(i[0])
 	toptags = toptags[:15]
 
 	questions_all = Question.objects.all()
@@ -431,11 +436,13 @@ def edit(request):
 	tags = []
 	for tag in tags_all:
 		tags.append(tag.name)
-
-	tags = Counter(tags)
+	tagset = set(tags)
+	ttttt = [[x,tags.count(x)] for x in set(tags)]
 	toptags = []
-	for i in tags:
-		toptags.append(i)
+	tagsnew = sorted(ttttt, key=operator.itemgetter(1), reverse=True)
+	for i in tagsnew:
+		# print(i)
+		toptags.append(i[0])
 	toptags = toptags[:15]
 
 	questions_all = Question.objects.all()
@@ -510,11 +517,13 @@ def search(request):
 	tags = []
 	for tag in tags_all:
 		tags.append(tag.name)
-
-	tags = Counter(tags)
+	tagset = set(tags)
+	ttttt = [[x,tags.count(x)] for x in set(tags)]
 	toptags = []
-	for i in tags:
-		toptags.append(i)
+	tagsnew = sorted(ttttt, key=operator.itemgetter(1), reverse=True)
+	for i in tagsnew:
+		# print(i)
+		toptags.append(i[0])
 	toptags = toptags[:15]
 
 	questions_all = Question.objects.all()
@@ -535,7 +544,7 @@ def search(request):
 		t = re.sub('[^a-zA-Z0-9-_*.]', ' ', t)
 		s = set(stopwords.words('english'))
 		result = filter(lambda w: not w in s,t.split())
-		print(result)
+		# print(result)
 		query_title = Q()
 		query_text = Q()
 		tags_all = Tag.objects.all()
@@ -586,11 +595,13 @@ def viewprofile(request, user_id):
 	tags = []
 	for tag in tags_all:
 		tags.append(tag.name)
-
-	tags = Counter(tags)
+	tagset = set(tags)
+	ttttt = [[x,tags.count(x)] for x in set(tags)]
 	toptags = []
-	for i in tags:
-		toptags.append(i)
+	tagsnew = sorted(ttttt, key=operator.itemgetter(1), reverse=True)
+	for i in tagsnew:
+		# print(i)
+		toptags.append(i[0])
 	toptags = toptags[:15]
 
 	questions_all = Question.objects.all()
@@ -667,7 +678,7 @@ def viewprofile(request, user_id):
 		'allprofile': profiles,
 		'questions_rq5': questions_rq5,
 	}
-	print(context)
+	# print(context)
 	if(request.user.username):
 		showprofile=Profile.objects.get(user=request.user)
 		context['showUser']=showprofile
@@ -722,7 +733,7 @@ def tagged(request, name):
 	for tag in tags_all:
 		if tag.name == name:
 			questions.append(tag.question)
-	print(questions)
+	# print(questions)
 
 	tags_all = Tag.objects.all()
 	tags = []
@@ -782,7 +793,7 @@ def countDown(request, answer_id):
 
 def bestanswer(request, answer_id):
 	a = json.dumps(request.body.decode('utf-8'))
-	# print (a)
+	# # print (a)
 	a = a.split('&csrfmiddlewaretoken')[0]
 	question_id = a.split('ques_id=')[1]	
 	q = Question.objects.get(id=question_id)
