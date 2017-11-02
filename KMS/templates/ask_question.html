@@ -1,8 +1,49 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-
 {% block content %}
-<div class="col-md-9">
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script async src="//code.jquery.com/ui/1.10.1/jquery-ui.min.js"></script>
+
+<!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+<script>
+    // console.log($("#question_tags"));
+
+  $( function() {
+    var availableTags = [
+      "ActionScript",
+      "AppleScript",
+      "Asp",
+      "BASIC",
+      "C",
+      "C++",
+      "Clojure",
+      "COBOL",
+      "ColdFusion",
+      "Erlang",
+      "Fortran",
+      "Groovy",
+      "Haskell",
+      "Java",
+      "JavaScript",
+      "Lisp",
+      "Perl",
+      "PHP",
+      "Python",
+      "Ruby",
+      "Scala",
+      "Scheme"
+    ];
+    console.log($("#question_tags"));
+    $("#question_tags").autocomplete({
+      source: availableTags
+    });
+  } );
+  </script>
+  <div class="col-md-9">
 
 	<div class="page-content ask-question">
 		<div class="boxedtitle page-title"><h2>Ask Question</h2></div>

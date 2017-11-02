@@ -276,6 +276,7 @@ def ask_question(request):
 			
 			context = {
 				'users' : topThree,
+				'tagset' : tagset,
 				'tags' : toptags,
 				'showUser' : showprofile,
 				'questions_all' : questions_all,
@@ -359,7 +360,8 @@ def question_detail(request, question_id):
 		date=ques.created_date
 		ques.timeSince = timeSince(date)
 		ques.save()
-		
+		author=ques.author
+		showuser=Profile.objects.get(user=author)
 		ctags = []
 		tags_all = Tag.objects.all()
 		for tag in tags_all:
@@ -409,6 +411,7 @@ def question_detail(request, question_id):
 			'questions_all' : questions_all,
 			'answers_all' : answer_all,
 			'questions_rq5': questions_rq5,
+			'showuser': showuser,
 		}
 		if(request.user.username):
 			showprofile= Profile.objects.get(user=request.user)
