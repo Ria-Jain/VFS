@@ -130,6 +130,13 @@
 			<a href="/viewprofile/{{ question.author.id }}">
 				<h4 style="color: #c2c2d6;">{{ question.author.username }} - {{ question.author.first_name }} {{ question.author.last_name }}</h4>
 			</a>
+			{% if request.user.username == question.author.username %}
+				<a href="/edit-question/{{question.id}}/">
+					<div class="question-type-main" style="background-color: #ff7361;top: 20px; right: 4.1%; font-size: 13px;">
+						<i class="icon-pencil"></i>Edit
+					</div>
+				</a>
+			{% endif %}
 		</div>
 	</div>
 	<article class="question question-type-normal">

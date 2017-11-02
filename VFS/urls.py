@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^logout/$', views.logout_site),
     url(r'^register/$', views.register),
     url(r'^edit/$', views.edit),
+    url(r'^edit-question/(?P<question_id>\d+)/$', views.edit_question),
     url(r'^search/$', views.search),
     url(r'^ask_question/$', views.ask_question),
     url(r'^search/$', views.search),

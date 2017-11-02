@@ -519,6 +519,54 @@ def edit(request):
 
 	return render(request, 'edit_profile.html', context)
 	
+def edit_question(request,question_id):
+	tags_all = Tag.objects.all()
+	tags = []
+	for tag in tags_all:
+		tags.append(tag.name)
+	tagset = set(tags)
+	ttttt = [[x,tags.count(x)] for x in set(tags)]
+	toptags = []
+	tagsnew = sorted(ttttt, key=operator.itemgetter(1), reverse=True)
+	for i in tagsnew:
+		# print(i)
+		toptags.append(i[0])
+	toptags = toptags[:15]
+
+	questions_all = Question.objects.all()
+	answer_all = []
+	for ques in questions_all:
+		answers = Answer.objects.filter(question=ques)
+		for ans in answers:
+			answer_all.append(ans)
+
+	profiles = Profile.objects.all()
+	topThree = Profile.objects.order_by('-points')[:5]
+	question=Question.objects.get(id=question_id)
+	questions_rq5 = Question.objects.order_by('-created_date')[:5]
+	if request.method == 'POST':
+		title=request.POST['question_title']
+		text=request.POST['question_text']
+		
+		ques=Question.objects.get(id=question_id)
+		ques.question_title=title
+		ques.question_text=text
+		ques.save()
+		return redirect('/question_detail/'+ str(ques.id) + '/')
+	context = {
+				'users' : topThree,
+				'u_profile': profiles,
+				'questions_all' : questions_all,
+				'answers_all' : answer_all,
+				'tags' : toptags,
+				'questions_rq5': questions_rq5,
+				'question':question,
+				}
+	if (request.user.username):
+		showprofile=Profile.objects.get(user=request.user)
+		context['showUser']=showprofile
+	return render(request, 'edit_question.html',context)
+
 def search(request):
 	tags_all = Tag.objects.all()
 	tags = []
