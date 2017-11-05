@@ -95,44 +95,32 @@ def index(request):
 	questions_rq5 = Question.objects.order_by('-created_date')[:5]
 
 	questions_rq = Question.objects.order_by('-created_date')
-	answer_rq = []
 	for ques in questions_rq:
 		date=ques.created_date
 		ques.timeSince = timeSince(date)
 		ques.save()
-		answers = Answer.objects.filter(question=ques)
-		for ans in answers:
-			answer_rq.append(ans)
+
 
 	questions_ma = Question.objects.order_by('-numAns')
-	answer_ma = []
 	for ques in questions_ma:
 		date=ques.created_date
 		ques.timeSince = timeSince(date)
 		ques.save()
-		answers = Answer.objects.filter(question=ques)
-		for ans in answers:
-			answer_ma.append(ans)
+
+	pop2=questions_ma[:2]
 
 	questions_ra = Question.objects.filter(is_solved=0).order_by('-created_date')
-	answer_ra = []
 	for ques in questions_ra:
 		date=ques.created_date
 		ques.timeSince = timeSince(date)
 		ques.save()
-		answers = Answer.objects.filter(question=ques)
-		for ans in answers:
-			answer_ra.append(ans)
+
 
 	questions_na = Question.objects.filter(numAns=0).order_by('-created_date')
-	answer_na = []
 	for ques in questions_na:
 		date=ques.created_date
 		ques.timeSince = timeSince(date)
 		ques.save()
-		answers = Answer.objects.filter(question=ques)
-		for ans in answers:
-			answer_na.append(ans)
 
 
 
@@ -142,15 +130,12 @@ def index(request):
 				'questions_all' : questions_all,
 				'answers_all' : answer_all,
 				'questions_rq' : questions_rq,
-				'answers_rq' : answer_rq,
 				'questions_rq5' : questions_rq5,
 				'questions_ma' : questions_ma,
-				'answers_ma' : answer_ma,
 				'questions_ra' : questions_ra,
-				'answers_ra' : answer_ra,
 				'questions_na' : questions_na,
-				'answers_na' : answer_na,
-				'all_profile' : profiles
+				'all_profile' : profiles,
+				'pop2':pop2
 			}
 	if(request.user.username):
 		showprofile= Profile.objects.get(user=request.user)
@@ -249,7 +234,13 @@ def ask_question(request):
 
 
 		questions_rq5 = Question.objects.order_by('-created_date')[:5]
+		questions_ma = Question.objects.order_by('-numAns')
+		for ques in questions_ma:
+			date=ques.created_date
+			ques.timeSince = timeSince(date)
+			ques.save()
 
+		pop2=questions_ma[:2]
 		if request.method == 'POST':
 			for pro in profiles:
 				if pro.username == request.user.username:
@@ -282,6 +273,7 @@ def ask_question(request):
 				'questions_all' : questions_all,
 				'answers_all' : answer_all,
 				'questions_rq5': questions_rq5,
+				'pop2':pop2
 			}
 			return render(request, 'ask_question.html', context)
 	else:
@@ -314,6 +306,13 @@ def question_detail(request, question_id):
 
 
 	questions_rq5 = Question.objects.order_by('-created_date')[:5]
+	questions_ma = Question.objects.order_by('-numAns')
+	for ques in questions_ma:
+		date=ques.created_date
+		ques.timeSince = timeSince(date)
+		ques.save()
+
+	pop2=questions_ma[:2]
 	if request.method == 'POST':
 		if request.user.is_authenticated():
 			if 'answer-submit' in request.POST:
@@ -412,6 +411,7 @@ def question_detail(request, question_id):
 			'answers_all' : answer_all,
 			'questions_rq5': questions_rq5,
 			'showuser': showuser,
+			'pop2':pop2
 		}
 		if(request.user.username):
 			showprofile= Profile.objects.get(user=request.user)
@@ -464,7 +464,13 @@ def edit(request):
 
 
 	questions_rq5 = Question.objects.order_by('-created_date')[:5]
+	questions_ma = Question.objects.order_by('-numAns')
+	for ques in questions_ma:
+		date=ques.created_date
+		ques.timeSince = timeSince(date)
+		ques.save()
 
+	pop2=questions_ma[:2]
 	if request.method == 'POST':
 		user=User.objects.get(id=request.user.id)
 		fname=request.POST['fname']
@@ -512,6 +518,7 @@ def edit(request):
 				'answers_all' : answer_all,
 				'tags' : toptags,
 				'questions_rq5': questions_rq5,
+				'pop2':pop2
 				}
 		if (request.user.username):
 			showprofile=Profile.objects.get(user=request.user)
@@ -544,6 +551,13 @@ def edit_question(request,question_id):
 	topThree = Profile.objects.order_by('-points')[:5]
 	question=Question.objects.get(id=question_id)
 	questions_rq5 = Question.objects.order_by('-created_date')[:5]
+	questions_ma = Question.objects.order_by('-numAns')
+	for ques in questions_ma:
+		date=ques.created_date
+		ques.timeSince = timeSince(date)
+		ques.save()
+
+	pop2=questions_ma[:2]
 	if request.method == 'POST':
 		title=request.POST['question_title']
 		text=request.POST['question_text']
@@ -561,6 +575,7 @@ def edit_question(request,question_id):
 				'tags' : toptags,
 				'questions_rq5': questions_rq5,
 				'question':question,
+				'pop2':pop2
 				}
 	if (request.user.username):
 		showprofile=Profile.objects.get(user=request.user)
@@ -593,6 +608,13 @@ def search(request):
 
 
 	questions_rq5 = Question.objects.order_by('-created_date')[:5]
+	questions_ma = Question.objects.order_by('-numAns')
+	for ques in questions_ma:
+		date=ques.created_date
+		ques.timeSince = timeSince(date)
+		ques.save()
+
+	pop2=questions_ma[:2]
 	if request.method == 'POST':
 		t = request.POST['question_title']
 		x = t
@@ -637,6 +659,7 @@ def search(request):
 			'allprofile' : profiles,
 			'answers_all' : answer_all,
 			'questions_rq5': questions_rq5,
+			'pop2':pop2
 		}
 		if(request.user.username):
 			showprofile= Profile.objects.get(user=request.user)
@@ -671,6 +694,13 @@ def viewprofile(request, user_id):
 
 
 	questions_rq5 = Question.objects.order_by('-created_date')[:5]
+	questions_ma = Question.objects.order_by('-numAns')
+	for ques in questions_ma:
+		date=ques.created_date
+		ques.timeSince = timeSince(date)
+		ques.save()
+
+	pop2=questions_ma[:2]
 
 	user = User.objects.get(id = user_id)
 	userProfile = Profile.objects.get(user=user)
@@ -732,6 +762,7 @@ def viewprofile(request, user_id):
 		'answers_all' : answer_all,
 		'allprofile': profiles,
 		'questions_rq5': questions_rq5,
+		'pop2':pop2
 	}
 	# print(context)
 	if(request.user.username):
@@ -783,6 +814,13 @@ def tagged(request, name):
 
 
 	questions_rq5 = Question.objects.order_by('-created_date')[:5]
+	questions_ma = Question.objects.order_by('-numAns')
+	for ques in questions_ma:
+		date=ques.created_date
+		ques.timeSince = timeSince(date)
+		ques.save()
+
+	pop2=questions_ma[:2]
 	tags_all = Tag.objects.all()
 	questions = []
 	for tag in tags_all:
@@ -810,7 +848,8 @@ def tagged(request, name):
 		'all_profile' : profiles,
 		'answers_all' : answer_all,
 		'questions_rq5': questions_rq5,
-		'tags' : toptags
+		'tags' : toptags,
+		'pop2' : pop2
 	}
 	if(request.user.username):
 		showprofile=Profile.objects.get(user=request.user)
