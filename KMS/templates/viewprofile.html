@@ -103,7 +103,7 @@
 							            <div class="tab-inner-warp">
 											<div class="tab-inner">
 												{% if u_questions_all|length == 0 %}
-													<h2>No Questions Asked By Users</h2>
+													<h2>No Questions Asked By User</h2>
 												{% endif %}
 												{% for q in u_questions_all %}
 												<article class="question question-type-normal" style="background-color: #fff8dc;" >
@@ -152,7 +152,7 @@
 										<div class="tab-inner-warp">
 											<div class="tab-inner">
 												{% if u_answers_all_q|length == 0 %}
-													<h2>No Answers By Users</h2>
+													<h2>No Answers By User</h2>
 												{% endif %}
 													{% for question in u_answers_all_q %}
 															<article class="question question-type-normal">
@@ -172,7 +172,7 @@
 																</div>
 																<div class="question-inner">
 																	<div class="clearfix"></div>
-																	<p class="question-desc">{{ question.question_text }}</p>
+																	<p class="question-desc" style=" overflow: hidden;text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3;-webkit-box-orient: vertical;">{{ question.question_text }}</p>
 																	<div class="question-details">
 																		<span class="question-answered ">
 																		{% if question.is_solved = 1 %}
@@ -234,7 +234,7 @@
 										<div class="tab-inner-warp">
 											<div class="tab-inner">
 												{% if u_comments_all_q|length == 0 %}
-													<h2>No Comments By Users</h2>
+													<h2>No Comments By User</h2>
 												{% endif %}
 												{% for c in u_comments_all_q %}
 													<article class="question question-type-normal">
@@ -254,7 +254,7 @@
 														</div>
 														<div class="question-inner">
 															<div class="clearfix"></div>
-															<p class="question-desc">{{ c.question_text }}</p>
+															<p class="question-desc" style=" overflow: hidden;text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3;-webkit-box-orient: vertical;">{{ c.question_text }}</p>
 															<div class="question-details">
 																<span class="question-answered ">
 																{% if c.is_solved = 1 %}
@@ -302,7 +302,7 @@
 																					<i class="icon-pencil"></i>Answer
 																				</div>
 															                </div>
-															                <div class="text"><p>{{ ans.answer_text }}</p>
+															                <div class="text"><p style=" overflow: hidden;text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3;-webkit-box-orient: vertical;">{{ ans.answer_text }}</p>
 															                </div>
 															            </div>
 															        </div>

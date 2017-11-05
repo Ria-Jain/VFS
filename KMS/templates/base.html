@@ -58,7 +58,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h2>Welcome to VFS Global, Help Forum</h2>
-                        <p>We understand that you may have many questions, why don't you search for one and get the answer?<br>If in the rare chance that you do not find your answer, ask that question and be sure to get it solved as soon as possible.<br> Sign up now to join the community and ask or solve your first question today!</p>
+                        <p>We understand that you may have many questions, why don't you search for one and get the answer?<br>If in the rare chance that you do not find your answer, ask that question and be sure to get it solved as soon as possible.<br>{%if request.user.username %} Feel free to browse through questions or ask a question of your own{% else %}Sign up now to join the community and ask or solve your first question today!{%endif%}</p>
                         <form class="form-style form-style-2" id="the-form" method="POST" action='/search/'>
                             {% csrf_token %}
                             <p>
