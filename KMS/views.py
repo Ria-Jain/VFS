@@ -122,9 +122,8 @@ def index(request):
 		ques.timeSince = timeSince(date)
 		ques.save()
 
-
-
 	context ={
+				'tags_all' : tags_all,
 				'users' : topThree,
 				'tags' : toptags,
 				'questions_all' : questions_all,
