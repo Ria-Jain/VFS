@@ -45,7 +45,7 @@
 									{% endifnotequal %}
 								<div class="clearfix"></div>
 								<span class="user-follow-me">Follow Me On</span>
-								{% ifnotequal showuser.facebook '' %}
+								{% ifnotequal showuser.facebook|length 0 %}
 								<a target="_blank" href="https://{{showuser.facebook}}" original-title="Facebook" class="tooltip-n">
 									<span class="icon_i">
 										<span class="icon_square" icon_size="30" span_bg="#3b5997" span_hover="#2f3239">
@@ -54,7 +54,7 @@
 									</span>
 								</a>
 								{% endifnotequal %}
-								{% ifnotequal showuser.twitter '' %}
+								{% ifnotequal showuser.twitter|length 0 %}
 								<a target="_blank" href="https://{{showuser.twitter}}" original-title="Twitter" class="tooltip-n">
 									<span class="icon_i">
 										<span class="icon_square" icon_size="30" span_bg="#00baf0" span_hover="#2f3239">
@@ -63,7 +63,7 @@
 									</span>
 								</a>
 								{% endifnotequal %}
-								{% ifnotequal showuser.linkedin '' %}
+								{% ifnotequal showuser.linkedin|length 0 %}
 								<a target="_blank" href="https://{{showUser.linkedin}}" original-title="Linkedin" class="tooltip-n">
 									<span class="icon_i">
 										<span class="icon_square" icon_size="30" span_bg="#006599" span_hover="#2f3239">
@@ -72,7 +72,7 @@
 									</span>
 								</a>
 								{% endifnotequal %}
-								{% ifnotequal showuser.github '' %}
+								{% ifnotequal showuser.github|length 0 %}
 								<a target="_blank" href="https://{{showuser.github}}" original-title="Github" class="tooltip-n">
 									<span class="icon_i">
 										<span class="icon_square" icon_size="30" span_bg="#000000" span_hover="#2f3239">
@@ -141,7 +141,7 @@
 															</span>
 														</div>
 														<span class="question-date"><i class="icon-time"></i>{{ q.timeSince }}</span>
-														<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
+														<span class="question-comment"><i class="icon-comment"></i>{{ q.numAns }} Answers</span>
 														<span class="question-view"><i class="icon-user"></i>{{q.numViews}} views</span>
 														<div class="clearfix"></div>
 													</div>
