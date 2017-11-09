@@ -161,11 +161,7 @@
 															</span>
 														</div>
 														<span class="question-date"><i class="icon-time"></i>{{ q.timeSince }}</span>
-<<<<<<< HEAD
-														<span class="question-comment"><i class="icon-comment"></i>{{ q.numAns }} Answers</span>
-=======
 														<span class="question-comment"><a><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
->>>>>>> 3bbfc831cb1b49a5dba5920cc09602e405dea357
 														<span class="question-view"><i class="icon-user"></i>{{q.numViews}} views</span>
 														<div class="clearfix"></div>
 													</div>
@@ -255,7 +251,7 @@
 														            </div>
 														            <div class="comment-text">
 														                <div class="author clearfix">
-														                	<div class="comment-author"><a href="#">{{ ans.author.username }}</a></div>
+														                	<div class="comment-author"><a href="/viewprofile/{{ans.author.id}}">{{ ans.author.username }}</a></div>
 														                	<div class="comment-meta">
 														                        <div class="date"><i class="icon-time"></i>{{ ans.timeSince }}</div>
 														                    </div>
@@ -359,7 +355,7 @@
 															            </div>
 															            <div class="comment-text" >
 															                <div class="author clearfix">
-															                	<div class="comment-author"><a href="#">{{ ans.author.username }}</a></div>
+															                	<div class="comment-author"><a href="/viewprofile/{{ans.author.id}}">{{ ans.author.username }}</a></div>
 															                	<div class="comment-meta">
 															                        <div class="date"><i class="icon-time"></i>{{ ans.timeSince }}</div>
 															                    </div>
@@ -388,7 +384,7 @@
 																	                	</div>
 																	                    <div class="comment-text">
 																	                        <div class="author clearfix">
-																	                        	<div class="comment-author"><a href="#">{{ comment.author.username }}</a></div>
+																	                        	<div class="comment-author"><a href="/viewprofile/{{comment.author.id}}">{{ comment.author.username }}</a></div>
 																	                        	<div class="comment-meta">
 																	                                <div class="date"><i class="icon-time"></i>{{ comment.timeSince }}</div>
 																	                            </div>
