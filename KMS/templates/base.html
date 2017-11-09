@@ -148,7 +148,7 @@
                     <ul class="related-posts">
                         {% for rq in questions_rq5 %}
                             <li class="related-item">
-                                <h3><a href="#">{{ rq.question_title }}</a></h3>
+                                <h3><a href="/question_detail/{{rq.id}}/">{{ rq.question_title }}</a></h3>
                                 <p style=" overflow: hidden;text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3;-webkit-box-orient: vertical;">   {{ rq.question_text }}</p>
                                 <div class="clear"></div><span>{{ rq.timeSince }}</span>
                             </li>

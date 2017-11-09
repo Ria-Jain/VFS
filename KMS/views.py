@@ -122,9 +122,8 @@ def index(request):
 		ques.timeSince = timeSince(date)
 		ques.save()
 
-
-
 	context ={
+				'tags_all' : tags_all,
 				'users' : topThree,
 				'tags' : toptags,
 				'questions_all' : questions_all,
@@ -411,6 +410,7 @@ def question_detail(request, question_id):
 			'answers_all' : answer_all,
 			'questions_rq5': questions_rq5,
 			'showuser': showuser,
+			'tags_all' : tags_all,
 			'pop2':pop2
 		}
 		if(request.user.username):
@@ -573,6 +573,7 @@ def edit_question(request,question_id):
 				'questions_all' : questions_all,
 				'answers_all' : answer_all,
 				'tags' : toptags,
+				'tags_all' : tags_all,
 				'questions_rq5': questions_rq5,
 				'question':question,
 				'pop2':pop2
@@ -654,6 +655,7 @@ def search(request):
 			's' : t,
 			'questions_tt' : questions_tt,
 			'tags' : toptags,
+			'tags_all' : tags_all,
 			'users' : topThree,
 			'questions_all' : questions_all,
 			'allprofile' : profiles,
@@ -758,6 +760,7 @@ def viewprofile(request, user_id):
 		'u_comments_all_q' : u_comments_all_q,
 		'u_comments_all_a' : u_comments_all_a,
 		'tags' : toptags,
+		'tags_all' : tags_all,
 		'questions_all' : questions_all,
 		'answers_all' : answer_all,
 		'allprofile': profiles,
@@ -849,6 +852,7 @@ def tagged(request, name):
 		'answers_all' : answer_all,
 		'questions_rq5': questions_rq5,
 		'tags' : toptags,
+		'tags_all' : tags_all,
 		'pop2' : pop2
 	}
 	if(request.user.username):

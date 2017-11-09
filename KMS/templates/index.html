@@ -28,6 +28,27 @@
 										<div class="question-type-main">
 												<i class="icon-question-sign"></i>Question
 										</div>
+										<div class= "row">
+											<div class="col-md-offset-2">
+												{% for t in tags_all %}
+														{% if t.question.id == q.id %}
+															<a style="    display: inline-block;
+																	    border: 1px solid #E2E2E2;
+																	    line-height: 20px;
+																	    color: white;
+																	    margin: 0 0 5px 0 !important;
+																	    padding: 2px 10px;
+																	    font-size: 12px !important;
+																	    background-color: #2f3239;
+																	    -moz-border-radius: 2px;
+																	    -webkit-border-radius: 2px;
+			   															border-radius: 2px;"
+																     href="/tagged/{{t.name}}">{{t.name}}</a>
+														{% endif %}
+												{% endfor %}
+											</div>
+										</div>
+										<br/>
 										<div class="question-author">
 												{% for u in all_profile %}
 													{% if u.user == q.author %}
@@ -81,6 +102,27 @@
 									<div class="question-type-main">
 											<i class="icon-question-sign"></i>Question
 									</div>
+									<div class= "row">
+											<div class="col-md-offset-2">
+												{% for t in tags_all %}
+														{% if t.question.id == q.id %}
+															<a style="    display: inline-block;
+																	    border: 1px solid #E2E2E2;
+																	    line-height: 20px;
+																	    color: white;
+																	    margin: 0 0 5px 0 !important;
+																	    padding: 2px 10px;
+																	    font-size: 12px !important;
+																	    background-color: #2f3239;
+																	    -moz-border-radius: 2px;
+																	    -webkit-border-radius: 2px;
+			   															border-radius: 2px;"
+																     href="tagged/{{t.name}}">{{t.name}}</a>
+														{% endif %}
+												{% endfor %}
+											</div>
+										</div>
+										<br/>
 									<div class="question-author">
 										{% for u in all_profile %}
 												{% if u.user == q.author %}
@@ -107,7 +149,7 @@
 											</span>
 										</div>
 										<span class="question-date"><i class="icon-time"></i>{{ q.timeSince }}</span>
-										<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
+										<span class="question-comment"><a><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
 										<span class="question-view"><i class="icon-user"></i>{{q.numViews}} views</span>
 										<div class="clearfix"></div>
 									</div>
@@ -133,6 +175,27 @@
 									<div class="question-type-main">
 											<i class="icon-question-sign"></i>Question
 									</div>
+									<div class= "row">
+											<div class="col-md-offset-2">
+												{% for t in tags_all %}
+														{% if t.question.id == q.id %}
+															<a style="    display: inline-block;
+																	    border: 1px solid #E2E2E2;
+																	    line-height: 20px;
+																	    color: white;
+																	    margin: 0 0 5px 0 !important;
+																	    padding: 2px 10px;
+																	    font-size: 12px !important;
+																	    background-color: #2f3239;
+																	    -moz-border-radius: 2px;
+																	    -webkit-border-radius: 2px;
+			   															border-radius: 2px;"
+																     href="tagged/{{t.name}}">{{t.name}}</a>
+														{% endif %}
+												{% endfor %}
+											</div>
+										</div>
+										<br/>
 									<div class="question-author">
 										{% for u in all_profile %}
 												{% if u.user == q.author %}
@@ -159,7 +222,7 @@
 											</span>
 										</div>
 										<span class="question-date"><i class="icon-time"></i>{{ q.timeSince }}</span>
-										<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
+										<span class="question-comment"><a><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
 										<span class="question-view"><i class="icon-user"></i>{{q.numViews}} views</span>
 										<div class="clearfix"></div>
 									</div>
@@ -185,6 +248,27 @@
 									<div class="question-type-main">
 											<i class="icon-question-sign"></i>Question
 									</div>
+									<div class= "row">
+											<div class="col-md-offset-2">
+												{% for t in tags_all %}
+														{% if t.question.id == q.id %}
+															<a style="    display: inline-block;
+																	    border: 1px solid #E2E2E2;
+																	    line-height: 20px;
+																	    color: white;
+																	    margin: 0 0 5px 0 !important;
+																	    padding: 2px 10px;
+																	    font-size: 12px !important;
+																	    background-color: #2f3239;
+																	    -moz-border-radius: 2px;
+																	    -webkit-border-radius: 2px;
+			   															border-radius: 2px;"
+																     href="tagged/{{t.name}}">{{t.name}}</a>
+														{% endif %}
+												{% endfor %}
+											</div>
+										</div>
+										<br/>
 									<div class="question-author">
 										{% for u in all_profile %}
 												{% if u.user == q.author %}
@@ -211,7 +295,7 @@
 											</span>
 										</div>
 										<span class="question-date"><i class="icon-time"></i>{{ q.timeSince }}</span>
-										<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
+										<span class="question-comment"><a><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
 										<span class="question-view"><i class="icon-user"></i>{{q.numViews}} views</span>
 										<div class="clearfix"></div>
 									</div>

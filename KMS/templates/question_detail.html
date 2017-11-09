@@ -45,7 +45,7 @@
  			pic=data.pic.split('/');
  			pic=pic[pic.length-1];
  			var li = document.createElement(li)
- 			li.innerHTML = '<li class="comment"><div class="comment-body clearfix"><div class="avatar"><img alt="" src="../../static/media/'+pic+'"></div><div class="comment-text"><div class="author clearfix"><div class="comment-author"><a href="#">'+data.name+'</a></div><div class="comment-meta"><div class="date"><div class="question-type-main" style="background-color: #004d99; top: 20px; right: 0.2%;"><i class="icon-comments-alt"></i>Comment</div><i class="icon-time"></i>'+created_date+'</div></div></div><div class="text"><p>'+data.text+'</p></div></div></div></li>';
+ 			li.innerHTML = '<li class="comment"><div class="comment-body clearfix"><div class="avatar"><img alt="" src="../../static/media/'+pic+'"></div><div class="comment-text"><div class="author clearfix"><div class="comment-author"><a>'+data.name+'</a></div><div class="comment-meta"><div class="date"><div class="question-type-main" style="background-color: #004d99; top: 20px; right: 0.2%;"><i class="icon-comments-alt"></i>Comment</div><i class="icon-time"></i>'+created_date+'</div></div></div><div class="text"><p>'+data.text+'</p></div></div></div></li>';
  			document.getElementById('comment-'+a_id).append(li)
  		}
 
@@ -65,10 +65,11 @@
 				success: function (data) {
 					console.log(data);
 					document.getElementById('status').innerHTML = '<span class="question-answered-done"><i class="icon-ok"></i>solved</span>';
+					$('#the-button').hide();
+					$('#star').toggle()
 				}
 
 			});
-		$('#the-button').hide();
 	}
 	function vote(action,a_id)
 	{
@@ -147,6 +148,25 @@
 		<div class="question-type-main">
 				<i class="icon-question-sign"></i>Question
 		</div>
+		<div style="margin-left: 2%" class="question-type-normal">
+			{% for t in tags_all %}
+					{% if t.question.id == question.id %}
+						<a style="    display: inline-block;
+								    border: 1px solid #E2E2E2;
+								    line-height: 20px;
+								    color: white;
+								    margin: 0 0 5px 0 !important;
+								    padding: 2px 10px;
+								    font-size: 12px !important;
+								    background-color: #2f3239;
+								    -moz-border-radius: 2px;
+								    -webkit-border-radius: 2px;
+										border-radius: 2px;"
+							     href="/tagged/{{t.name}}">{{t.name}}</a>
+					{% endif %}
+			{% endfor %}
+		</div>
+		<br>
 		<div class="question-inner" style="margin-left: 2%;">
 			<div class="clearfix"></div>
 			<p class="question-desc">{{ question.question_text|linebreaksbr }}</p>
@@ -166,7 +186,7 @@
 				</span>
 			</div>
 			<span class="question-date"><i class="icon-time"></i>{{ question.timeSince }}</span>
-			<span class="question-comment"><a href="#"><i class="icon-comment"></i>{{ question.numAns }} Answers</a></span>
+			<span class="question-comment"><a><i class="icon-comment"></i>{{ question.numAns }} Answers</a></span>
 			<span class="question-view"><i class="icon-user"></i>{{question.numViews}} views</span>
 			<div class="clearfix"></div>
 		</div>
@@ -223,7 +243,7 @@
 								{% if question.is_solved == 1 %}
 									{% if ans.bestAnswer == 1 %}
 									
-										<p style="font-size: 30px;margin-top: 5%;margin-left: 92%;color: #ff7361;"><i title="Best Answer" class="icon-star"></i></p>
+										<p style="font-size: 30px;margin-top: 5%;margin-left: 92%;color: #ff7361;"><i id="star" title="Best Answer" class="icon-star"></i></p>
 									{% else %}
 										<p style="font-size: 30px;margin-top: 5%;margin-left: 92%;color: #ff7361;">
 											<br>
