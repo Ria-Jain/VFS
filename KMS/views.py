@@ -179,7 +179,7 @@ def logout_site(request):
 	else:
 		return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
 	
-
+ 	
 def register(request):
 	if request.method == 'POST':
 		firstName = request.POST['fname']
@@ -384,7 +384,7 @@ def question_detail(request, question_id):
 			related.append(q)
 			related = related[0:5]
 		
-		answers = Answer.objects.filter(question=ques).order_by('-bestAnswer','-avotes')
+		answers = Answer.objects.filter(question=ques).order_by('-bestAnswer','-likes')
 		c=[]
 		for ans in answers:
 			com=Comment.objects.filter(answer=ans)
@@ -779,15 +779,17 @@ def countUp(request, answer_id):
 	if request.user.is_authenticated():
 		ans = Answer.objects.get(id=answer_id)
 		voted=Vote.objects.filter(answer=ans).get(voter=request.user)
-		if voted.isVoted==0:		
-			ans.avotes+=1
-			voted.isVoted=1
-		elif voted.isVoted==1:
-			ans.avotes-=1
-			voted.isVoted=0
-		elif voted.isVoted== -1:
-			ans.avotes+=2
-			voted.isVoted=1
+		if voted.like==0 and voted.dislike==0:		
+			ans.likes+=1
+			voted.like=1
+		elif voted.like==1 and voted.dislike==0:
+			ans.likes-=1
+			voted.like=0
+		elif voted.dislike== 1 and voted.like==0:
+			ans.likes+=1
+			ans.dislikes-=1
+			voted.dislike=0
+			voted.like=1
 		voted.save()
 		pro_all = Profile.objects.all()
 		for pro in pro_all:
@@ -797,7 +799,7 @@ def countUp(request, answer_id):
 		ans.save()
 		return JsonResponse({
 			"success": "true",
-			"votes":ans.avotes
+			"votes":ans.likes
 		})
 	else:
 		context={}
@@ -864,15 +866,17 @@ def countDown(request, answer_id):
 	if request.user.is_authenticated():
 		ans = Answer.objects.get(id=answer_id)
 		voted=Vote.objects.filter(answer=ans).get(voter=request.user)
-		if voted.isVoted==0:		
-			ans.avotes-=1
-			voted.isVoted=-1
-		elif voted.isVoted==1:
-			ans.avotes-=2
-			voted.isVoted=-1
-		elif voted.isVoted== -1:
-			ans.avotes+=1
-			voted.isVoted=0
+		if voted.dislike==0 and voted.like==0:		
+			ans.dislikes+=1
+			voted.dislike=1
+		elif voted.dislike==1 and voted.like==0:
+			ans.dislikes-=1
+			voted.dislike=0
+		elif voted.like== 1 and voted.dislike==0:
+			ans.dislikes+=1
+			ans.likes-=1
+			voted.dislike=1
+			voted.like=0
 		voted.save()
 		pro_all = Profile.objects.all()
 		for pro in pro_all:

@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block content %}
-
+<link rel="stylesheet" href="../../static/css/font-awesome/css/font-awesome.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 
@@ -84,7 +84,7 @@
 				},
 				success: function (data) {
 					console.log(data);
-					document.getElementById('votes-'+a_id).innerHTML = data.votes+' votes';
+					document.getElementById('likes-'+a_id).innerHTML = data.votes+' likes';
 				}
 
 			});
@@ -99,7 +99,7 @@
 		 			"csrfmiddlewaretoken" : '{{csrf_token}}'
 				},
 				success: function (data) {
-					document.getElementById('votes-'+a_id).innerHTML = data.votes+' votes';
+					document.getElementById('dislikes-'+a_id).innerHTML = data.votes+' dislikes';
 				}
 
 			});
@@ -145,9 +145,9 @@
 		<h2 style="margin-left: 2%;">
 			<a href="/question_detail/{{ question.id }}">{{ question.question_title }}</a>
 		</h2>
-		<div class="question-type-main">
+		<!-- <div class="question-type-main">
 				<i class="icon-question-sign"></i>Question
-		</div>
+		</div> -->
 		<div style="margin-left: 2%" class="question-type-normal">
 			{% for t in tags_all %}
 					{% if t.question.id == question.id %}
@@ -221,20 +221,15 @@
 										<li class="question-vote-down" title="Dislike" onclick="vote('down',{{ ans.id }})"></li>
 									</ul>
 								</div>
-								<span class="question-vote-result" id="votes-{{ans.id}}">{{ ans.avotes }} votes</span>
-								{% else %}
-									{% if ans.avotes > 0 %}
-										<span class="question-vote-result" id="votes-{{ans.id}}" style="color:green;">+{{ ans.avotes }} Votes </span>
-									{% else %}
-										<span class="question-vote-result" id="votes-{{ans.id}}" style="color:red;">{{ ans.avotes }} Votes</span>
-									{% endif %}
 								{% endif %}
+								<span class="question-vote-result" id="likes-{{ans.id}}" style="color:green;">{{ ans.likes }} Likes </span>
+								<span class="question-vote-result" id="dislikes-{{ans.id}}" style="color:red;">{{ ans.dislikes }} Dislikes </span>
 							<div class="comment-meta">
 								<div class="date"><i class="icon-time"></i>{{ ans.timeSince }}</div>
 							</div>
-							<div class="question-type-main" style="background-color: #008066;top: 20px; right: 0.2%;">
+							<!-- <div class="question-type-main" style="background-color: #008066;top: 20px; right: 0.2%;">
 									<i class="icon-pencil"></i>Answer
-							</div>
+							</div> -->
 								{% if question.author.username == request.user.username %}
 									{% if question.is_solved == 0 %}
 									<button id="the-button" href="#" onclick="solve( {{ans.id}},{{question.id}} )" style=";margin-left: 86.9%; background-color: #ff7361">Best Answer</button>
@@ -243,7 +238,7 @@
 								{% if question.is_solved == 1 %}
 									{% if ans.bestAnswer == 1 %}
 									
-										<p style="font-size: 30px;margin-top: 5%;margin-left: 92%;color: #ff7361;"><i id="star" title="Best Answer" class="icon-star"></i></p>
+										<p style="font-size: 30px;margin-top: 1%;margin-left: 92%;color: #ff7361;"><i id="star" title="Best Answer" class="icon-star"></i></p>
 									{% else %}
 										<p style="font-size: 30px;margin-top: 5%;margin-left: 92%;color: #ff7361;">
 											<br>
@@ -276,9 +271,9 @@
 									<div class="comment-meta">
 										<div class="date"><i class="icon-time"></i>{{ c.timeSince }}</div>
 									</div>
-									<div class="question-type-main" style="background-color: #004d99; top: 20px; right: 0.2%;">
+									<!-- <div class="question-type-main" style="background-color: #004d99; top: 20px; right: 0.2%;">
 											<i class="icon-comments-alt"></i>Comment
-									</div>
+									</div> -->
 								</div>
 								<div class="text"><p>{{ c.comment_text }}</p>
 								</div>

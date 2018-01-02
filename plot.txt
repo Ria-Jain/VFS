@@ -1,4 +1,9 @@
-1. Add question tags
-2. CKEditor
-3. JQueryUI
-4. Search Engine
+1. Thumbs Up, Thumbs Down
+
+
+
+
+Like	Dislike		Up					Down
+0 		0		 	+1Like				+1Dislike	
+0 		1			+1Like -1Dislike	-1Dislike
+1 		0			-1Like 				-1Like +1Dislike 			

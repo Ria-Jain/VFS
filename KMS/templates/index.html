@@ -9,7 +9,7 @@
 		                <li class="tab"><a href="#" class="current">Recent Questions</a></li>
 		                <li class="tab"><a href="#">Popular Questions</a></li>
 		                <li class="tab"><a href="#">Unsolved Questions</a></li>
-		                <li class="tab"><a href="#">Unanswered</a></li>
+		                <li class="tab"><a href="#">Unanswered Questions</a></li>
 		            </ul>
 		            <div class="tab-inner-warp">
 						<div class="tab-inner">
@@ -25,9 +25,14 @@
 										<h2>
 											<a href="/question_detail/{{ q.id }}">{{ q.question_title }}</a>
 										</h2>
-										<div class="question-type-main">
-												<i class="icon-question-sign"></i>Question
+										{% if q.author == request.user %}
+										{% else %}
+										<a href="/question_detail/{{q.id}}">
+										<div class="question-type-main" style="background-color: #008066">
+												<i class="icon-pencil"></i>Answer This Question
 										</div>
+										</a>
+										{% endif %}	
 										<div class= "row">
 											<div class="col-md-offset-2">
 												{% for t in tags_all %}
@@ -78,7 +83,9 @@
 											<span class="question-date"><i class="icon-time"></i>{{ q.timeSince }}</span>
 											<span class="question-comment"><a><i class="icon-comment"></i>{{ q.numAns }} Answers</a></span>
 											<span class="question-view"><i class="icon-user"></i>{{q.numViews}} views</span>
+											<!-- <span>Answer This Question</span> -->
 											<div class="clearfix"></div>
+											
 										</div>
 									</article>
 								{% endfor %}
@@ -99,9 +106,14 @@
 									<h2>
 										<a href="/question_detail/{{ q.id }}">{{ q.question_title }}</a>
 									</h2>
-									<div class="question-type-main">
-											<i class="icon-question-sign"></i>Question
+									{% if q.author == request.user %}
+									{% else %}
+									<a href="/question_detail/{{q.id}}">
+									<div class="question-type-main" style="background-color: #008066">
+											<i class="icon-pencil"></i>Answer This Question
 									</div>
+									</a>
+									{% endif %}	
 									<div class= "row">
 											<div class="col-md-offset-2">
 												{% for t in tags_all %}
@@ -172,9 +184,14 @@
 									<h2>
 										<a href="/question_detail/{{ q.id }}">{{ q.question_title }}</a>
 									</h2>
-									<div class="question-type-main">
-											<i class="icon-question-sign"></i>Question
+									{% if q.author == request.user %}
+									{% else %}
+									<a href="/question_detail/{{q.id}}">
+									<div class="question-type-main" style="background-color: #008066">
+											<i class="icon-pencil"></i>Answer This Question
 									</div>
+									</a>
+									{% endif %}	
 									<div class= "row">
 											<div class="col-md-offset-2">
 												{% for t in tags_all %}
@@ -245,9 +262,14 @@
 									<h2>
 										<a href="/question_detail/{{ q.id }}">{{ q.question_title }}</a>
 									</h2>
-									<div class="question-type-main">
-											<i class="icon-question-sign"></i>Question
+									{% if q.author == request.user %}
+									{% else %}
+									<a href="/question_detail/{{q.id}}">
+									<div class="question-type-main" style="background-color: #008066">
+											<i class="icon-pencil"></i>Answer This Question
 									</div>
+									</a>
+									{% endif %}	
 									<div class= "row">
 											<div class="col-md-offset-2">
 												{% for t in tags_all %}

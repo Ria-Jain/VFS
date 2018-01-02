@@ -14,9 +14,14 @@
 							<h2>
 								<a href="/question_detail/{{ q.id }}">{{ q.question_title }}</a>
 							</h2>
-							<div class="question-type-main">
-									<i class="icon-question-sign"></i>Question
-							</div>
+							 {% if q.author == request.user %}
+                            {% else %}
+                            <a href="/question_detail/{{q.id}}">
+                            <div class="question-type-main" style="background-color: #008066">
+                                    <i class="icon-pencil"></i>Answer This Question
+                            </div>
+                            </a>
+                            {% endif %} 
 							<div class= "row">
                                             <div class="col-md-offset-2">
                                                 {% for t in tags_all %}

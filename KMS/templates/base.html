@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="{% static 'css/fontello/css/fontello.css' %}">
     <link rel="stylesheet" href="{% static 'css/font-awesome/css/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <!-- <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> -->
 
     <link rel="shortcut icon" href="{% static 'images/favicon.png' %}">
 
@@ -109,8 +110,8 @@
                     <h3 class="widget_title">Stats</h3>
                     <div class="ul_list ul_list-icon-ok">
                         <ul>
-                            <li><i class="icon-question-sign"></i>Questions ( <span>{{ questions_all|length }}</span> )</li>
-                            <li><i class="icon-comment"></i>Answers ( <span>{{ answers_all|length }}</span> )</li>
+                            <li><i class="icon-question-sign"></i>Questions:  <span>{{ questions_all|length }}</span> </li>
+                            <li><i class="icon-comment"></i>Answers:  <span>{{ answers_all|length }}</span> </li>
                         </ul>
                     </div>
                 </div>

@@ -25,7 +25,7 @@ SECRET_KEY = '%9d!u76=a9p^epwkwn1(9pzk+(&$*886c!q)e@s8xytbb-&=sm'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [ ]
 MEDIA_URL = '/KMS/static/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'KMS/static/media')
 

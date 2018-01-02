@@ -110,9 +110,14 @@
 													<h2>
 														<a href="/question_detail/{{ q.id }}">{{ q.question_title }}</a>
 													</h2>
-													<div class="question-type-main">
-														<i class="icon-question-sign"></i>Question
+													{% if q.author == request.user %}
+													{% else %}
+													<a href="/question_detail/{{q.id}}">
+													<div class="question-type-main" style="background-color: #008066">
+															<i class="icon-pencil"></i>Answer This Question
 													</div>
+													</a>
+													{% endif %}	
 													<div class= "row">
                                             <div class="col-md-offset-2">
                                                 {% for t in tags_all %}
@@ -179,9 +184,15 @@
 																<h2>
 																	<a href="/question_detail/{{ question.id }}">{{ question.question_title }}</a>
 																</h2>
-																<div class="question-type-main">
-																	<i class="icon-question-sign"></i>Question
+																<a href="/question_detail/{{q.id}}">
+																{% if q.author == request.user %}
+																{% else %}
+																<a href="/question_detail/{{q.id}}">
+																<div class="question-type-main" style="background-color: #008066">
+																		<i class="icon-pencil"></i>Answer This Question
 																</div>
+																</a>
+																{% endif %}	
 																<div class= "row">
                                             <div class="col-md-offset-2">
                                                 {% for t in tags_all %}
@@ -255,9 +266,9 @@
 														                	<div class="comment-meta">
 														                        <div class="date"><i class="icon-time"></i>{{ ans.timeSince }}</div>
 														                    </div>
-														                    <div class="question-type-main" style="background-color: #008066;top: 20px; right: 0.2%;">
+														                    <!-- <div class="question-type-main" style="background-color: #008066;top: 20px; right: 0.2%;">
 																				<i class="icon-pencil"></i>Answer
-																			</div>
+																			</div> -->
 														                </div>
 														                <div class="text"><p>{{ ans.answer_text }}</p>
 														                </div>
@@ -281,9 +292,14 @@
 														<h2>
 															<a href="/question_detail/{{ c.id }}">{{ c.question_title }}</a>
 														</h2>
-														<div class="question-type-main">
-															<i class="icon-question-sign"></i>Question
+														{% if q.author == request.user %}
+														{% else %}
+														<a href="/question_detail/{{q.id}}">
+														<div class="question-type-main" style="background-color: #008066">
+																<i class="icon-pencil"></i>Answer This Question
 														</div>
+														</a>
+														{% endif %}	
 														<div class= "row">
                                             <div class="col-md-offset-2">
                                                 {% for t in tags_all %}
@@ -359,9 +375,9 @@
 															                	<div class="comment-meta">
 															                        <div class="date"><i class="icon-time"></i>{{ ans.timeSince }}</div>
 															                    </div>
-															                     <div class="question-type-main" style="background-color: #008066;top: 20px; right: 0.2%;">
+															                   <!--   <div class="question-type-main" style="background-color: #008066;top: 20px; right: 0.2%;">
 																					<i class="icon-pencil"></i>Answer
-																				</div>
+																				</div> -->
 															                </div>
 															                <div class="text"><p style=" overflow: hidden;text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3;-webkit-box-orient: vertical;">{{ ans.answer_text }}</p>
 															                </div>
@@ -388,9 +404,9 @@
 																	                        	<div class="comment-meta">
 																	                                <div class="date"><i class="icon-time"></i>{{ comment.timeSince }}</div>
 																	                            </div>
-																	                            <div class="question-type-main" style="background-color: #004d99; top: 20px; right: 0.2%;">
+																	                            <!-- <div class="question-type-main" style="background-color: #004d99; top: 20px; right: 0.2%;">
 																									<i class="icon-comments-alt"></i>Comment
-																								</div>
+																								</div> -->
 																	                        </div>
 																	                        <div class="text"><p>{{ comment.comment_text }}</p>
 																	                        </div>
