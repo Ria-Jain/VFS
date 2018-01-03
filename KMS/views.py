@@ -790,6 +790,7 @@ def countUp(request, answer_id):
 		ans = Answer.objects.get(id=answer_id)
 		voted=Vote.objects.filter(answer=ans).get(voter=request.user)
 		print(ans.likes, ans.dislikes)
+		change=0
 		if voted.like==0 and voted.dislike==0:		
 			ans.likes+=1
 			voted.like=1
@@ -801,6 +802,7 @@ def countUp(request, answer_id):
 			ans.dislikes-=1
 			voted.dislike=0
 			voted.like=1
+			change=1
 		print(ans.likes, ans.dislikes)
 		voted.save()
 		pro_all = Profile.objects.all()
@@ -815,6 +817,8 @@ def countUp(request, answer_id):
 			"dislikes":ans.dislikes,
 			"f_like" : voted.like,
 			"f_dislike" : voted.dislike,
+			"change":change,
+
 		})
 	else:
 		context={}
@@ -881,6 +885,7 @@ def countDown(request, answer_id):
 	if request.user.is_authenticated():
 		ans = Answer.objects.get(id=answer_id)
 		voted=Vote.objects.filter(answer=ans).get(voter=request.user)
+		change=0
 		if voted.dislike==0 and voted.like==0:		
 			ans.dislikes+=1
 			voted.dislike=1
@@ -892,6 +897,7 @@ def countDown(request, answer_id):
 			ans.likes-=1
 			voted.dislike=1
 			voted.like=0
+			change=1
 		voted.save()
 		pro_all = Profile.objects.all()
 		for pro in pro_all:
@@ -905,6 +911,7 @@ def countDown(request, answer_id):
 			"dislikes":ans.dislikes,
 			"f_like" : voted.like,
 			"f_dislike" : voted.dislike,
+			"change":change,
 		})
 	else:
 		context={}

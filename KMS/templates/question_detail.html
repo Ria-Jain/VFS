@@ -4,6 +4,7 @@
 {% block content %}
 <link rel="stylesheet" href="../../static/css/font-awesome/css/font-awesome.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style type="text/css">
 	.upp {
 		color:  green;
@@ -103,17 +104,39 @@
 					else
 					{
 						var e = document.getElementById('dislikesicon-'+a_id);
-						e.classList.remove('downn');	
+						e.classList.remove('downn');
 					}
 					if(data.f_like == 1)
 					{
 						var e = document.getElementById('likesicon-'+a_id);
 						e.classList.add('upp');
+						if(data.change==0)
+						{
+							swal("You have liked this answer!", {
+							  buttons: false,
+							  timer: 1500,
+							  icon: 'success'
+							});
+						}
+						else
+						{
+							swal("Your dislike has been removed, You have now liked this answer!", {
+							  buttons: false,
+							  timer: 2500,
+							  icon: 'warning'
+							});
+						}
+
 					}
 					else
 					{
 						var e = document.getElementById('likesicon-'+a_id);
 						e.classList.remove('upp');
+						swal("Your like has been removed!", {
+						  buttons: false,
+						  timer: 1500,
+						  icon: 'warning'
+						});
 					}
 				}
 
@@ -137,11 +160,32 @@
 					{
 						var e = document.getElementById('dislikesicon-'+a_id);
 						e.classList.add('downn');
+						if(data.change == 0 )
+						{	
+							swal("You have disliked this answer", {
+							  buttons: false,
+							  timer: 1500,
+							  icon: 'error'
+							});
+						}
+						else
+						{
+							swal("Your like has been removed, You have now disliked this answer!", {
+							  buttons: false,
+							  timer: 2500,
+							  icon: 'warning'
+							});
+						}
 					}
 					else
 					{
 						var e = document.getElementById('dislikesicon-'+a_id);
 						e.classList.remove('downn');	
+						swal("Your dislike has been removed", {
+						  buttons: false,
+						  timer: 1500,
+						  icon: 'warning'
+						});	
 					}
 					if(data.f_like == 1)
 					{
