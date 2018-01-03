@@ -779,6 +779,7 @@ def countUp(request, answer_id):
 	if request.user.is_authenticated():
 		ans = Answer.objects.get(id=answer_id)
 		voted=Vote.objects.filter(answer=ans).get(voter=request.user)
+		print(ans.likes, ans.dislikes)
 		if voted.like==0 and voted.dislike==0:		
 			ans.likes+=1
 			voted.like=1
@@ -790,6 +791,7 @@ def countUp(request, answer_id):
 			ans.dislikes-=1
 			voted.dislike=0
 			voted.like=1
+		print(ans.likes, ans.dislikes)
 		voted.save()
 		pro_all = Profile.objects.all()
 		for pro in pro_all:
@@ -799,7 +801,8 @@ def countUp(request, answer_id):
 		ans.save()
 		return JsonResponse({
 			"success": "true",
-			"votes":ans.likes
+			"likes":ans.likes,
+			"dislikes":ans.dislikes,
 		})
 	else:
 		context={}
@@ -886,7 +889,8 @@ def countDown(request, answer_id):
 		ans.save()
 		return JsonResponse({
 			"success": "true",
-			"votes":ans.avotes
+			"likes":ans.likes,
+			"dislikes":ans.dislikes,
 		})
 	else:
 		context={}

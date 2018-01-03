@@ -84,7 +84,8 @@
 				},
 				success: function (data) {
 					console.log(data);
-					document.getElementById('likes-'+a_id).innerHTML = data.votes+' likes';
+					document.getElementById('dislikes-'+a_id).innerHTML = data.dislikes+' dislikes';
+					document.getElementById('likes-'+a_id).innerHTML = data.likes+' likes';
 				}
 
 			});
@@ -99,7 +100,8 @@
 		 			"csrfmiddlewaretoken" : '{{csrf_token}}'
 				},
 				success: function (data) {
-					document.getElementById('dislikes-'+a_id).innerHTML = data.votes+' dislikes';
+					document.getElementById('likes-'+a_id).innerHTML = data.likes+' likes';
+					document.getElementById('dislikes-'+a_id).innerHTML = data.dislikes+' dislikes';
 				}
 
 			});
@@ -213,19 +215,28 @@
 					<div class="comment-text">
 						<div class="author clearfix">
 							<div class="comment-author"><a href="/viewprofile/{{ans.author.id}}">{{ ans.author.username }}</a></div>
-							
+							<br>
 								{% if request.user.username %}
 								<div class="comment-vote">
 									<ul class="question-vote">
-										<li class="question-vote-up" title="Like" onclick="vote('up',{{ ans.id }})"></li>
-										<li class="question-vote-down" title="Dislike" onclick="vote('down',{{ ans.id }})"></li>
+										<li class="icon-blank"></li>
+										<li class="icon-thumbs-up" style="" title="Like" onclick="vote('up',{{ ans.id }})"></li>
 									</ul>
 								</div>
 								{% endif %}
-								<span class="question-vote-result" id="likes-{{ans.id}}" style="color:green;">{{ ans.likes }} Likes </span>
-								<span class="question-vote-result" id="dislikes-{{ans.id}}" style="color:red;">{{ ans.dislikes }} Dislikes </span>
+								<span class="question-vote-result" style="margin-top: 0px;" id="likes-{{ans.id}}" style="color:green;">{{ ans.likes }} Likes </span>
+
+								{% if request.user.username %}
+								<div class="comment-vote">
+									<ul class="question-vote">
+										<li class="icon-thumbs-down" title="Dislike" onclick="vote('down',{{ ans.id }})"></li>
+									</ul>
+								</div>
+								{% endif %}
+								
+								<span class="question-vote-result" style="margin-top: 0px;" id="dislikes-{{ans.id}}" style="color:red;">{{ ans.dislikes }} Dislikes </span>
 							<div class="comment-meta">
-								<div class="date"><i class="icon-time"></i>{{ ans.timeSince }}</div>
+								<div class="date" style="margin-top: -3px;"><i class="icon-time"></i>{{ ans.timeSince }}</div>
 							</div>
 							<!-- <div class="question-type-main" style="background-color: #008066;top: 20px; right: 0.2%;">
 									<i class="icon-pencil"></i>Answer
