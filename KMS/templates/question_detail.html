@@ -6,11 +6,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <style type="text/css">
 	.upp {
-		text-shadow: 0 0 1px green;
+		color:  green;
 	}
 
 	.downn {
-		 text-shadow: 0 0 1px #FF0000;
+		color: red;
 	}
 </style>
 
@@ -97,22 +97,22 @@
 					
 					if(data.f_dislike == 1)
 					{
-						var e = document.getElementById('dislikes-'+a_id);
+						var e = document.getElementById('dislikesicon-'+a_id);
 						e.classList.add('downn');
 					}
 					else
 					{
-						var e = document.getElementById('dislikes-'+a_id);
+						var e = document.getElementById('dislikesicon-'+a_id);
 						e.classList.remove('downn');	
 					}
 					if(data.f_like == 1)
 					{
-						var e = document.getElementById('likes-'+a_id);
+						var e = document.getElementById('likesicon-'+a_id);
 						e.classList.add('upp');
 					}
 					else
 					{
-						var e = document.getElementById('likes-'+a_id);
+						var e = document.getElementById('likesicon-'+a_id);
 						e.classList.remove('upp');
 					}
 				}
@@ -135,22 +135,22 @@
 					// console.log(data.f_like);
 					if(data.f_dislike == 1)
 					{
-						var e = document.getElementById('dislikes-'+a_id);
+						var e = document.getElementById('dislikesicon-'+a_id);
 						e.classList.add('downn');
 					}
 					else
 					{
-						var e = document.getElementById('dislikes-'+a_id);
+						var e = document.getElementById('dislikesicon-'+a_id);
 						e.classList.remove('downn');	
 					}
 					if(data.f_like == 1)
 					{
-						var e = document.getElementById('likes-'+a_id);
+						var e = document.getElementById('likesicon-'+a_id);
 						e.classList.add('upp');
 					}
 					else
 					{
-						var e = document.getElementById('likes-'+a_id);
+						var e = document.getElementById('likesicon-'+a_id);
 						e.classList.remove('upp');
 					}
 				}
@@ -270,7 +270,7 @@
 								{% if request.user.username %}
 								<div class="comment-vote">
 									<ul class="question-vote">
-										<li class="icon-thumbs-up" style="color: green;" title="Like" onclick="vote('up',{{ ans.id }})"></li>
+										<li id="likesicon-{{ans.id}}" class="icon-thumbs-up" style="" title="Like" onclick="vote('up',{{ ans.id }})"></li>
 									</ul>
 								</div>
 								{% endif %}
@@ -279,7 +279,7 @@
 								{% if request.user.username %}
 								<div class="comment-vote">
 									<ul class="question-vote">
-										<li class="icon-thumbs-down" style="color: red;" title="Dislike" onclick="vote('down',{{ ans.id }})"></li>
+										<li id="dislikesicon-{{ans.id}}" class="icon-thumbs-down" style="" title="Dislike" onclick="vote('down',{{ ans.id }})"></li>
 									</ul>
 								</div>
 								{% endif %}
