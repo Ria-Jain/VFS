@@ -803,6 +803,8 @@ def countUp(request, answer_id):
 			"success": "true",
 			"likes":ans.likes,
 			"dislikes":ans.dislikes,
+			"f_like" : voted.like,
+			"f_dislike" : voted.dislike,
 		})
 	else:
 		context={}
@@ -891,6 +893,8 @@ def countDown(request, answer_id):
 			"success": "true",
 			"likes":ans.likes,
 			"dislikes":ans.dislikes,
+			"f_like" : voted.like,
+			"f_dislike" : voted.dislike,
 		})
 	else:
 		context={}

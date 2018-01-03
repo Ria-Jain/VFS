@@ -4,7 +4,15 @@
 {% block content %}
 <link rel="stylesheet" href="../../static/css/font-awesome/css/font-awesome.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<style type="text/css">
+	.upp {
+		text-shadow: 0 0 1px green;
+	}
 
+	.downn {
+		 text-shadow: 0 0 1px #FF0000;
+	}
+</style>
 
 {% if request.user.is_authenticated %}
 <script type='text/javascript'>
@@ -86,6 +94,27 @@
 					console.log(data);
 					document.getElementById('dislikes-'+a_id).innerHTML = data.dislikes+' dislikes';
 					document.getElementById('likes-'+a_id).innerHTML = data.likes+' likes';
+					
+					if(data.f_dislike == 1)
+					{
+						var e = document.getElementById('dislikes-'+a_id);
+						e.classList.add('downn');
+					}
+					else
+					{
+						var e = document.getElementById('dislikes-'+a_id);
+						e.classList.remove('downn');	
+					}
+					if(data.f_like == 1)
+					{
+						var e = document.getElementById('likes-'+a_id);
+						e.classList.add('upp');
+					}
+					else
+					{
+						var e = document.getElementById('likes-'+a_id);
+						e.classList.remove('upp');
+					}
 				}
 
 			});
@@ -100,8 +129,30 @@
 		 			"csrfmiddlewaretoken" : '{{csrf_token}}'
 				},
 				success: function (data) {
+					console.log(data.f_like);
 					document.getElementById('likes-'+a_id).innerHTML = data.likes+' likes';
 					document.getElementById('dislikes-'+a_id).innerHTML = data.dislikes+' dislikes';
+					// console.log(data.f_like);
+					if(data.f_dislike == 1)
+					{
+						var e = document.getElementById('dislikes-'+a_id);
+						e.classList.add('downn');
+					}
+					else
+					{
+						var e = document.getElementById('dislikes-'+a_id);
+						e.classList.remove('downn');	
+					}
+					if(data.f_like == 1)
+					{
+						var e = document.getElementById('likes-'+a_id);
+						e.classList.add('upp');
+					}
+					else
+					{
+						var e = document.getElementById('likes-'+a_id);
+						e.classList.remove('upp');
+					}
 				}
 
 			});
@@ -219,8 +270,7 @@
 								{% if request.user.username %}
 								<div class="comment-vote">
 									<ul class="question-vote">
-										<li class="icon-blank"></li>
-										<li class="icon-thumbs-up" style="" title="Like" onclick="vote('up',{{ ans.id }})"></li>
+										<li class="icon-thumbs-up" style="color: green;" title="Like" onclick="vote('up',{{ ans.id }})"></li>
 									</ul>
 								</div>
 								{% endif %}
@@ -229,7 +279,7 @@
 								{% if request.user.username %}
 								<div class="comment-vote">
 									<ul class="question-vote">
-										<li class="icon-thumbs-down" title="Dislike" onclick="vote('down',{{ ans.id }})"></li>
+										<li class="icon-thumbs-down" style="color: red;" title="Dislike" onclick="vote('down',{{ ans.id }})"></li>
 									</ul>
 								</div>
 								{% endif %}
