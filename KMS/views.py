@@ -312,6 +312,8 @@ def question_detail(request, question_id):
 		ques.save()
 
 	pop2=questions_ma[:2]
+	
+
 	if request.method == 'POST':
 		if request.user.is_authenticated():
 			if 'answer-submit' in request.POST:
@@ -384,7 +386,7 @@ def question_detail(request, question_id):
 			related.append(q)
 			related = related[0:5]
 		
-		answers = Answer.objects.filter(question=ques).order_by('-bestAnswer','-likes')
+		answers = Answer.objects.filter(question=ques).order_by('-bestAnswer','-likes', 'dislikes')
 		c=[]
 		for ans in answers:
 			com=Comment.objects.filter(answer=ans)
@@ -411,7 +413,7 @@ def question_detail(request, question_id):
 			'questions_rq5': questions_rq5,
 			'showuser': showuser,
 			'tags_all' : tags_all,
-			'pop2':pop2
+			'pop2':pop2,
 		}
 		if(request.user.username):
 			showprofile= Profile.objects.get(user=request.user)
@@ -432,7 +434,15 @@ def question_detail(request, question_id):
 							)
 						votes.save()
 					flag=0
+			question=Question.objects.get(id=question_id)
+			answersVotes=Answer.objects.filter(question=question)
+			voted=Vote.objects.filter(voter=request.user)
+			vote=[]
+			for v in voted:
+				if( v.answer in answersVotes):
+					vote.append(v)
 			context['showUser']=showprofile
+			context['votes']=vote
 		return render(request, 'question_detail.html', context)
 
 

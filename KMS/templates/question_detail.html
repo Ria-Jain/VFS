@@ -92,8 +92,8 @@
 				},
 				success: function (data) {
 					console.log(data);
-					document.getElementById('dislikes-'+a_id).innerHTML = data.dislikes+' dislikes';
-					document.getElementById('likes-'+a_id).innerHTML = data.likes+' likes';
+					document.getElementById('dislikes-'+a_id).innerHTML = data.dislikes+' Dislikes';
+					document.getElementById('likes-'+a_id).innerHTML = data.likes+' Likes';
 					
 					if(data.f_dislike == 1)
 					{
@@ -130,8 +130,8 @@
 				},
 				success: function (data) {
 					console.log(data.f_like);
-					document.getElementById('likes-'+a_id).innerHTML = data.likes+' likes';
-					document.getElementById('dislikes-'+a_id).innerHTML = data.dislikes+' dislikes';
+					document.getElementById('likes-'+a_id).innerHTML = data.likes+' Likes';
+					document.getElementById('dislikes-'+a_id).innerHTML = data.dislikes+' Dislikes';
 					// console.log(data.f_like);
 					if(data.f_dislike == 1)
 					{
@@ -268,20 +268,44 @@
 							<div class="comment-author"><a href="/viewprofile/{{ans.author.id}}">{{ ans.author.username }}</a></div>
 							<br>
 								{% if request.user.username %}
+								{% for vote in votes %}
+								{% if vote.answer == ans %}
+								{% if vote.like == 1%}
+								<div class="comment-vote">
+									<ul class="question-vote">
+										<li id="likesicon-{{ans.id}}" class="icon-thumbs-up upp" style="" title="Like" onclick="vote('up',{{ ans.id }})"></li>
+									</ul>
+								</div>
+								{% else %}
 								<div class="comment-vote">
 									<ul class="question-vote">
 										<li id="likesicon-{{ans.id}}" class="icon-thumbs-up" style="" title="Like" onclick="vote('up',{{ ans.id }})"></li>
 									</ul>
 								</div>
 								{% endif %}
+								{% endif %}
+								{% endfor %}
+								{% endif %}
 								<span class="question-vote-result" style="margin-top: 0px;" id="likes-{{ans.id}}" style="color:green;">{{ ans.likes }} Likes </span>
 
 								{% if request.user.username %}
+								{% for vote in votes %}
+								{% if vote.answer == ans %}
+								{% if vote.dislike == 1%}
+								<div class="comment-vote">
+									<ul class="question-vote">
+										<li id="dislikesicon-{{ans.id}}" class="icon-thumbs-down downn" style="" title="Dislike" onclick="vote('down',{{ ans.id }})"></li>
+									</ul>
+								</div>
+								{% else %}
 								<div class="comment-vote">
 									<ul class="question-vote">
 										<li id="dislikesicon-{{ans.id}}" class="icon-thumbs-down" style="" title="Dislike" onclick="vote('down',{{ ans.id }})"></li>
 									</ul>
 								</div>
+								{% endif %}
+								{% endif %}
+								{% endfor %}
 								{% endif %}
 								
 								<span class="question-vote-result" style="margin-top: 0px;" id="dislikes-{{ans.id}}" style="color:red;">{{ ans.dislikes }} Dislikes </span>
