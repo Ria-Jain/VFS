@@ -428,7 +428,7 @@ def question_detail(request, question_id):
 						votes=Vote.objects.create(
 								answer=answer,
 								voter=voter,
-								isVoted=0,
+								# isVoted=0,
 							)
 						votes.save()
 					flag=0
